@@ -1,110 +1,130 @@
-# interactive-experience-skills
+# ⚡ interactive-experience-skills
 
-**身体・動き・カメラ・空間の企画を、「作品か製品か」から決める Claude Code スキル群。**
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
+![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
 
-> *Japanese-language Claude Code skills for directing interactive experiences, installations, and movement-based products. Skill content is written in Japanese.*
+**English** · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [한국어](README.ko.md)
+
+> **Decide whether you are making an artwork or a product — before you pick a single camera, sensor, or framework.**
+
+> **Note:** The three skills are written in Japanese. Claude reads and applies them in any language, but if you open the files yourself you will be reading Japanese. This README set exists so you can decide whether the skills are for you before installing.
 
 ---
 
-カメラが2台ある。動きを使って何か作りたい。でも、それを作品にすべきか製品にすべきか決まっていない。誰が使い、誰が金を払うのかも分からない。
+## 🔰 What is this?
 
-そういう状態から設計を始めるためのスキルです。**技術構成を出す前に、何を作るべきかを決めます。**
+*For non-engineers:* imagine you own two cameras and a hunch that something interesting could be built with them. Most advice jumps straight to which software to use. A good director does the opposite — first they ask who this is for, what actually gets better, and who pays. Only then do they talk about equipment.
 
-## こういう問いに答えます
+These are three Claude Code skills that make Claude behave like that director for projects involving bodies, movement, cameras, and space.
 
-- **2台目のカメラは、本当に必要ですか** — 明確な便益がないなら足しません
-- これは会場設置ですか、それともアプリですか — 配布された方が強い企画は頻繁にあります
-- これは観客向けの作品ですか、演者のための道具ですか — 要件がまったく違います
-- 上達を支援するのか、体験させるのか — この一問で設計の全部が変わります
-- 姿勢推定の精度を上げれば、人は上達しますか — **しません。**その混同がこの領域で最も高くつきます
-- 暗室3m幅のプロジェクターは何ルーメン要りますか — 5,000〜8,000lm です
-- 個人開発でどこまで行けますか — 予算¥0 の Web でも、世界に配布できる作品は作れます
+---
 
-## 3つのスキル
+## 📐 Architecture
 
-```
-/motion-idea  ←  方向が定まっていない時の入口
-      ↓
-embodied-product-director        診断・機会発見・ルーティング・順序づけ
-      │        ↑
-      │        └── 前提が崩れた時だけ戻る（往復は一度まで）
-      │
-      ├→ movement-learning-system-designer     成果が「上手くなること」
-      │     武術、ダンス、スポーツ、指導者支援、フォーム評価、練習設計
-      │
-      └→ interactive-experience-collective     成果が「感じさせること」
-            インスタレーション、プロジェクションマッピング、空間演出、
-            パフォーマンス、体験型プロダクト、個人開発のWeb/iOSアプリ
+```mermaid
+flowchart TD
+    U["👤 Two cameras, a dojo, no plan yet"] --> D{"🧭 embodied-product-director<br/>What is the real outcome?"}
+    D -->|"Getting better at something"| L["🥋 movement-learning-system-designer<br/>coaching, form, practice design"]
+    D -->|"Making someone feel something"| E["✨ interactive-experience-collective<br/>installations, performance, apps"]
+    L -.->|"the premise was wrong"| D
+    E -.->|"the premise was wrong"| D
 ```
 
-領域と成果物が既に明確な依頼は、director を通さず専門スキルが直接発火します。director は方向が定まっていない相談専用の入口であり、自動の関所ではありません。
+A request that already knows its domain and its deliverable skips the director entirely and fires the specialist directly. The director is an entrance for undecided projects, not a tollgate.
 
-## 中身
+---
 
-一般論ではなく、判断に使える具体を入れてあります。
+## ✨ Features
 
-**interactive-experience-collective**（リファレンス6本・約64,000字）
-プロジェクター輝度とルーメン計算式、LEDピッチと電源容量、センサー選定表8種、音響とRT60、TouchDesigner / Unreal nDisplay / Notch のスタック選定、OSC・NDI・DMX512・Art-Net、60fps と 100ms のレイテンシ予算、常設運用チェックリスト（無人起動、CMS更新性、スペアパーツ、車椅子動線、光過敏警告）、スループットと損益分岐の計算式、個人開発の予算帯別到達点、身体の動きを作品化する設計（Laban Effort、遅延要件、稽古の設計）。
+### 🧭 It routes on outcome, not on keywords
+"Dance" could mean choreography learning, media art, a creator tool, fitness, or rehab. The routing question is only ever *is the outcome getting better, or feeling something?* — and the skill commits to one answer with a reason instead of hedging.
 
-**movement-learning-system-designer**（リファレンス4本・約32,000字）
-習得段階別のフィードバック設計、フィードバック過多が定着を損なう問題、技のフェーズ分解と不変条件、流派差の扱い、体格の正規化、カメラ配置と台数の判断、確信度制御（**確信が持てない時は黙る**）、道場・スタジオの経済、導入摩擦。
+### 📐 It answers with numbers you can act on
+5,000–8,000 lumens for a 3 m projection in a dark room. A 100 ms latency budget for embodied feedback. Which camera angle can and cannot see a stepping distance. Break-even math for a paid experience. Roughly 96,000 characters of reference material, loaded only when the mode needs it.
 
-**embodied-product-director**（リファレンス2本 + テンプレート1本）
-痛みの発見と機会評価、検証の6種類、判断ゲートの設計、専門スキルへの引き継ぎパケット。
+### 🚫 It knows where to stop
+It will not judge pain, injury, or range of motion. It stays silent rather than guessing when confidence is low, because one obvious misjudgement makes an expert discard the whole system. It puts guardian consent before technology when minors are filmed. And it never mistakes tracking accuracy for learning outcomes.
 
-## 設計上の立場
+---
 
-このスキル群が守っているもの。
+## 🔄 Before / After
 
-- **追跡精度と学習効果は別物です。**姿勢推定が正確でも、人が上達する保証は一切ありません
-- **「正解」は誰かの意見です。**参照フォームは中立な真理ではなく、特定の指導者の見解を権威として固定しています。出典を示し、指導者が上書きできるようにします
-- **確信が持てない時は黙ります。**熟練者は一度の明らかな誤判定でシステム全体を捨てます。沈黙は欠陥ではなく機能です
-- **痛み・怪我・可動域は判定しません。**臨床専門家の関与なしにリハビリへ踏み込みません
-- **未成年の撮影は、保護者同意と保存方針が技術より先に来ます**
-- **制約が削るべきなのは不要な制作の複雑さであって、創造的野心ではありません。**個人開発版は「劣化版」ではなく、それが最終形かつ最適形でありうる
+| | Before | After |
+|---|---|---|
+| Starting point | "We have two cameras — what can we build?" | "Which problem makes a second camera worth its cost?" |
+| Artwork or product | Argued about indefinitely | Settled by one question, with the reason stated |
+| Technical answer | "Immersive, AI-powered, futuristic" | 5,000–8,000 lm · 100 ms · one camera is enough |
+| A solo budget | Treated as a downgraded version | Treated as possibly the final and best form |
+| Pose estimation | "Better accuracy means better learning" | Accuracy and learning are unrelated; design for learning |
 
-## インストール
+---
 
-```sh
+## 🚀 Install & Usage
+
+Requires [Claude Code](https://claude.com/claude-code), `git`, `bash`, and `zip`. The installer is a bash script, so use macOS, Linux, or WSL.
+
+### 🖥️ Claude Code (CLI)
+
+```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
 cd interactive-experience-skills
 ./install.sh
 ```
 
-`~/.claude/skills/` に3スキル、`~/.claude/commands/` に `/motion-idea` を配置します。新しいセッションから有効になります。
+You should see four confirmation lines (the installer prints in Japanese) — one per skill, plus the `/motion-idea` command. The installer verifies that every reference file a skill declares actually exists, and aborts without copying anything if one is missing.
 
-手動で入れる場合は `_extracted/` 配下の3ディレクトリを `~/.claude/skills/` にコピーしてください。配布用の `.skill` アーカイブも同梱しています。
+It writes to:
 
-## 使い方
+```
+~/.claude/skills/embodied-product-director/
+~/.claude/skills/interactive-experience-collective/
+~/.claude/skills/movement-learning-system-designer/
+~/.claude/commands/motion-idea.md
+```
 
-| したいこと | 呼び方 |
-|---|---|
-| 何を作るか決まっていない / 技術先行 / 作品か実用か迷う | `/motion-idea 2台のカメラで武術の稽古を何かしたい` |
-| 上達・指導・フォーム評価のシステムを設計 | 自然文で依頼すれば自動発火 |
-| 作品・インスタレーション・体験型プロダクトを設計 | 自然文で依頼すれば自動発火 |
+Start a new Claude Code session, then either use the command:
 
-確実に診断から入りたい時は `/motion-idea` を使ってください。
+```
+/motion-idea I have two cameras and want to build something around martial arts practice
+```
+
+…or just describe your project in plain language — the specialist skills trigger on their own:
+
+```
+Design a projection mapping piece that reacts to a dancer
+```
+
+### 🌐 claude.ai (browser)
+
+The repository ships each skill as a packaged archive. They are ordinary zip files:
+
+```bash
+cp embodied-product-director.skill embodied-product-director.zip
+```
+
+Upload the `.zip` in your assistant's skill settings — see the [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for the current upload flow.
+
+### 🛠️ From source
+
+The editable source of truth is `_extracted/`, not the `.skill` archives:
+
+```
+_extracted/<skill>/SKILL.md
+_extracted/<skill>/references/*.md
+_extracted/<skill>/evals/evals.json
+```
+
+`SKILL.md` is loaded on every activation; `references/*.md` only when the mode calls for it; `evals/evals.json` holds the trigger tests.
+
+After editing, run `./install.sh` again — it re-deploys to `~/.claude/` and rebuilds the `.skill` archives idempotently.
+
+To install by hand instead, copy the three directories under `_extracted/` into `~/.claude/skills/`.
 
 ---
 
-## 開発
+## 📄 License
 
-編集する正本は `_extracted/` です。
+MIT — see [LICENSE](LICENSE).
 
-```
-_extracted/
-  <skill>/SKILL.md              常時読まれる本体。5〜12KBに保つ
-  <skill>/references/*.md       モードに応じて必要な分だけ読まれる詳細
-  embodied-product-director/assets/handoff-packet.md
-                                出力に使うテンプレート
-```
-
-編集後は `./install.sh` を実行してください。`~/.claude/` への配置と `.skill` の再パッケージを冪等に行います。
-
-## ライセンス
-
-MIT
-
-## 連絡
-
-この領域（身体・動き・カメラ・空間の体験設計、技術選定、事業性の検証）の相談を受けています。
+Consulting on this domain (designing embodied, movement, camera and spatial experiences; technology selection; validating the business case) is available. Open an issue to get in touch.

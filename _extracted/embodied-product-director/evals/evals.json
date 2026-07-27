@@ -1,0 +1,183 @@
+{
+  "skill_name": "embodied-product-director",
+  "generated_from": "hand-authored — skill-forge generate_eval_set.py cannot extract 「」-quoted Japanese triggers",
+  "grading": "claude",
+  "grading_note": "skill-forge の optimize_description.py はスコアラーが [a-z]+ 正規表現でトークン化するため、日本語プロンプトでは全件 predicted_trigger=false になる。このセットは Claude による判定でのみ使うこと。",
+  "routing_risk": "3スキルが同一クエリに競合しうる。should_not_trigger の大半は無関係クエリではなく、姉妹スキルへ行くべき near-miss である。",
+  "evals": [
+    {
+      "eval_id": 0,
+      "eval_name": "trigger-tech-first-jp",
+      "prompt": "Webカメラが2台余ってる。動きを使って何か作りたいんだけど方向が定まらない",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0},
+        {"name": "no-tech-spec", "check": "技術構成を提示する前に、誰の何の課題かを特定しようとする", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "trigger-art-or-product-jp",
+      "prompt": "この身体系の企画、作品にすべきか実用プロダクトにすべきか迷っています",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0},
+        {"name": "picks-one", "check": "「どちらとも言えない」で止めず、主価値を一つ選んで理由を述べる", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "trigger-second-camera-jp",
+      "prompt": "2台目のカメラを足すべきか判断したい",
+      "should_trigger": true,
+      "assertions": [{"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0}]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "trigger-who-pays-jp",
+      "prompt": "このモーショントラッキングの技術、誰に売ればいいのか分かりません",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0},
+        {"name": "user-vs-payer", "check": "使う人と払う人を分けて扱う", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "trigger-martial-arts-vague-jp",
+      "prompt": "武術向けに何か作りたいけど形が決まっていない",
+      "should_trigger": true,
+      "assertions": [{"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0}]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "trigger-pose-estimation-en",
+      "prompt": "We have cameras and pose estimation working but no use case. What could we build?",
+      "should_trigger": true,
+      "assertions": [{"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0}]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "trigger-art-or-product-en",
+      "prompt": "Should this movement project be an art piece or a real product?",
+      "should_trigger": true,
+      "assertions": [{"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0}]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "trigger-casual-jp",
+      "prompt": "センサーいろいろ買ったけど何に使うか決まってない。相談のってほしい",
+      "should_trigger": true,
+      "assertions": [{"name": "skill-activated", "check": "口語・崩れた表現でも起動する", "weight": 1.0}]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "trigger-slash-command",
+      "prompt": "/motion-idea 2台のカメラで武術の稽古を何かしたい",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0},
+        {"name": "short-intro", "check": "1〜2行でどの専門へ向かうかを述べてから作業に入る（長い自己紹介をしない）", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 9,
+      "eval_name": "trigger-out-of-scope-domain-jp",
+      "prompt": "工場のライン作業を撮影して作業改善したい。どう進めるべきですか",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "skill-activated", "check": "embodied-product-director が起動する", "weight": 1.0},
+        {"name": "declares-no-specialist", "check": "専門スキルが存在しない領域であることを明示し、労働者の同意・監視リスクを先に扱う", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 10,
+      "eval_name": "no-trigger-clear-learning-jp",
+      "prompt": "道場向けフォーム比較アプリのMVPの範囲を設計してください",
+      "should_trigger": false,
+      "assertions": [
+        {"name": "routes-to-mlsd", "check": "director の診断を挟まず movement-learning-system-designer が直接起動する", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 11,
+      "eval_name": "no-trigger-clear-expression-jp",
+      "prompt": "このインスタレーションの技術構成を決めてください。TouchDesigner を想定しています",
+      "should_trigger": false,
+      "assertions": [
+        {"name": "routes-to-iec", "check": "director を挟まず interactive-experience-collective が直接起動する", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 12,
+      "eval_name": "no-trigger-generic-ideation-jp",
+      "prompt": "新規事業のアイデアを一緒に考えてください",
+      "should_trigger": false,
+      "assertions": [{"name": "not-activated", "check": "身体・動き・カメラが絡まないので起動しない", "weight": 1.0}]
+    },
+    {
+      "eval_id": 13,
+      "eval_name": "no-trigger-generic-brainstorm-jp",
+      "prompt": "SaaSの価格設計について相談したい",
+      "should_trigger": false,
+      "assertions": [{"name": "not-activated", "check": "起動しない", "weight": 1.0}]
+    },
+    {
+      "eval_id": 14,
+      "eval_name": "no-trigger-cv-implementation-jp",
+      "prompt": "MediaPipe Pose の landmark をスムージングするコードを書いて",
+      "should_trigger": false,
+      "assertions": [{"name": "not-activated", "check": "実装タスクであり戦略的入口ではないので起動しない", "weight": 1.0}]
+    },
+    {
+      "eval_id": 15,
+      "eval_name": "no-trigger-camera-hardware-jp",
+      "prompt": "配信用のWebカメラのおすすめを教えて",
+      "should_trigger": false,
+      "assertions": [{"name": "not-activated", "check": "「カメラ」というキーワードだけでは起動しない", "weight": 1.0}]
+    },
+    {
+      "eval_id": 16,
+      "eval_name": "no-trigger-video-editing-jp",
+      "prompt": "ダンスの動画を編集してSNS用に書き出したい",
+      "should_trigger": false,
+      "assertions": [{"name": "not-activated", "check": "「ダンス」「動画」だけでは起動しない", "weight": 1.0}]
+    },
+    {
+      "eval_id": 17,
+      "eval_name": "no-trigger-rehab-clinical-en",
+      "prompt": "Build a physical therapy app that diagnoses knee injuries from video",
+      "should_trigger": false,
+      "assertions": [
+        {"name": "safety-boundary", "check": "起動するにせよしないにせよ、痛み・損傷の判定を拒否し臨床専門家の関与を前提に置く", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 18,
+      "eval_name": "edge-both-sides-jp",
+      "prompt": "稽古で使う作品を作りたい。観客にも見せるし、稽古の質も上げたい",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "picks-primary", "check": "両方に振らず、主価値を一つ選び理由を一文で述べる", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 19,
+      "eval_name": "edge-sports-analytics-jp",
+      "prompt": "対戦相手の戦術をカメラで分析したい",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "boundary-declared", "check": "上達支援に還元できない競技分析であり専門スキルが無いことを明示する（あるフリをしない）", "weight": 1.0}
+      ]
+    },
+    {
+      "eval_id": 20,
+      "eval_name": "edge-non-movement-spatial-jp",
+      "prompt": "/motion-idea 体験型のポップアップストアを企画したい。身体入力は特に使わない",
+      "should_trigger": true,
+      "assertions": [
+        {"name": "not-narrowed-to-movement", "check": "コマンド名に引きずられて対象を動きのあるものに狭めず、interactive-experience-collective へ振る", "weight": 1.0}
+      ]
+    }
+  ]
+}
