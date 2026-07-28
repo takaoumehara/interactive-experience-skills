@@ -203,6 +203,25 @@ They are deliberately not split into more sub-skills. The more descriptions sit 
 
 ---
 
+## 🔄 Staying current
+
+Interactive experience work has a fast-moving factual surface — sensors get discontinued, GPUs double in price, an OS update silently breaks a body-tracking API, a regulation changes its enforcement date. **A skill that answers confidently from last year's prices is worse than one that says nothing.**
+
+Three mechanisms, each doing one job:
+
+| Mechanism | Job |
+|---|---|
+| `<!-- volatile: YYYY-MM -->` at the top of a reference | **Index.** Names which kinds of statements in that file rot |
+| `references/current.md` | **Answer store.** What the situation actually is, dated, with sources and a confidence level |
+| `/refresh-skills` | **On demand.** Checks the marked items against the web and reports only what changed |
+| `maintenance/UPDATE-ROUTINE.md` | **Monthly.** Runs the check, records the answers, keeps a changelog, opens a PR |
+
+At answer time a skill goes: marked statement → check `current.md` → if missing or over six months old, search the web → otherwise state the snapshot date.
+
+`maintenance/UPDATE-ROUTINE.md` also holds the part that is easy to get wrong: **what counts as worth changing, what to ignore, and the rule that every update must delete as much as it adds.** `CHANGELOG.md` records what changed, **what was deliberately not changed**, and what was not investigated at all.
+
+---
+
 ## 📄 License
 
 MIT — see [LICENSE](LICENSE).

@@ -203,6 +203,16 @@ Deliberadamente no están divididos en más sub-skills. Cuantas más descripcion
 
 ---
 
+## 🔄 Mantenerse al día
+
+En experiencias interactivas, la capa de los hechos cambia rápido: sensores descontinuados, GPUs que duplican su precio, una actualización del sistema que rompe silenciosamente una API de body tracking, una fecha de aplicación normativa que se mueve. **Una skill que responde con confianza usando precios del año pasado es peor que una que no responde.**
+
+Cuatro mecanismos, cada uno con una sola función: `<!-- volatile: YYYY-MM -->` al inicio de una referencia es el **índice** (señala qué tipo de afirmaciones caducan en ese archivo); `references/current.md` es el **almacén de respuestas** (cómo está la situación hoy, con fecha, fuentes y nivel de confianza); `/refresh-skills` es la **comprobación puntual** (informa solo de lo que cambió); y `maintenance/UPDATE-ROUTINE.md` es la **rutina mensual** (comprueba, registra, deja historial y abre un PR).
+
+Al responder: afirmación marcada → consultar `current.md` → si falta o tiene más de seis meses, buscar en la web → si no, indicar la fecha del snapshot. `CHANGELOG.md` registra qué cambió, **qué se decidió no cambiar** y **qué no se investigó en absoluto**.
+
+---
+
 ## 📄 Licencia
 
 MIT — ver [LICENSE](LICENSE).

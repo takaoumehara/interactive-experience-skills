@@ -21,6 +21,22 @@ for d in "${SKILLS[@]}"; do
   # frontmatter の name とディレクトリ名の一致（Agent Skills 標準の必須要件）
   nm="$(sed -n 's/^name:[[:space:]]*//p' "$skill" | head -1)"
   [ "$nm" = "$d" ] || { echo "name不一致: $d/SKILL.md の name='$nm'"; fail=1; }
+
+  # 鮮度の確認。時点依存の事実は references/current.md に隔離してあり、
+  # そこが古いままだと、スキルは自信を持って古い数値を答える。
+  # 配置は止めないが、警告は出す（maintenance/UPDATE-ROUTINE.md を参照）。
+  snap="$SRC/_extracted/$d/references/current.md"
+  if [ -f "$snap" ]; then
+    d0="$(sed -n 's/^snapshot_date:[[:space:]]*//p' "$snap" | head -1)"
+    if [ -n "$d0" ]; then
+      if now=$(date +%s) && then0=$(date -d "$d0" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$d0" +%s 2>/dev/null); then
+        days=$(( (now - then0) / 86400 ))
+        [ "$days" -gt 180 ] && echo "警告: $d の current.md は ${days}日前 ($d0) のスナップショット。月次更新ルーチンの実行を検討する。"
+      fi
+    fi
+  else
+    echo "警告: $d に references/current.md が無い。時点依存の事実が本文に混ざっている可能性がある。"
+  fi
 done
 [ "$fail" -eq 0 ] || { echo "事前検証に失敗。配置を中止する。"; exit 1; }
 
