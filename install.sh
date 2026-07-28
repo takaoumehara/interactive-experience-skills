@@ -1,9 +1,24 @@
 #!/usr/bin/env bash
 # _extracted/ を正本として、スキルとコマンドを ~/.claude へ配置し、配布用 .skill を再パッケージする。
+#
+#   install.sh           配置 + .skill の再パッケージ（通常の使い方）
+#   install.sh --check   検証だけ行い、何も書き込まない
+#
+# --check は月次更新ルーチン用。**月次PRで .skill を作り直してはいけない。**
+# .skill は zip なので、中身が1文字変わっただけでもバイナリ全体が差し替わる。
+# 毎月それをコミットするとリポジトリが太る一方になる。
+# .skill の再生成は、人間がPRをマージした後の「リリース」でまとめて行う。
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS=(embodied-product-director interactive-experience-collective movement-learning-system-designer)
+
+check_only=0
+case "${1:-}" in
+  --check) check_only=1 ;;
+  "")      ;;
+  *)       echo "使い方: install.sh [--check]" >&2; exit 2 ;;
+esac
 
 # --- 事前検証 -----------------------------------------------------------------
 # SKILL.md が名指しするリファレンス／アセットが実在するかを確認する。
@@ -39,6 +54,8 @@ for d in "${SKILLS[@]}"; do
   fi
 done
 [ "$fail" -eq 0 ] || { echo "事前検証に失敗。配置を中止する。"; exit 1; }
+
+[ "$check_only" -eq 0 ] || { echo "検証のみ完了。何も書き込んでいない。"; exit 0; }
 
 # --- 配置とパッケージ ---------------------------------------------------------
 mkdir -p "$HOME/.claude/skills" "$HOME/.claude/commands"
