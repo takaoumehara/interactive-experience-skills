@@ -35,6 +35,8 @@ for d in "${SKILLS[@]}"; do
   echo "配置: $d"
 done
 
-cp "$SRC/motion-idea.md" "$HOME/.claude/commands/motion-idea.md"
-echo "配置: /motion-idea"
+for c in motion-idea refresh-skills; do
+  cp "$SRC/$c.md" "$HOME/.claude/commands/$c.md"
+  echo "配置: /$c"
+done
 echo "完了。新しいセッションから有効になる。"

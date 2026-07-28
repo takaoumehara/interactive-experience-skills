@@ -6,17 +6,33 @@
 
 **English** · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [한국어](README.ko.md)
 
-> **Decide whether you are making an artwork or a product — before you pick a single camera, sensor, or framework.**
+> **Build something people experience, or a tool that makes people better at a movement — using cameras and sensors. These Claude Code skills help you design it, starting from deciding which one you are making.**
 
-> **Note:** The three skills are written in Japanese. Claude reads and applies them in any language, but if you open the files yourself you will be reading Japanese. This README set exists so you can decide whether the skills are for you before installing.
+> **Note:** The three skills are written in Japanese. Claude reads and applies them in any language, so you can work entirely in English. If you open the files yourself, you will be reading Japanese.
 
 ---
 
 ## 🔰 What is this?
 
-*For non-engineers:* imagine you own two cameras and a hunch that something interesting could be built with them. Most advice jumps straight to which software to use. A good director does the opposite — first they ask who this is for, what actually gets better, and who pays. Only then do they talk about equipment.
+Use these skills when you want to build something that reads human movement with a camera or a sensor. What you can build falls into two kinds.
 
-These are three Claude Code skills that make Claude behave like that director for projects involving bodies, movement, cameras, and space.
+**① Something people experience**
+The kind of exhibit you see in a museum or at an event, where video and sound react to how people move. Projection mapping, installations, stage visuals, experience-driven apps. **The goal is to make a visitor feel something.**
+
+**② A tool that makes people better**
+For things where form matters — dance, martial arts, sports, yoga — a tool that films you, evaluates what you did, tells you what to fix, and designs your practice. **The goal is that the person actually improves.**
+
+These two need different technology, different users, different people paying, and different definitions of success. Yet the most common failure in this field is to start arguing about TouchDesigner versus Unreal, or about pose-estimation accuracy, *before* deciding which of the two you are making. **These skills start by deciding that.**
+
+### What you actually get
+
+Here is what an exchange looks like.
+
+> **You:** "I have two spare webcams. I want to build something around martial arts practice, but I have no direction."
+>
+> **The skill:** First it decides whether this is an artwork or a training tool. If it is a training tool → who uses it (the student or the teacher?), who pays (the student or the dojo owner?), and what is actually going wrong today (the teacher can't watch everyone? students forget the correction between classes?). Then it commits: "You don't need the second camera yet. Start with one camera, one technique, reviewed after practice rather than live" — with the reasoning.
+
+**It does not write code.** What comes back is a design decision: what to build, roughly what equipment and how much of it, what to validate first, and what *not* to build yet. Implementation is a normal Claude Code job afterwards.
 
 ---
 
@@ -24,27 +40,27 @@ These are three Claude Code skills that make Claude behave like that director fo
 
 ```mermaid
 flowchart TD
-    U["👤 Two cameras, a dojo, no plan yet"] --> D{"🧭 embodied-product-director<br/>What is the real outcome?"}
-    D -->|"Getting better at something"| L["🥋 movement-learning-system-designer<br/>coaching, form, practice design"]
-    D -->|"Making someone feel something"| E["✨ interactive-experience-collective<br/>installations, performance, apps"]
-    L -.->|"the premise was wrong"| D
-    E -.->|"the premise was wrong"| D
+    Q["👤 I want to build something with a camera"] --> D{"🧭 embodied-product-director<br/>decides which of the two"}
+    D -->|"make people feel something"| E["✨ interactive-experience-collective<br/>exhibits, installations, stage visuals<br/>experience apps"]
+    D -->|"make people better"| L["🥋 movement-learning-system-designer<br/>form evaluation, practice design<br/>tools that help instructors"]
 ```
 
-A request that already knows its domain and its deliverable skips the director entirely and fires the specialist directly. The director is an entrance for undecided projects, not a tollgate.
+The two skills at the bottom do the actual design work. The director on top only decides which way you go.
+
+**If you already know what you are building, the director never appears.** Write "design an MVP for a form-comparison app for a dojo" and the 🥋 skill starts directly. The director is only for when you have not decided yet.
 
 ---
 
 ## ✨ Features
 
-### 🧭 It routes on outcome, not on keywords
-"Dance" could mean choreography learning, media art, a creator tool, fitness, or rehab. The routing question is only ever *is the outcome getting better, or feeling something?* — and the skill commits to one answer with a reason instead of hedging.
+### 🧭 It always commits to one of the two
+"I want to make a dance app" can mean a tool for memorising choreography or a piece people watch for pleasure — and those are different products. This skill will not end on "well, it could be either." It picks one and tells you why. Not picking is what costs the most.
 
-### 📐 It answers with numbers you can act on
-5,000–8,000 lumens for a 3 m projection in a dark room. A 100 ms latency budget for embodied feedback. Which camera angle can and cannot see a stepping distance. Break-even math for a paid experience. Roughly 96,000 characters of reference material, loaded only when the mode needs it.
+### 📐 It answers with numbers, not with "immersive" and "AI-powered"
+5,000–8,000 lumens to project 3 m wide in a dark room. Feedback on a body movement has to come back within 100 ms or it stops feeling like *your* movement. A front-facing camera cannot measure how deep a step is, so you need a side view. For a paid venue, price × turnover × operating days decides whether it works at all. About 96,000 characters of this, loaded only when the current question needs it.
 
-### 🚫 It knows where to stop
-It will not judge pain, injury, or range of motion. It stays silent rather than guessing when confidence is low, because one obvious misjudgement makes an expert discard the whole system. It puts guardian consent before technology when minors are filmed. And it never mistakes tracking accuracy for learning outcomes.
+### 🚫 It says no clearly
+It does not judge pain or injury — that is medicine. When it is not confident, it says "I can't judge this one" instead of producing something plausible, because a single obviously wrong correction makes an experienced person abandon the system forever. On projects involving children, it raises guardian consent before it discusses technology. And it flatly rejects the belief that **better pose-estimation accuracy makes people learn better.**
 
 ---
 
@@ -52,17 +68,17 @@ It will not judge pain, injury, or range of motion. It stays silent rather than 
 
 | | Before | After |
 |---|---|---|
-| Starting point | "We have two cameras — what can we build?" | "Which problem makes a second camera worth its cost?" |
-| Artwork or product | Argued about indefinitely | Settled by one question, with the reason stated |
-| Technical answer | "Immersive, AI-powered, futuristic" | 5,000–8,000 lm · 100 ms · one camera is enough |
-| A solo budget | Treated as a downgraded version | Treated as possibly the final and best form |
-| Pose estimation | "Better accuracy means better learning" | Accuracy and learning are unrelated; design for learning |
+| How the conversation starts | "We have two cameras — what can we build?" | "Which problem makes a second camera worth its price?" |
+| Artwork or tool | Never settled; implementation starts anyway | Settled first, with the reason |
+| The technical answer | "An immersive AI-powered experience" | 5,000–8,000 lm · 100 ms · one camera is enough |
+| Building alone | Treated as a degraded version of the real thing | Treated as possibly the final and best form |
+| Pose estimation | "More accuracy means people learn more" | Accuracy and learning are unrelated; redesign for learning |
 
 ---
 
 ## 🚀 Install & Usage
 
-Requires [Claude Code](https://claude.com/claude-code), `git`, `bash`, and `zip`. The installer is a bash script, so use macOS, Linux, or WSL.
+Requires [Claude Code](https://claude.com/claude-code), `git`, `bash`, and `zip`. The installer is a bash script, so run it on macOS, Linux, or WSL.
 
 ### 🖥️ Claude Code (CLI)
 
@@ -72,42 +88,49 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-You should see four confirmation lines (the installer prints in Japanese) — one per skill, plus the `/motion-idea` command. The installer verifies that every reference file a skill declares actually exists, and aborts without copying anything if one is missing.
+You should see five confirmation lines (the installer prints in Japanese) — three skills and two commands. Before copying anything, the installer checks that every file a skill declares it will read actually exists, and aborts if one is missing.
 
-It writes to:
+It installs to:
 
 ```
 ~/.claude/skills/embodied-product-director/
 ~/.claude/skills/interactive-experience-collective/
 ~/.claude/skills/movement-learning-system-designer/
 ~/.claude/commands/motion-idea.md
+~/.claude/commands/refresh-skills.md
 ```
 
-Start a new Claude Code session, then either use the command:
+Open a new session. If you have no direction yet, use the command:
 
 ```
-/motion-idea I have two cameras and want to build something around martial arts practice
+/motion-idea I have two spare webcams and want to build something around martial arts practice
 ```
 
-…or just describe your project in plain language — the specialist skills trigger on their own:
+If you already know what you are building, just write it normally — the right skill starts on its own.
 
 ```
 Design a projection mapping piece that reacts to a dancer
 ```
 
-### 🌐 claude.ai (browser)
-
-The repository ships each skill as a packaged archive. They are ordinary zip files:
-
-```bash
-cp embodied-product-director.skill embodied-product-director.zip
+```
+Design the MVP for an app that compares a karate punch against the instructor's
 ```
 
-Upload the `.zip` in your assistant's skill settings — see the [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for the current upload flow.
+### 🌐 claude.ai (browser)
+
+Each skill is bundled as a `.skill` file. It is an ordinary zip, so renaming it is enough to upload it.
+
+```bash
+cp movement-learning-system-designer.skill movement-learning-system-designer.zip
+```
+
+Upload the `.zip` in your assistant's skill settings — see the [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for the current flow.
+
+> Opening a `.skill` file on GitHub shows nothing. It is not broken — GitHub simply does not recognise the extension and cannot preview it. Download it and run `unzip -l` to see the contents.
 
 ### 🛠️ From source
 
-The editable source of truth is `_extracted/`, not the `.skill` archives:
+The editable source of truth is `_extracted/`, not the `.skill` archives.
 
 ```
 _extracted/<skill>/SKILL.md
@@ -115,11 +138,68 @@ _extracted/<skill>/references/*.md
 _extracted/<skill>/evals/evals.json
 ```
 
-`SKILL.md` is loaded on every activation; `references/*.md` only when the mode calls for it; `evals/evals.json` holds the trigger tests.
+`SKILL.md` is loaded on every activation; `references/*.md` only when the current mode needs it; `evals/evals.json` tests that the skill starts when it should.
 
 After editing, run `./install.sh` again — it re-deploys to `~/.claude/` and rebuilds the `.skill` archives idempotently.
 
-To install by hand instead, copy the three directories under `_extracted/` into `~/.claude/skills/`.
+To install by hand, copy the three directories under `_extracted/` into `~/.claude/skills/`.
+
+---
+
+## 🔁 Keeping the skills current
+
+These skills contain product names, price ranges, library names, and hardware numbers. **Those will go stale.** There are two layers of defence.
+
+### ① Verified at the moment of use (automatic, nothing to configure)
+
+Reference passages that can rot carry this marker:
+
+```markdown
+<!-- volatile: 2026-07 -->
+```
+
+When the skill reads a marked passage, it **searches the web to confirm the current state before answering.** You do not have to do anything.
+
+### ② Refreshed in a batch (manual, roughly monthly)
+
+```
+/refresh-skills
+```
+
+This collects every marked claim, checks it on the web, and lists **only what changed**. It does not edit anything. You review and decide.
+
+```
+/refresh-skills apply
+```
+
+This applies what was confirmed, bumps the marker dates, and runs `install.sh`. Only findings with a citation are applied.
+
+To run it on a schedule, use Claude Code's loop:
+
+```
+/loop 30d /refresh-skills
+```
+
+---
+
+## 🧭 Where these skills stand
+
+- **Tracking accuracy and learning are different things.** Accurate pose estimation guarantees nothing about improvement
+- **"Correct" is somebody's opinion.** A reference form is not neutral truth; it freezes one instructor's view as authority. Cite the source and let instructors override it
+- **Silence when unsure is a feature, not a defect**
+- **No judging pain, injury, or range of motion.** No stepping into rehabilitation without a clinician involved
+- **When minors are filmed, guardian consent and a retention policy come before the technology**
+- **A tight budget should cut unnecessary production complexity, never creative ambition**
+
+---
+
+## 🛠️ Development
+
+`SKILL.md` holds the judgement criteria; only mode-specific *procedures* move into `references/`. Pushing judgement criteria into references produces the failure these skills exist to prevent — answering with generalities without reading anything.
+
+They are deliberately not split into more sub-skills. The more descriptions sit permanently in the system prompt, the worse the hardest call in this domain gets — experience or improvement. Measured routing accuracy for the three-skill layout is 97%, with 11% of cases ambiguous.
+
+`_extracted/<skill>/evals/evals.json` holds queries that should start each skill and queries that should not. Most of the "should not" cases are not irrelevant queries — they are **near-misses that belong to the sibling skill.** Re-check with this set after editing any description.
 
 ---
 
@@ -127,4 +207,4 @@ To install by hand instead, copy the three directories under `_extracted/` into 
 
 MIT — see [LICENSE](LICENSE).
 
-Consulting on this domain (designing embodied, movement, camera and spatial experiences; technology selection; validating the business case) is available. Open an issue to get in touch.
+Consulting in this domain (designing embodied, movement, camera and spatial experiences; technology selection; validating the business case) is available. Open an issue to get in touch.

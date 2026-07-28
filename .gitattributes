@@ -1,0 +1,5 @@
+# .skill は zip アーカイブ。GitHub のプレビューでは中身を表示できないため、
+# 「空のファイル」ではなく「バイナリ」と表示させる。
+*.skill binary
+# install.sh が生成する成果物なので、差分では折りたたむ。
+*.skill linguist-generated=true

@@ -1,5 +1,7 @@
 # ソフトウェア・スタック選定リファレンス (Coder)
 
+<!-- volatile: 2026-07 — TouchDesigner / Unreal / Unity / Notch / Three.js / PlayCanvas / openFrameworks / PyTorch の位置づけと得意領域、通信プロトコルの実装状況、性能予算の前提。 -->
+
 スタック提案は必ず: **選定 / 理由 / 代替とトレードオフ / アーキテクチャ図(テキストで可) / パフォーマンス予算** をセットで出す。
 
 ## 1. スタック選定フローチャート
