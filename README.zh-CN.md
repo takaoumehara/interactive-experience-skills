@@ -98,6 +98,7 @@ cd interactive-experience-skills
 ~/.claude/skills/movement-learning-system-designer/
 ~/.claude/commands/motion-idea.md
 ~/.claude/commands/refresh-skills.md
+~/.claude/commands/scout-skills.md
 ```
 
 开一个新会话。如果方向还没定，用命令:
@@ -179,6 +180,27 @@ skill 读到带标记的段落时，会**先上网确认当前情况再回答**�
 ```
 /loop 30d /refresh-skills
 ```
+
+### ③ 寻找新的手段（大约每季度一次）
+
+```
+/scout-skills
+```
+
+`/refresh-skills` 检查的是**已经写下来的内容现在是否仍然成立**，它有意不添加任何新东西。所以真正的新手段在结构上不可能从那边进来。
+
+`/scout-skills` 是第二条线。它调查绘制、音响、采集、分发四个领域，**完全不改动任何参考文件**，只把候选追加到 `CANDIDATES.md`。是否采用由你决定。
+
+候选必须同时满足四条:
+
+1. 能否做出现有手段做不出的表达或判断？
+2. 个人或小规模能否达到？
+3. **能否写出它是怎么坏的？**
+4. **能否说清它接到哪一段既有描述上，或替换掉什么？**
+
+绝大多数会倒在第 4 条，这是对的。参考文件一旦变胖，skill 就会开始少读，**加厚反而让质量下降。**这条命令的价值不在于加了多少，而在于挡住了多少。
+
+不要按月跑。这个领域一个月内不会有实质变化，而习惯性略过「无候选」的报告，正是真正变化时会漏掉的原因。
 
 ---
 

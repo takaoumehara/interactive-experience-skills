@@ -98,6 +98,7 @@ Se instala en:
 ~/.claude/skills/movement-learning-system-designer/
 ~/.claude/commands/motion-idea.md
 ~/.claude/commands/refresh-skills.md
+~/.claude/commands/scout-skills.md
 ```
 
 Abre una sesión nueva. Si todavía no tienes dirección, usa el comando:
@@ -179,6 +180,27 @@ Para ejecutarlo periódicamente, usa el loop de Claude Code:
 ```
 /loop 30d /refresh-skills
 ```
+
+### ③ Buscar nuevas opciones (aproximadamente una vez por trimestre)
+
+```
+/scout-skills
+```
+
+`/refresh-skills` comprueba si **lo que ya está escrito sigue siendo cierto**, y deliberadamente nunca añade nada nuevo. Por eso una técnica realmente nueva no puede entrar por ahí.
+
+`/scout-skills` es la segunda vía. Busca en cuatro áreas — render, audio, captura, distribución — y **no edita ningún archivo de referencia**: añade candidatos a `CANDIDATES.md`. Tú decides qué se promueve.
+
+Un candidato tiene que pasar los cuatro:
+
+1. ¿Permite una expresión o un criterio que las opciones existentes no pueden producir?
+2. ¿Es alcanzable a escala individual o pequeña?
+3. **¿Puedes escribir cómo falla?**
+4. **¿Puedes nombrar a qué pasaje existente se conecta o sustituye?**
+
+La mayoría cae en el punto 4, y eso es lo correcto. Cuando las referencias engordan, el skill empieza a leer menos, y **hacerlo más grueso lo empeora.** El valor de este comando está en lo que rechaza, no en lo que añade.
+
+No lo ejecutes cada mes. Aquí no cambia nada relevante en un mes, y acostumbrarse a saltar informes de «sin candidatos» es justo como se pierde el que importaba.
 
 ---
 
