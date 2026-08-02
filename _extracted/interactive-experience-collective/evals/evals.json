@@ -11,8 +11,16 @@
       "prompt": "来場者の動きに反応するインスタレーションを作りたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "interactive-experience-collective が起動する", "weight": 1.0},
-        {"name": "signature-behavior", "check": "機能の列挙ではなく署名的振る舞いを一つ特定する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "signature-behavior",
+          "check": "機能の列挙ではなく署名的振る舞いを一つ特定する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -20,7 +28,13 @@
       "eval_name": "trigger-projection-mapping-jp",
       "prompt": "プロジェクションマッピングの演出を企画したい",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 2,
@@ -28,9 +42,21 @@
       "prompt": "個人で作れる範囲で凄いものを作りたい。予算はほぼゼロ、手持ちはMacとWebカメラだけ",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "scale-S", "check": "スケールSと判定し solo-scale.md を読む", "weight": 1.0},
-        {"name": "not-degraded", "check": "個人開発版を「劣化版」「仮のもの」として扱わない", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "scale-S",
+          "check": "スケールSと判定し solo-scale.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "not-degraded",
+          "check": "個人開発版を「劣化版」「仮のもの」として扱わない",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -39,8 +65,16 @@
       "prompt": "このデモをもっと良くしたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "モードAで起動する", "weight": 1.0},
-        {"name": "diagnose-first", "check": "即座にアイデアを足さず、まず強い部分・弱めている部分を診断する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "モードAで起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "diagnose-first",
+          "check": "即座にアイデアを足さず、まず強い部分・弱めている部分を診断する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -49,8 +83,16 @@
       "prompt": "武術家の動きを作品にしたい。突きに合わせて空間が反応する",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "reads-movement-md", "check": "身体入力を扱うのでスケールに関わらず movement.md を読む", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-movement-md",
+          "check": "身体入力を扱うのでスケールに関わらず movement.md を読む",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -59,9 +101,21 @@
       "prompt": "暗室で3m幅に投影するプロジェクター、何ルーメン必要ですか",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "concrete-number", "check": "曖昧に濁さず具体的な帯を答える。ただし条件が不明なら前提付きで示す", "weight": 1.0},
-        {"name": "minimal-reads", "check": "単発の技術質問に5ファイル読まない（該当1〜2本）", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "concrete-number",
+          "check": "曖昧に濁さず具体的な帯を答える。ただし条件が不明なら前提付きで示す",
+          "weight": 1.0
+        },
+        {
+          "name": "minimal-reads",
+          "check": "単発の技術質問に5ファイル読まない（該当1〜2本）",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -69,7 +123,13 @@
       "eval_name": "trigger-immersive-en",
       "prompt": "Design an immersive installation for a museum lobby",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 7,
@@ -77,8 +137,16 @@
       "prompt": "Should I use TouchDesigner or Unreal for this stage visual?",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "モードDで起動する", "weight": 1.0},
-        {"name": "reads-software", "check": "software.md を読む", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "モードDで起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-software",
+          "check": "software.md を読む",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -87,8 +155,16 @@
       "prompt": "この体験施設、単価いくらで何人回せば黒字になりますか",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "モードFで起動する", "weight": 1.0},
-        {"name": "reads-process-math", "check": "process.md の事業性の計算式を必ず読み、数字で答える", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "モードFで起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-process-math",
+          "check": "process.md の事業性の計算式を必ず読み、数字で答える",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -96,7 +172,13 @@
       "eval_name": "trigger-event-jp",
       "prompt": "社内イベントを面白くしたい。何か体験型の仕掛けを入れたい",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 10,
@@ -104,8 +186,16 @@
       "prompt": "常設展示にするので無人で毎朝起動して夜落ちる運用にしたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "scale-L", "check": "スケールLと判定する", "weight": 1.0},
-        {"name": "ops-checklist", "check": "process.md の常設運用チェックリストを使う", "weight": 1.0}
+        {
+          "name": "scale-L",
+          "check": "スケールLと判定する",
+          "weight": 1.0
+        },
+        {
+          "name": "ops-checklist",
+          "check": "process.md の常設運用チェックリストを使う",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -114,7 +204,11 @@
       "prompt": "空手の突きのフォームを直せるアプリを作りたい",
       "should_trigger": false,
       "assertions": [
-        {"name": "routes-to-mlsd", "check": "movement-learning-system-designer が起動する", "weight": 1.0}
+        {
+          "name": "routes-to-mlsd",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -122,7 +216,13 @@
       "eval_name": "no-trigger-dojo-tool-jp",
       "prompt": "道場の指導者の負担を減らすツールを設計したい",
       "should_trigger": false,
-      "assertions": [{"name": "routes-to-mlsd", "check": "movement-learning-system-designer が起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "routes-to-mlsd",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 13,
@@ -130,7 +230,11 @@
       "prompt": "カメラが2台余っている。動きで何かしたいが作品にすべきか製品にすべきか決まらない",
       "should_trigger": false,
       "assertions": [
-        {"name": "routes-to-director", "check": "embodied-product-director が起動する", "weight": 1.0}
+        {
+          "name": "routes-to-director",
+          "check": "embodied-product-director が起動する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -138,28 +242,52 @@
       "eval_name": "no-trigger-web-marketing-jp",
       "prompt": "コーポレートサイトのLPをかっこよくしたい",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "インタラクティブ体験の企画ではないので起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "インタラクティブ体験の企画ではないので起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 15,
       "eval_name": "no-trigger-game-dev-impl-jp",
       "prompt": "Unityでキャラクターのジャンプの挙動を実装したい",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "純粋な実装依頼なので起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "純粋な実装依頼なので起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 16,
       "eval_name": "no-trigger-video-production-jp",
       "prompt": "イベントのアフタームービーを編集したい",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 17,
       "eval_name": "no-trigger-av-rental-jp",
       "prompt": "音響機材のレンタル業者を探しています",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "調達タスクであり体験設計ではない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "調達タスクであり体験設計ではない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 18,
@@ -167,7 +295,11 @@
       "prompt": "演者が自分の稽古で使う道具を作りたい。表現の可能性を探索するために使う",
       "should_trigger": true,
       "assertions": [
-        {"name": "expression-side", "check": "道具であることは判定に関係なく、探索が目的なので表現側で扱う", "weight": 1.0}
+        {
+          "name": "expression-side",
+          "check": "道具であることは判定に関係なく、探索が目的なので表現側で扱う",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -176,8 +308,16 @@
       "prompt": "会場に大型LEDを並べて、来場者の動きをリアルタイムで反映させたい。予算は個人で数万円です",
       "should_trigger": true,
       "assertions": [
-        {"name": "scale-mismatch-called-out", "check": "スケールSの条件にLの発想が持ち込まれていることを指摘し、形式を比較し直す", "weight": 1.0},
-        {"name": "recommends", "check": "選択肢を並べるだけで終わらず推奨を明示する", "weight": 1.0}
+        {
+          "name": "scale-mismatch-called-out",
+          "check": "スケールSの条件にLの発想が持ち込まれていることを指摘し、形式を比較し直す",
+          "weight": 1.0
+        },
+        {
+          "name": "recommends",
+          "check": "選択肢を並べるだけで終わらず推奨を明示する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -187,8 +327,16 @@
       "should_trigger": false,
       "note": "当初は「collective が起動してから戻す」を期待値にしていたが、目的が明示されている以上 mlsd へ直行する方が正しい(往復が1回減る)。ブラインド判定でもそう振られたため期待値を修正した。",
       "assertions": [
-        {"name": "routes-to-mlsd", "check": "「体験」という語に引きずられず、明示された目的(上達)で movement-learning-system-designer へ直行する", "weight": 1.0},
-        {"name": "no-wasted-roundtrip", "check": "collective が起動してから戻す経路を取らない", "weight": 1.0}
+        {
+          "name": "routes-to-mlsd",
+          "check": "「体験」という語に引きずられず、明示された目的(上達)で movement-learning-system-designer へ直行する",
+          "weight": 1.0
+        },
+        {
+          "name": "no-wasted-roundtrip",
+          "check": "collective が起動してから戻す経路を取らない",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -197,7 +345,121 @@
       "prompt": "この技術構成を決めてください。予算も会場も決まっていて変更できません",
       "should_trigger": true,
       "assertions": [
-        {"name": "no-scope-bounce", "check": "戻さず作業を完了させ、懸念は冒頭に1〜2文で添えるに留める", "weight": 1.0}
+        {
+          "name": "no-scope-bounce",
+          "check": "戻さず作業を完了させ、懸念は冒頭に1〜2文で添えるに留める",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 22,
+      "eval_name": "trigger-shader-webgpu-jp",
+      "prompt": "WebGPUでパーティクルを飛ばしたいんだけど何ができる？",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "degradation-ladder",
+          "check": "WebGPU を勧めるなら WebGL2 等への劣化ラダーを宣言する",
+          "weight": 1.0
+        },
+        {
+          "name": "expression-first",
+          "check": "技術名の列挙で終わらず、出したい表現に接続して答える",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 23,
+      "eval_name": "trigger-feel-jp",
+      "prompt": "作ったデモが技術的には動くけど触っていて気持ちよくない",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "feel-palette",
+          "check": "feel.md の触感パレットまたは擬似触覚の4条件に照らして診断する",
+          "weight": 1.0
+        },
+        {
+          "name": "no-feature-add",
+          "check": "機能追加ではなく応答性・慣性・音の側を疑う",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 24,
+      "eval_name": "trigger-sound-mapping-jp",
+      "prompt": "身体の動きに音を連動させたい。カメラで手を取って鳴らす",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "excitation-branch",
+          "check": "発音イベント型か連続励起型かを先に決めさせる",
+          "weight": 1.0
+        },
+        {
+          "name": "latency-reality",
+          "check": "カメラ経由では 20ms が物理的に不可能であることを述べ、隠す設計を示す",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 25,
+      "eval_name": "trigger-cliche-jp",
+      "prompt": "動きに反応する映像を作ったけど既視感がある。どうすれば抜けられる？",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "escape-directions",
+          "check": "既視感を避ける7方向のいずれかを、対応する生成手法とともに示す",
+          "weight": 1.0
+        },
+        {
+          "name": "no-novelty-claim",
+          "check": "「世界初」のような新規性の主張をさせない",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 26,
+      "eval_name": "no-trigger-form-scoring-jp",
+      "prompt": "空手の型をカメラで採点して上達を記録するアプリを作りたい",
+      "should_trigger": false,
+      "assertions": [
+        {
+          "name": "routes-to-learning",
+          "check": "movement-learning-system-designer へ引き渡す",
+          "weight": 1.0
+        },
+        {
+          "name": "no-expression-design",
+          "check": "表現設計を始めない",
+          "weight": 1.0
+        }
       ]
     }
   ]

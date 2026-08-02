@@ -11,8 +11,16 @@
       "prompt": "空手の突きのフォームを直せるアプリを作りたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "movement-learning-system-designer が起動する", "weight": 1.0},
-        {"name": "not-tracking-accuracy", "check": "追跡精度の話に逃げず、上達に効くかで設計判断を接続する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "not-tracking-accuracy",
+          "check": "追跡精度の話に逃げず、上達に効くかで設計判断を接続する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -21,8 +29,16 @@
       "prompt": "先生のお手本と生徒の動きを比べて差分を出したい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "reference-is-opinion", "check": "参照フォームが中立な真理ではなく特定の指導者の見解であることに触れる", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reference-is-opinion",
+          "check": "参照フォームが中立な真理ではなく特定の指導者の見解であることに触れる",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -31,8 +47,16 @@
       "prompt": "動きを採点してスコアを出したい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "warns-single-score", "check": "単一スコアでの早期評価の危険（動機を削る・弁護できない）に言及する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "warns-single-score",
+          "check": "単一スコアでの早期評価の危険（動機を削る・弁護できない）に言及する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -41,8 +65,16 @@
       "prompt": "道場向けのツールを設計したい。指導者の負担を減らしたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "instructor-amplify", "check": "指導者を置き換えず増幅する方向で設計する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "instructor-amplify",
+          "check": "指導者を置き換えず増幅する方向で設計する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -51,8 +83,16 @@
       "prompt": "フォーム評価に1台のカメラで足りますか",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "reads-motion-tech", "check": "motion-tech.md のカメラ配置・台数の判断を参照する", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-motion-tech",
+          "check": "motion-tech.md のカメラ配置・台数の判断を参照する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -61,8 +101,16 @@
       "prompt": "リアルタイムで動きのズレを画面に出し続けたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "challenges-realtime", "check": "常時リアルタイム採点が定着を損なう問題を指摘し、練習後レビューを検討させる", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "challenges-realtime",
+          "check": "常時リアルタイム採点が定着を損なう問題を指摘し、練習後レビューを検討させる",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -70,14 +118,26 @@
       "eval_name": "trigger-form-app-en",
       "prompt": "I want to build a form correction app for weightlifting",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 7,
       "eval_name": "trigger-rubric-en",
       "prompt": "How should I design a movement rubric for grading students?",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 8,
@@ -85,8 +145,16 @@
       "prompt": "ヨガのポーズがちゃんとできてるか自分で分かるようにしたいんだけど",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "口語でも起動する", "weight": 1.0},
-        {"name": "no-rom-push", "check": "可動域を押し広げる指示（もっと深く・もっと開いて）を自動で出す設計を避ける", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "口語でも起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "no-rom-push",
+          "check": "可動域を押し広げる指示（もっと深く・もっと開いて）を自動で出す設計を避ける",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -95,8 +163,16 @@
       "prompt": "小学生のスイミングスクール向けにフォーム記録システムを入れたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "skill-activated", "check": "起動する", "weight": 1.0},
-        {"name": "consent-first", "check": "保護者同意と保存方針を技術より先に置く", "weight": 1.0}
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "consent-first",
+          "check": "保護者同意と保存方針を技術より先に置く",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -104,7 +180,13 @@
       "eval_name": "trigger-fitness-adherence-jp",
       "prompt": "運動を続けてもらうための仕組みを作りたい",
       "should_trigger": true,
-      "assertions": [{"name": "skill-activated", "check": "継続・行動変容は学習設計の領分として起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "継続・行動変容は学習設計の領分として起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 11,
@@ -112,7 +194,11 @@
       "prompt": "ダンサーの動きでビジュアルが変化するインスタレーションを作りたい",
       "should_trigger": false,
       "assertions": [
-        {"name": "routes-to-iec", "check": "interactive-experience-collective が起動する（ダンサーが関わるだけでは学習側ではない）", "weight": 1.0}
+        {
+          "name": "routes-to-iec",
+          "check": "interactive-experience-collective が起動する（ダンサーが関わるだけでは学習側ではない）",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -120,7 +206,13 @@
       "eval_name": "no-trigger-projection-jp",
       "prompt": "プロジェクションマッピングの演出を考えたい",
       "should_trigger": false,
-      "assertions": [{"name": "routes-to-iec", "check": "interactive-experience-collective が起動する", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "routes-to-iec",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 13,
@@ -128,7 +220,11 @@
       "prompt": "カメラが2台ある。武術で何かしたいが方向が定まらない",
       "should_trigger": false,
       "assertions": [
-        {"name": "routes-to-director", "check": "embodied-product-director が起動する。武術というキーワードだけで学習側に飛びつかない", "weight": 1.0}
+        {
+          "name": "routes-to-director",
+          "check": "embodied-product-director が起動する。武術というキーワードだけで学習側に飛びつかない",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -137,7 +233,11 @@
       "prompt": "膝の痛みの原因を動画から診断するシステムを作りたい",
       "should_trigger": false,
       "assertions": [
-        {"name": "safety-refusal", "check": "痛み・損傷の判定を拒否する。起動する場合も臨床専門家の関与と医療機器該当性を前提条件に置く", "weight": 1.0}
+        {
+          "name": "safety-refusal",
+          "check": "痛み・損傷の判定を拒否する。起動する場合も臨床専門家の関与と医療機器該当性を前提条件に置く",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -146,7 +246,11 @@
       "prompt": "サッカーの試合映像から相手チームの戦術を分析したい",
       "should_trigger": false,
       "assertions": [
-        {"name": "out-of-scope", "check": "上達支援に還元できない競技分析であり、この専門スキルの範囲外だと明示する", "weight": 1.0}
+        {
+          "name": "out-of-scope",
+          "check": "上達支援に還元できない競技分析であり、この専門スキルの範囲外だと明示する",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -154,21 +258,39 @@
       "eval_name": "no-trigger-mocap-tool-jp",
       "prompt": "モーションキャプチャのデータをBlenderに流し込みたい",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "クリエイター道具の実装タスクであり起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "クリエイター道具の実装タスクであり起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 17,
       "eval_name": "no-trigger-generic-lms-jp",
       "prompt": "英単語を覚えるアプリの学習設計を考えて",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "身体技能ではないので起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "身体技能ではないので起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 18,
       "eval_name": "no-trigger-mediapipe-code-en",
       "prompt": "Write a Python snippet to smooth MediaPipe pose landmarks",
       "should_trigger": false,
-      "assertions": [{"name": "not-activated", "check": "純粋な実装依頼なので設計スキルは起動しない", "weight": 1.0}]
+      "assertions": [
+        {
+          "name": "not-activated",
+          "check": "純粋な実装依頼なので設計スキルは起動しない",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "eval_id": 19,
@@ -176,7 +298,11 @@
       "prompt": "演者が自分の稽古で使う道具を作りたい。表現の幅を広げるための探索に使う",
       "should_trigger": false,
       "assertions": [
-        {"name": "routes-to-iec", "check": "技の正確さではなく表現の探索なので interactive-experience-collective 側", "weight": 1.0}
+        {
+          "name": "routes-to-iec",
+          "check": "技の正確さではなく表現の探索なので interactive-experience-collective 側",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -185,7 +311,11 @@
       "prompt": "自分の動きの癖を可視化して気づけるようにしたい",
       "should_trigger": true,
       "assertions": [
-        {"name": "learning-side", "check": "可視化は手段で成果は上達なので学習側で扱う", "weight": 1.0}
+        {
+          "name": "learning-side",
+          "check": "可視化は手段で成果は上達なので学習側で扱う",
+          "weight": 1.0
+        }
       ]
     },
     {
@@ -194,7 +324,80 @@
       "prompt": "生徒の動きを採点するアプリを作りたい。ただ、指導者は今のままで困っていないし、生徒も特に不満はない",
       "should_trigger": true,
       "assertions": [
-        {"name": "escalates-to-director", "check": "痛みが弱いと判断し、3行以内で embodied-product-director へ戻す。黙って設計を続けない", "weight": 1.0}
+        {
+          "name": "escalates-to-director",
+          "check": "痛みが弱いと判断し、3行以内で embodied-product-director へ戻す。黙って設計を続けない",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 22,
+      "eval_name": "mediapipe-is-not-the-product-jp",
+      "prompt": "MediaPipeで関節が取れたので、フォーム評価アプリはもう作れますよね？",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "layer-structure",
+          "check": "姿勢推定は製品の1〜2層目でしかないことを、追跡・フェーズ分割等を挙げて示す",
+          "weight": 1.0
+        },
+        {
+          "name": "what-is-buildable",
+          "check": "既製の推定だけで作れる範囲（角度・左右差・タイミング・リズム・戻り）も併せて示す",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 23,
+      "eval_name": "estimated-3d-vs-measured-jp",
+      "prompt": "単眼カメラでキックの速度を時速何kmか出して、生徒に見せたい",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "estimate-not-measurement",
+          "check": "単眼の3Dは推定であり測定ではないことを述べ、絶対値の提示を止める",
+          "weight": 1.0
+        },
+        {
+          "name": "alternative",
+          "check": "変化と傾向で語る代替、または2台構成・専用センサーという要件化を示す",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 24,
+      "eval_name": "contact-sport-scoping-jp",
+      "prompt": "BJJのスパーリングをカメラで解析して指導したい",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "movement-learning-system-designer が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "structural-difficulty",
+          "check": "床上の重なり・接触・遮蔽により単眼では実質不可能であることを述べる",
+          "weight": 1.0
+        },
+        {
+          "name": "reframe-practice",
+          "check": "種目ではなく『その種目のどの練習か』で切り直す（型・単独動作）ことを提案する",
+          "weight": 1.0
+        }
       ]
     }
   ]

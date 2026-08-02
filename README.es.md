@@ -88,7 +88,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-Deberías ver cinco líneas de confirmación (el instalador imprime en japonés): tres skills y dos comandos. Antes de copiar nada, el instalador verifica que exista de verdad cada archivo que un skill declara que va a leer, y aborta si falta alguno.
+Deberías ver siete líneas de confirmación (el instalador imprime en japonés): tres skills y cuatro comandos. Antes de copiar nada, el instalador verifica que exista de verdad cada archivo que un skill declara que va a leer, y aborta si falta alguno.
 
 Se instala en:
 
@@ -98,6 +98,8 @@ Se instala en:
 ~/.claude/skills/movement-learning-system-designer/
 ~/.claude/commands/motion-idea.md
 ~/.claude/commands/refresh-skills.md
+~/.claude/commands/scout-skills.md
+~/.claude/commands/skills-routine.md
 ```
 
 Abre una sesión nueva. Si todavía no tienes dirección, usa el comando:
@@ -179,6 +181,55 @@ Para ejecutarlo periódicamente, usa el loop de Claude Code:
 ```
 /loop 30d /refresh-skills
 ```
+
+### ③ Buscar nuevas opciones (aproximadamente una vez por trimestre)
+
+```
+/scout-skills
+```
+
+`/refresh-skills` comprueba si **lo que ya está escrito sigue siendo cierto**, y deliberadamente nunca añade nada nuevo. Por eso una técnica realmente nueva no puede entrar por ahí.
+
+`/scout-skills` es la segunda vía. Busca en cuatro áreas — render, audio, captura, distribución — y **no edita ningún archivo de referencia**: añade candidatos a `CANDIDATES.md`. Tú decides qué se promueve.
+
+Un candidato tiene que pasar los cuatro:
+
+1. ¿Permite una expresión o un criterio que las opciones existentes no pueden producir?
+2. ¿Es alcanzable a escala individual o pequeña?
+3. **¿Puedes escribir cómo falla?**
+4. **¿Puedes nombrar a qué pasaje existente se conecta o sustituye?**
+
+La mayoría cae en el punto 4, y eso es lo correcto. Cuando las referencias engordan, el skill empieza a leer menos, y **hacerlo más grueso lo empeora.** El valor de este comando está en lo que rechaza, no en lo que añade.
+
+No lo ejecutes cada mes. Aquí no cambia nada relevante en un mes, y acostumbrarse a saltar informes de «sin candidatos» es justo como se pierde el que importaba.
+
+### ④ Una pasada de mantenimiento, en orden
+
+```
+/skills-routine
+```
+
+Ejecuta ② la verificación y ③ la búsqueda como una sola pasada, **en ese orden**. El orden importa: mientras no confirmes que lo escrito sigue siendo cierto, todo lo nuevo se apila sobre afirmaciones caducas.
+
+El resultado vuelve como una única tabla combinada, no como dos informes. No se aplica nada sin preguntar, y queda una línea en el registro de ejecución.
+
+```
+/skills-routine 音響     # buscar solo en audio
+/skills-routine verify   # detenerse tras la verificación
+```
+
+**El procedimiento, los disparadores y el registro están en [`ROUTINE.md`](ROUTINE.md).**
+
+Deliberadamente no está en un scheduler. Un cron muere cuando cambia la máquina, y una notificación recurrente deja de leerse a la tercera. Lo que `ROUTINE.md` tiene en su lugar es **una lista de disparadores**.
+
+| Disparador | Ejecutar |
+|---|---|
+| Un anuncio de plataforma de Apple | `/scout-skills 描画` `/scout-skills 配布` |
+| Se movió el soporte de GPU / media en los navegadores | `/scout-skills 描画` `/scout-skills 音響` |
+| **El skill respondió con un supuesto caduco** | `/refresh-skills` |
+| **En un proyecto real pensaste «esto no está en la referencia»** | Escríbelo a mano en `CANDIDATES.md`, en ese momento |
+
+**Los dos últimos son los que más valen.** Un hueco que notas usándolo de verdad no lo encuentra ninguna búsqueda web. La fecha no es la señal real; estos sí.
 
 ---
 
