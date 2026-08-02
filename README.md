@@ -88,7 +88,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-You should see five confirmation lines (the installer prints in Japanese) — three skills and two commands. Before copying anything, the installer checks that every file a skill declares it will read actually exists, and aborts if one is missing.
+You should see seven confirmation lines (the installer prints in Japanese) — three skills and four commands. Before copying anything, the installer checks that every file a skill declares it will read actually exists, and aborts if one is missing.
 
 It installs to:
 
@@ -99,6 +99,7 @@ It installs to:
 ~/.claude/commands/motion-idea.md
 ~/.claude/commands/refresh-skills.md
 ~/.claude/commands/scout-skills.md
+~/.claude/commands/skills-routine.md
 ```
 
 Open a new session. If you have no direction yet, use the command:
@@ -201,6 +202,34 @@ A candidate has to pass all four:
 Most candidates die on #4, and that is the point. When references bloat, the skill starts skimming, and **making it thicker makes it worse.** The value of this command is what it refuses, not what it adds.
 
 Do not run it monthly. Nothing meaningful changes in a month here, and a habit of skipping "no candidates" reports is how you miss the one that mattered.
+
+### ④ One maintenance pass, in order
+
+```
+/skills-routine
+```
+
+Runs ② verification and ③ scouting as a single pass, **in that order**. The order matters: until you have confirmed that what is written is still true, anything new gets stacked on top of stale claims.
+
+The result comes back as one merged table, not two separate reports. Nothing is applied without asking, and a line goes into the run log.
+
+```
+/skills-routine 音響     # scout audio only
+/skills-routine verify   # stop after verification
+```
+
+**The procedure, the triggers, and the run log live in [`ROUTINE.md`](ROUTINE.md).**
+
+It is deliberately not on a scheduler. A cron dies when the machine changes, and a recurring notification stops being read after the third one. What `ROUTINE.md` has instead is **a list of triggers**.
+
+| Trigger | Run |
+|---|---|
+| An Apple platform announcement | `/scout-skills 描画` `/scout-skills 配布` |
+| Browser GPU / media support moved | `/scout-skills 描画` `/scout-skills 音響` |
+| **The skill answered with a stale assumption** | `/refresh-skills` |
+| **On a real project you thought "that isn't in the reference"** | Write it into `CANDIDATES.md` by hand, right then |
+
+**The last two are worth the most.** A gap you feel while actually using it is one a web search will never find. The date is not the real signal — these are.
 
 ---
 

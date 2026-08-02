@@ -25,7 +25,7 @@ done
 STAGE="$(mktemp -d)/$NAME"
 mkdir -p "$STAGE"
 cp -R "$SRC/_extracted" "$STAGE/_extracted"
-cp "$SRC"/motion-idea.md "$SRC"/refresh-skills.md "$SRC"/scout-skills.md "$SRC"/CANDIDATES.md "$SRC"/install.sh "$SRC"/LICENSE "$SRC"/README*.md "$STAGE/"
+cp "$SRC"/motion-idea.md "$SRC"/refresh-skills.md "$SRC"/scout-skills.md "$SRC"/skills-routine.md "$SRC"/CANDIDATES.md "$SRC"/ROUTINE.md "$SRC"/install.sh "$SRC"/LICENSE "$SRC"/README*.md "$STAGE/"
 find "$STAGE" -name '.DS_Store' -delete
 ( cd "$(dirname "$STAGE")" && zip -q -r -X "$SRC/dist/$NAME-all.zip" "$NAME" -x '.*' -x '__MACOSX/*' )
 rm -rf "$(dirname "$STAGE")"

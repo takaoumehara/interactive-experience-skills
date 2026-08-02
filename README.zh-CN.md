@@ -88,7 +88,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-看到五行确认输出（脚本用日语打印）就说明成功了——三个 skill 加两个命令。在复制任何东西之前，安装脚本会先确认每个 skill 声明要读取的文件是否真实存在，缺一个就中止。
+看到七行确认输出（脚本用日语打印）就说明成功了——三个 skill 加四个命令。在复制任何东西之前，安装脚本会先确认每个 skill 声明要读取的文件是否真实存在，缺一个就中止。
 
 安装位置如下:
 
@@ -99,6 +99,7 @@ cd interactive-experience-skills
 ~/.claude/commands/motion-idea.md
 ~/.claude/commands/refresh-skills.md
 ~/.claude/commands/scout-skills.md
+~/.claude/commands/skills-routine.md
 ```
 
 开一个新会话。如果方向还没定，用命令:
@@ -201,6 +202,34 @@ skill 读到带标记的段落时，会**先上网确认当前情况再回答**�
 绝大多数会倒在第 4 条，这是对的。参考文件一旦变胖，skill 就会开始少读，**加厚反而让质量下降。**这条命令的价值不在于加了多少，而在于挡住了多少。
 
 不要按月跑。这个领域一个月内不会有实质变化，而习惯性略过「无候选」的报告，正是真正变化时会漏掉的原因。
+
+### ④ 一次维护，按顺序跑完
+
+```
+/skills-routine
+```
+
+把②的核查和③的探索合成一次跑完，**并且按这个顺序**。顺序是有意义的: 在确认已写内容是否仍然成立之前，新东西只会堆在过时的说法之上。
+
+结果是一张合并的表，不是两份报告。不问过就不会写入任何文件，并且会在执行记录里留下一行。
+
+```
+/skills-routine 音響     # 只探索音响
+/skills-routine verify   # 只做核查就停下
+```
+
+**步骤、触发条件和执行记录都在 [`ROUTINE.md`](ROUTINE.md)。**
+
+它有意没有挂到调度器上。cron 换台机器就没了，重复通知到第三次就不会有人看。`ROUTINE.md` 里放的是**触发条件清单**。
+
+| 触发 | 跑什么 |
+|---|---|
+| Apple 平台发布 | `/scout-skills 描画` `/scout-skills 配布` |
+| 浏览器的 GPU / 媒体支持有变动 | `/scout-skills 描画` `/scout-skills 音響` |
+| **skill 的回答里混进了过时的前提** | `/refresh-skills` |
+| **实际做项目时觉得「这个参考里没有」** | 当场手写进 `CANDIDATES.md` |
+
+**最后两条最有价值。**真正用起来才感觉到的缺口，搜索永远找不到。日期不是真正的信号，这些才是。
 
 ---
 
