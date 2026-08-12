@@ -35,7 +35,7 @@ for d in "${SKILLS[@]}"; do
   echo "配置: $d"
 done
 
-for c in motion-idea refresh-skills; do
+for c in motion-idea refresh-skills scout-skills skills-routine; do
   cp "$SRC/$c.md" "$HOME/.claude/commands/$c.md"
   echo "配置: /$c"
 done
