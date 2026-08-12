@@ -461,6 +461,57 @@
           "weight": 1.0
         }
       ]
+    },
+    {
+      "eval_id": 27,
+      "eval_name": "trigger-feel-not-satisfying-jp",
+      "prompt": "手を動かすと映像が反応するデモを作ったのですが、触っていて気持ちよくありません。安っぽく感じます",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "モードAで起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-feel-md",
+          "check": "手触りが論点なので feel.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "jitter-over-mean",
+          "check": "平均遅延だけでなく応答の揺れ(ジッタ)とフレームタイムの分散を疑う",
+          "weight": 1.0
+        },
+        {
+          "name": "no-particles-first",
+          "check": "粒子やシェイクを足す前に、予兆・停止・3感覚のアタックの一致を見る",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 28,
+      "eval_name": "trigger-calming-experience-jp",
+      "prompt": "待合スペースに、見ていると落ち着くインタラクティブな映像を入れたい",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "arousal-direction",
+          "check": "覚醒を下げる方向と明示的に決め、賦活の手段(点滅・シェイク・鋭いアタック)を捨てる",
+          "weight": 1.0
+        },
+        {
+          "name": "physiological-lever",
+          "check": "呼吸周期(0.1Hz前後)・呼気優位・下降・低域といった生理に効く変数を使う",
+          "weight": 1.0
+        }
+      ]
     }
   ]
 }
