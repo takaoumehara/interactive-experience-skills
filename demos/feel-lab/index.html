@@ -1,0 +1,819 @@
+<title>手触りの診断台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+
+<style>
+  /* ──────────────────────────────────────────────────────────
+     計測機の世界に寄せた単一パレット。暗い場でないと発光が読めないため、
+     テーマ追従はせず、背景と全色を明示的に塗る。
+     ────────────────────────────────────────────────────────── */
+  :root {
+    --ground:  #0E1518;   /* 深いスレートティール */
+    --panel:   #162024;
+    --raised:  #1E2C31;
+    --line:    #2B3A40;
+    --ink:     #E7EDEA;
+    --dim:     #8CA0A6;
+    --brass:   #E3A54B;   /* 主体感・接触。この体験の唯一の強い色 */
+    --moss:    #7FB9A3;   /* 残響と鎮静 */
+    --alert:   #D4705A;
+
+    --mincho: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Songti SC", serif;
+    --sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Roboto Mono", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    overscroll-behavior: none;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    /* 指で操作するのでテキスト選択とダブルタップ拡大を切る */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* ── 場（主役） ────────────────────────────────────────── */
+  #stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  #field {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  #field:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: -2px;
+  }
+
+  #hud {
+    position: absolute;
+    inset: 0 auto auto 0;
+    padding: clamp(14px, 3vw, 26px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--mincho);
+    font-size: clamp(19px, 4.4vw, 27px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-wrap: balance;
+  }
+
+  h1 small {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    color: var(--dim);
+  }
+
+  #readout {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--dim);
+  }
+
+  #readout dt { letter-spacing: 0.04em; }
+  #readout dd { margin: 0; color: var(--ink); }
+  #readout dd.warn { color: var(--alert); }
+
+  #hint {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-family: var(--mincho);
+    font-size: clamp(15px, 3.6vw, 20px);
+    letter-spacing: 0.3em;
+    color: var(--dim);
+    pointer-events: none;
+    transition: opacity .6s ease;
+  }
+
+  #hint.gone { opacity: 0; }
+
+  /* ── 診断スイッチ ──────────────────────────────────────── */
+  #panel {
+    flex: 0 0 auto;
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    padding: 12px clamp(12px, 3vw, 22px) max(12px, env(safe-area-inset-bottom));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px 18px;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .group > .label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  button {
+    appearance: none;
+    background: var(--raised);
+    color: var(--dim);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 7px 11px;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+
+  button .n {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    opacity: .6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  button:hover:not(:disabled) { border-color: var(--dim); }
+  button:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+
+  button[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--brass) 18%, var(--raised));
+    border-color: var(--brass);
+    color: var(--ink);
+  }
+
+  button:disabled { opacity: .35; cursor: not-allowed; }
+
+  #note {
+    flex: 1 1 100%;
+    margin: 2px 0 0;
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: var(--dim);
+  }
+
+  #note b { color: var(--ink); font-weight: 600; }
+
+  @media (min-width: 820px) {
+    #panel { gap: 10px 26px; }
+  }
+</style>
+
+<div id="stage">
+  <canvas id="field" tabindex="0" aria-label="押して離すと場が割れる。スペースキーでも操作できる"></canvas>
+  <div id="hud">
+    <h1>手触りの診断台<small>PRESS · HOLD · RELEASE</small></h1>
+    <dl id="readout">
+      <dt>frame p50</dt><dd id="r-p50">—</dd>
+      <dt>frame p95</dt><dd id="r-p95">—</dd>
+      <dt>入力→描画</dt><dd id="r-lat">—</dd>
+      <dt>打数</dt><dd id="r-hits">0</dd>
+    </dl>
+  </div>
+  <p id="hint">押 し て 、 離 す</p>
+</div>
+
+<section id="panel" aria-label="診断スイッチ">
+  <div class="group">
+    <span class="label">時間構造</span>
+    <div class="row">
+      <button id="sw-anticipation" aria-pressed="true">予兆<span class="n">60–120ms</span></button>
+      <button id="sw-hitstop" aria-pressed="true">停止<span class="n">60ms</span></button>
+      <button id="sw-residue" aria-pressed="true">残響<span class="n">25s</span></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="label">感覚</span>
+    <div class="row">
+      <button id="sw-sound" aria-pressed="false">音<span class="n">超加算</span></button>
+      <button id="sw-haptics" aria-pressed="false">触覚<span class="n">250Hz</span></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="label">遅延</span>
+    <div class="row" id="seg-latency">
+      <button data-v="none" aria-pressed="true">なし<span class="n">0ms</span></button>
+      <button data-v="const" aria-pressed="false">一定<span class="n">+40ms</span></button>
+      <button data-v="jitter" aria-pressed="false">揺れ<span class="n">20±20ms</span></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="label">曲線</span>
+    <div class="row" id="seg-curve">
+      <button data-v="bio" aria-pressed="true">生体<span class="n">最小ジャーク</span></button>
+      <button data-v="linear" aria-pressed="false">等速<span class="n">linear</span></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="label">覚醒</span>
+    <div class="row" id="seg-arousal">
+      <button data-v="excite" aria-pressed="true">賦活</button>
+      <button data-v="calm" aria-pressed="false">鎮静<span class="n">0.1Hz</span></button>
+    </div>
+  </div>
+
+  <p id="note">はじめに<b>音</b>を入れて、次に<b>予兆</b>と<b>停止</b>を切ってみる。<b>遅延</b>は「一定 +40ms」と「揺れ 20±20ms」を比べる — 平均が小さい方が気持ちよくない。</p>
+</section>
+
+<script>
+"use strict";
+
+/* ═══════════════════════════════════════════════════════════
+   手触りの診断台
+   単一のインタラクション（押す → 溜まる → 離す → 割れる → 残る）に対して、
+   気持ちよさを作っている要素を1つずつ切れるようにしたもの。
+   参照: interactive-experience-collective の pleasure.md / feel.md
+   ═══════════════════════════════════════════════════════════ */
+
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const cvs = document.getElementById("field");
+const g = cvs.getContext("2d", { alpha: false });
+let W = 0, H = 0, DPR = 1;
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = cvs.clientWidth; H = cvs.clientHeight;
+  cvs.width = Math.round(W * DPR); cvs.height = Math.round(H * DPR);
+  g.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+new ResizeObserver(resize).observe(cvs);
+
+/* ── 設定（スイッチ） ───────────────────────────────────── */
+const cfg = {
+  anticipation: true,
+  hitstop: true,
+  residue: true,
+  sound: false,      // 音は必ずユーザー操作で解錠する必要があるので既定OFF
+  haptics: false,
+  latency: "none",   // none | const | jitter
+  curve: "bio",      // bio | linear
+  arousal: "excite", // excite | calm
+};
+
+const CHARGE_MS = 900;   // 溜めきるまで
+const HITSTOP_MS = 60;   // pleasure.md 第4節: 50〜80ms
+const RESIDUE_MS = 25000;
+const CONST_LAG = 40;
+const JITTER_MID = 20, JITTER_AMP = 20;
+
+/* ── 状態 ──────────────────────────────────────────────── */
+let now = performance.now();
+let charging = false, chargeStart = 0, charge = 0;
+let releasedCharge = 0;
+let stopUntil = 0;
+let flashUntil = 0;
+let shakeUntil = 0, shakeAmp = 0;
+let hits = 0;
+let lastLat = null;
+let lag = 0;               // 現在の人工遅延（draw からも読む）
+
+const pointer = { x: 0, y: 0, seen: false };
+const history = [];            // 直接操作の遅延を再現するための位置履歴
+const queue = [];              // 離散イベントに人工遅延をかけるキュー
+const waves = [];              // 衝撃波
+const parts = [];              // 粒子
+const residues = [];           // 残る痕跡
+
+/* 1/f 的なゆらぎ: 無理数比の正弦を重ねる（完全な規則性も乱数も心地よくない） */
+function flutter(t, seed) {
+  return (Math.sin(t * 0.00037 + seed) * 0.55
+        + Math.sin(t * 0.00091 + seed * 2.3) * 0.3
+        + Math.sin(t * 0.00213 + seed * 5.1) * 0.15);
+}
+
+const easeOutQuint = p => 1 - Math.pow(1 - p, 5);
+const easeInOutSine = p => 0.5 - 0.5 * Math.cos(Math.PI * p);
+/* 曲線スイッチ: 生体の運動は最小ジャークに寄る。等速は「機械が動かしている」 */
+const shape = p => cfg.curve === "bio" ? easeOutQuint(p) : p;
+
+/* ── 音 ────────────────────────────────────────────────── */
+let AC = null, master = null, droneGain = null, chargeOsc = null, chargeGain = null, noiseBuf = null;
+const voices = [];
+const PENTA = [0, 3, 5, 7, 10];     // 外れた音が出ないための設計判断
+let rootShift = 0;
+
+function initAudio() {
+  if (AC) return true;
+  const Ctor = window.AudioContext || window.webkitAudioContext;
+  if (!Ctor) return false;
+  AC = new Ctor({ latencyHint: "interactive" });
+
+  /* マスターに必ずリミッターを1段入れる（同時発音で 1.0 を超える） */
+  const comp = AC.createDynamicsCompressor();
+  comp.threshold.value = -10; comp.knee.value = 6; comp.ratio.value = 12;
+  comp.attack.value = 0.003; comp.release.value = 0.25;
+  master = AC.createGain(); master.gain.value = 0.9;
+  master.connect(comp); comp.connect(AC.destination);
+
+  /* 低いドローン。残響の数だけ厚くなる = 5分後と5秒後が違う音になる */
+  droneGain = AC.createGain(); droneGain.gain.value = 0.0;
+  const lp = AC.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 380;
+  droneGain.connect(lp); lp.connect(master);
+  [55, 82.5, 110.3].forEach((f, i) => {
+    const o = AC.createOscillator();
+    o.type = i === 2 ? "triangle" : "sawtooth";
+    o.frequency.value = f;
+    const gg = AC.createGain(); gg.gain.value = i === 0 ? 0.5 : 0.22;
+    o.connect(gg); gg.connect(droneGain); o.start();
+  });
+
+  const len = Math.floor(AC.sampleRate * 0.4);
+  noiseBuf = AC.createBuffer(1, len, AC.sampleRate);
+  const d = noiseBuf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  return true;
+}
+
+function steal() {
+  /* 上限に達したら古い音を減衰させる。新しい発音を捨ててはいけない */
+  while (voices.length > 14) {
+    const v = voices.shift();
+    try { v.g.gain.cancelScheduledValues(AC.currentTime);
+          v.g.gain.setTargetAtTime(0, AC.currentTime, 0.03);
+          v.o.stop(AC.currentTime + 0.2); } catch (e) {}
+  }
+}
+
+function tone(type, freq, dur, vol, detune) {
+  const t = AC.currentTime;
+  const o = AC.createOscillator(); o.type = type;
+  o.frequency.value = freq;
+  if (detune) o.detune.value = detune;
+  const gg = AC.createGain();
+  /* 鎮静モードは立ち上がりを遅くする。アタックの速さは覚醒を上げる */
+  const atk = cfg.arousal === "calm" ? 0.09 : 0.004;
+  gg.gain.setValueAtTime(0.0001, t);
+  gg.gain.exponentialRampToValueAtTime(vol, t + atk);
+  gg.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(gg); gg.connect(master);
+  o.start(t); o.stop(t + dur + 0.05);
+  voices.push({ o, g: gg }); steal();
+  return o;
+}
+
+function startCharge() {
+  if (!cfg.sound || !AC || !cfg.anticipation) return;
+  const t = AC.currentTime;
+  chargeOsc = AC.createOscillator();
+  chargeOsc.type = "sawtooth";
+  chargeOsc.frequency.setValueAtTime(70, t);
+  const f = AC.createBiquadFilter(); f.type = "lowpass";
+  f.frequency.setValueAtTime(200, t);
+  f.frequency.linearRampToValueAtTime(1400, t + CHARGE_MS / 1000);
+  chargeGain = AC.createGain();
+  /* アタックの遅い音は遅延を隠す（pleasure.md 第3節 / sound.md 第4節） */
+  chargeGain.gain.setValueAtTime(0.0001, t);
+  chargeGain.gain.exponentialRampToValueAtTime(0.16, t + 0.28);
+  chargeOsc.connect(f); f.connect(chargeGain); chargeGain.connect(master);
+  chargeOsc.start(t);
+}
+
+function endCharge() {
+  if (!chargeOsc) return;
+  const t = AC.currentTime;
+  try {
+    chargeGain.gain.cancelScheduledValues(t);
+    chargeGain.gain.setTargetAtTime(0.0001, t, 0.02);
+    chargeOsc.stop(t + 0.12);
+  } catch (e) {}
+  chargeOsc = null; chargeGain = null;
+}
+
+function impactSound(c) {
+  if (!cfg.sound || !AC) return;
+  /* クロスモーダル対応: 溜めが大きい = 大きい物体 = 低い音 */
+  const base = 520 - c * 330;
+  const calm = cfg.arousal === "calm";
+
+  const o = tone("sine", base, calm ? 2.6 : 0.5, calm ? 0.26 : 0.42);
+  try {
+    o.frequency.exponentialRampToValueAtTime(base * (calm ? 0.5 : 0.62),
+      AC.currentTime + (calm ? 1.6 : 0.28));
+  } catch (e) {}
+
+  if (!calm) {
+    /* 破断のノイズ成分（粗い表面・破断はノイズで伝わる） */
+    const s = AC.createBufferSource(); s.buffer = noiseBuf;
+    const bp = AC.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = 1500 + c * 900; bp.Q.value = 0.8;
+    const gg = AC.createGain();
+    gg.gain.setValueAtTime(0.3 + c * 0.2, AC.currentTime);
+    gg.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime + 0.14);
+    s.connect(bp); bp.connect(gg); gg.connect(master);
+    s.start();
+  }
+
+  /* ペンタトニックの鐘。発音ごとに微妙にデチューンして機械的な反復感を消す */
+  const step = PENTA[Math.floor(Math.random() * PENTA.length)] + rootShift;
+  const f = 220 * Math.pow(2, (step + (calm ? -12 : 0)) / 12);
+  tone("triangle", f, calm ? 4.2 : 1.9, calm ? 0.13 : 0.1,
+       (Math.random() - 0.5) * 24);
+}
+
+/* ── 触覚 ──────────────────────────────────────────────── */
+const CAN_VIBRATE = typeof navigator.vibrate === "function";
+function buzz(ms) {
+  if (cfg.haptics && CAN_VIBRATE) { try { navigator.vibrate(ms); } catch (e) {} }
+}
+
+/* ── 入力 ──────────────────────────────────────────────── */
+/* event.timeStamp は環境によって epoch 基準のことがあるので補正する */
+const EPOCH_BASE = Date.now() - performance.now();
+function evTime(ts) { return (ts > 1e12) ? ts - EPOCH_BASE : ts; }
+
+function lagFor(discrete) {
+  if (cfg.latency === "const") return CONST_LAG;
+  if (cfg.latency === "jitter") {
+    /* 揺れ: 平均は 20ms（一定 40ms より小さい）が、揺れる方が気持ちよくない */
+    return Math.max(0, JITTER_MID + (Math.random() * 2 - 1) * JITTER_AMP);
+  }
+  return 0;
+}
+
+function push(type, x, y, ts) {
+  queue.push({ type, x, y, at: performance.now() + lagFor(true), ts: evTime(ts) });
+  queue.sort((a, b) => a.at - b.at);
+}
+
+cvs.addEventListener("pointerdown", e => {
+  cvs.setPointerCapture(e.pointerId);
+  if (cfg.sound) { initAudio(); if (AC && AC.state === "suspended") AC.resume(); }
+  pointer.x = e.offsetX; pointer.y = e.offsetY; pointer.seen = true;
+  push("down", e.offsetX, e.offsetY, e.timeStamp);
+});
+cvs.addEventListener("pointermove", e => {
+  pointer.x = e.offsetX; pointer.y = e.offsetY; pointer.seen = true;
+});
+cvs.addEventListener("pointerup", e => push("up", e.offsetX, e.offsetY, e.timeStamp));
+cvs.addEventListener("pointercancel", e => push("up", e.offsetX, e.offsetY, e.timeStamp));
+cvs.addEventListener("contextmenu", e => e.preventDefault());
+
+/* キーボードでも触れるようにする（ポインタ専用にしない） */
+let keyDown = false;
+addEventListener("keydown", e => {
+  if (e.code !== "Space" && e.code !== "Enter") return;
+  if (document.activeElement && document.activeElement.tagName === "BUTTON") return;
+  e.preventDefault();
+  if (keyDown) return;
+  keyDown = true;
+  if (cfg.sound) { initAudio(); if (AC && AC.state === "suspended") AC.resume(); }
+  if (!pointer.seen) { pointer.x = W / 2; pointer.y = H / 2; pointer.seen = true; }
+  push("down", pointer.x, pointer.y, e.timeStamp);
+});
+addEventListener("keyup", e => {
+  if (e.code !== "Space" && e.code !== "Enter") return;
+  if (!keyDown) return;
+  keyDown = false;
+  push("up", pointer.x, pointer.y, e.timeStamp);
+});
+
+/* ── イベントの適用 ────────────────────────────────────── */
+const hint = document.getElementById("hint");
+
+function applyDown(ev) {
+  charging = true; chargeStart = now; charge = 0;
+  if (ev.ts != null) lastLat = now - ev.ts;
+  startCharge();
+  buzz(cfg.arousal === "calm" ? 4 : 8);   /* 予兆の触覚は軽く */
+}
+
+function applyUp(ev) {
+  if (!charging) return;
+  charging = false;
+  const c = cfg.anticipation ? charge : 0.55;  /* 予兆OFFなら溜めが体験に存在しない */
+  releasedCharge = c;
+  endCharge();
+  hits++;
+  if (ev.ts != null) lastLat = now - ev.ts;
+  hint.classList.add("gone");
+
+  const calm = cfg.arousal === "calm";
+
+  /* 接触 — 3感覚のアタックを揃える。触覚は立ち上がりに時間が要るので先に撃つ */
+  buzz(calm ? 12 : Math.round(14 + c * 26));
+  impactSound(c);
+
+  if (cfg.hitstop) stopUntil = now + HITSTOP_MS;
+  if (!calm && !REDUCED) {
+    flashUntil = now + 40;
+    shakeUntil = now + 180; shakeAmp = 1.5 + c * 2.2;   /* 疑うほど小さくてよい */
+  }
+
+  waves.push({ x: pointer.x, y: pointer.y, born: now,
+               dur: calm ? 1500 : 620, max: (calm ? 200 : 150) + c * (calm ? 460 : 520), c });
+
+  const n = REDUCED ? 6 : Math.round((calm ? 8 : 16) + c * (calm ? 10 : 30));
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const sp = (calm ? 0.5 : 1.4) * (0.5 + Math.random()) * (1 + c * 2.4);
+    parts.push({ x: pointer.x, y: pointer.y,
+                 vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+                 born: now, life: (calm ? 1600 : 700) + Math.random() * 500,
+                 r: 0.7 + Math.random() * 1.6 });
+  }
+
+  if (cfg.residue) {
+    residues.push({ x: pointer.x, y: pointer.y, born: now, c,
+                    r: 26 + c * 70, seed: Math.random() * 20, rot: Math.random() * 6.28 });
+    if (residues.length > 34) residues.shift();
+  }
+}
+
+/* ── 計測 ──────────────────────────────────────────────── */
+const frames = [];
+let p50 = 0, p95 = 0, statTick = 0;
+const el = {
+  p50: document.getElementById("r-p50"), p95: document.getElementById("r-p95"),
+  lat: document.getElementById("r-lat"), hits: document.getElementById("r-hits"),
+};
+
+/* ── 描画 ──────────────────────────────────────────────── */
+let prev = performance.now();
+
+function frame(t) {
+  const dt = Math.min(t - prev, 100); prev = t; now = t;
+
+  frames.push(dt); if (frames.length > 150) frames.shift();
+  if (++statTick % 12 === 0 && frames.length > 20) {
+    const s = frames.slice().sort((a, b) => a - b);
+    p50 = s[Math.floor(s.length * 0.5)];
+    p95 = s[Math.floor(s.length * 0.95)];
+    el.p50.textContent = p50.toFixed(1) + " ms";
+    el.p95.textContent = p95.toFixed(1) + " ms";
+    /* 平均ではなく裾を見る。ここが開いていると気持ちよさが壊れる */
+    el.p95.className = (p95 - p50 > 8) ? "warn" : "";
+    el.lat.textContent = lastLat == null ? "—" : Math.round(lastLat) + " ms";
+    el.lat.className = (lastLat != null && lastLat > 60) ? "warn" : "";
+    el.hits.textContent = String(hits);
+  }
+
+  while (queue.length && queue[0].at <= now) {
+    const ev = queue.shift();
+    if (ev.type === "down") applyDown(ev); else applyUp(ev);
+  }
+
+  /* 直接操作の層。履歴から「今 − 遅延」の位置を読むので、揺れがそのまま出る */
+  history.push({ t: now, x: pointer.x, y: pointer.y });
+  while (history.length > 240) history.shift();
+  lag = lagFor(false);
+  const core = sampleAt(now - lag);
+
+  const frozen = now < stopUntil;
+  if (charging && !frozen) charge = Math.min(1, (now - chargeStart) / CHARGE_MS);
+
+  if (AC && droneGain) {
+    /* 残響の数と鎮静モードでドローンの厚みが変わる */
+    const breath = cfg.arousal === "calm" ? 0.5 + 0.5 * breathPhase().swell : 1;
+    const target = Math.min(0.28, residues.length * 0.012 + (cfg.arousal === "calm" ? 0.06 : 0.02)) * breath;
+    droneGain.gain.setTargetAtTime(target, AC.currentTime, 0.4);
+    /* 和声を動かす: 40秒周期でルートを動かすと、同じマッピングのまま景色が変わる */
+    rootShift = [0, 0, 2, -3, 5][Math.floor(now / 40000) % 5];
+  }
+
+  draw(core, frozen, dt);
+  requestAnimationFrame(frame);
+}
+
+function sampleAt(target) {
+  if (!history.length) return { x: W / 2, y: H / 2 };
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].t <= target) {
+      const a = history[i], b = history[Math.min(i + 1, history.length - 1)];
+      const span = b.t - a.t;
+      const k = span > 0 ? Math.min(1, (target - a.t) / span) : 0;
+      return { x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k };
+    }
+  }
+  return { x: history[0].x, y: history[0].y };
+}
+
+/* 呼吸のペーサー: 10秒周期、吸気4秒 : 呼気6秒（呼気を長くする方が効く） */
+function breathPhase() {
+  const p = (now % 10000) / 10000;
+  if (p < 0.4) return { inhale: true, swell: easeInOutSine(p / 0.4) };
+  return { inhale: false, swell: 1 - easeInOutSine((p - 0.4) / 0.6) };
+}
+
+function draw(core, frozen, dt) {
+  const calm = cfg.arousal === "calm";
+  let ox = 0, oy = 0;
+  if (now < shakeUntil && !frozen) {
+    const k = (shakeUntil - now) / 180;
+    ox = (Math.random() - 0.5) * shakeAmp * k * 2;
+    oy = (Math.random() - 0.5) * shakeAmp * k * 2;
+  }
+
+  g.save();
+  g.translate(ox, oy);
+
+  /* 地。1/f のゆらぎで明度がわずかに呼吸する */
+  const amb = 0.5 + 0.5 * flutter(now, 1.7);
+  g.fillStyle = calm ? "#0C1218" : "#0E1518";
+  g.fillRect(-20, -20, W + 40, H + 40);
+  const vg = g.createRadialGradient(W / 2, H * 0.55, 0, W / 2, H * 0.55, Math.max(W, H) * 0.75);
+  vg.addColorStop(0, `rgba(${calm ? "38,58,74" : "42,64,68"},${0.30 + amb * 0.10})`);
+  vg.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = vg; g.fillRect(0, 0, W, H);
+
+  /* 鎮静モードの呼吸ペーサー — 生理に直接効かせる層 */
+  if (calm) {
+    const b = breathPhase();
+    const r = Math.min(W, H) * (0.14 + 0.13 * b.swell);
+    g.strokeStyle = `rgba(127,185,163,${0.10 + 0.16 * b.swell})`;
+    g.lineWidth = 1.2;
+    g.beginPath(); g.arc(W / 2, H / 2, r, 0, 6.2832); g.stroke();
+    g.fillStyle = `rgba(127,185,163,${0.30 + 0.25 * b.swell})`;
+    g.font = "500 11px " + getComputedStyle(document.body).fontFamily;
+    g.textAlign = "center";
+    g.fillText(b.inhale ? "吸 う" : "吐 く", W / 2, H / 2 + r + 22);
+    g.textAlign = "left";
+  }
+
+  /* 残響（痕跡）。1/f でゆっくり漂い、25秒かけて消える */
+  for (let i = residues.length - 1; i >= 0; i--) {
+    const rs = residues[i];
+    const age = (now - rs.born) / RESIDUE_MS;
+    if (age >= 1) { residues.splice(i, 1); continue; }
+    const a = (1 - age) * (1 - age) * 0.5;
+    const dx = flutter(now + rs.seed * 900, rs.seed) * 16;
+    const dy = flutter(now + rs.seed * 1500, rs.seed + 3) * 12;
+    g.strokeStyle = `rgba(127,185,163,${a})`;
+    g.lineWidth = 0.8;
+    g.beginPath();
+    g.arc(rs.x + dx, rs.y + dy, rs.r * (1 + age * 0.35), rs.rot, rs.rot + 4.6);
+    g.stroke();
+  }
+
+  /* 衝撃波 — 曲線スイッチがここに効く */
+  for (let i = waves.length - 1; i >= 0; i--) {
+    const w = waves[i];
+    const p = (now - w.born) / w.dur;
+    if (p >= 1) { waves.splice(i, 1); continue; }
+    const r = shape(p) * w.max;
+    const a = (1 - p) * (1 - p);
+    g.strokeStyle = calm ? `rgba(127,185,163,${a * 0.55})` : `rgba(227,165,75,${a * 0.8})`;
+    g.lineWidth = (calm ? 1.2 : 2.4) * (1 - p) + 0.4;
+    g.beginPath(); g.arc(w.x, w.y, r, 0, 6.2832); g.stroke();
+    if (!calm) {
+      g.strokeStyle = `rgba(231,237,234,${a * 0.35})`;
+      g.lineWidth = 0.7;
+      g.beginPath(); g.arc(w.x, w.y, r * 0.82, 0, 6.2832); g.stroke();
+    }
+  }
+
+  /* 粒子（余波）。停止中は動かさない = それが「重さ」になる */
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const q = parts[i];
+    const p = (now - q.born) / q.life;
+    if (p >= 1) { parts.splice(i, 1); continue; }
+    if (!frozen) {
+      const drag = cfg.curve === "bio" ? 0.94 : 1.0;   /* 等速は減衰しない */
+      q.vx *= drag; q.vy *= drag;
+      q.x += q.vx * dt * 0.06; q.y += q.vy * dt * 0.06 + (calm ? 0.004 : 0.012) * dt;
+    }
+    const a = (1 - p) * (calm ? 0.5 : 0.85);
+    g.fillStyle = calm ? `rgba(160,200,186,${a})` : `rgba(240,214,168,${a})`;
+    g.beginPath(); g.arc(q.x, q.y, q.r * (1 - p * 0.4), 0, 6.2832); g.fill();
+  }
+
+  /* 場の遅い層 — 芯より遅れて追従する。人は最速の層で応答性を判断する */
+  const slow = sampleAt(now - (calm ? 320 : 170) - lag);
+  const rings = calm ? 3 : 5;
+  for (let i = 1; i <= rings; i++) {
+    const rr = (Math.min(W, H) * 0.08) * i * (1 + charge * 0.12);
+    g.strokeStyle = calm ? `rgba(90,130,140,${0.16 / i})` : `rgba(120,160,168,${0.20 / i})`;
+    g.lineWidth = 0.7;
+    g.beginPath(); g.arc(slow.x, slow.y, rr, 0, 6.2832); g.stroke();
+  }
+
+  /* 芯 — 直接操作の層。予兆はここで見せる（収縮 + 張力の弧） */
+  if (pointer.seen) {
+    const c = charging && cfg.anticipation ? charge : 0;
+    const squash = cfg.curve === "bio" ? 1 - c * 0.34 : 1 - c * 0.1;
+    const base = calm ? 13 : 11;
+    const rad = base * squash + (calm ? 2 : 0);
+
+    if (charging && cfg.anticipation) {
+      /* 溜めの可視化。これを切ると「突然起きて因果が読めない」になる */
+      g.strokeStyle = calm ? `rgba(127,185,163,${0.3 + c * 0.5})`
+                           : `rgba(227,165,75,${0.3 + c * 0.6})`;
+      g.lineWidth = 1 + c * 2.4;
+      g.beginPath();
+      g.arc(core.x, core.y, 20 + (1 - shape(c)) * 46, -1.5708, -1.5708 + 6.2832 * c);
+      g.stroke();
+    }
+
+    const glow = g.createRadialGradient(core.x, core.y, 0, core.x, core.y, rad * 5);
+    const tint = calm ? "127,185,163" : "227,165,75";
+    glow.addColorStop(0, `rgba(${tint},${0.5 + c * 0.4})`);
+    glow.addColorStop(1, `rgba(${tint},0)`);
+    g.fillStyle = glow;
+    g.beginPath(); g.arc(core.x, core.y, rad * 5, 0, 6.2832); g.fill();
+
+    g.fillStyle = calm ? "#CFE6DC" : "#FFF3DE";
+    g.beginPath(); g.arc(core.x, core.y, rad, 0, 6.2832); g.fill();
+  }
+
+  g.restore();
+
+  /* 接触の閃光。停止と合わせて「当たった」を作る */
+  if (now < flashUntil) {
+    g.fillStyle = `rgba(255,244,224,${0.10 * (flashUntil - now) / 40})`;
+    g.fillRect(0, 0, W, H);
+  }
+}
+
+/* ── スイッチの配線 ────────────────────────────────────── */
+function toggle(id, key, onChange) {
+  const b = document.getElementById(id);
+  b.addEventListener("click", () => {
+    cfg[key] = !cfg[key];
+    b.setAttribute("aria-pressed", String(cfg[key]));
+    if (onChange) onChange(cfg[key]);
+  });
+  return b;
+}
+
+toggle("sw-anticipation", "anticipation");
+toggle("sw-hitstop", "hitstop");
+toggle("sw-residue", "residue", on => { if (!on) residues.length = 0; });
+toggle("sw-sound", "sound", on => {
+  if (on) { if (initAudio() && AC.state === "suspended") AC.resume(); }
+  else if (AC) { endCharge(); droneGain.gain.setTargetAtTime(0, AC.currentTime, 0.2); }
+});
+
+const hapBtn = toggle("sw-haptics", "haptics");
+if (!CAN_VIBRATE) {
+  hapBtn.disabled = true;
+  hapBtn.title = "この端末では触覚が使えません";
+  document.getElementById("note").insertAdjacentHTML("beforeend",
+    ' <span style="opacity:.75">触覚はこの端末では無効（iOS Safari は Vibration API 非対応。ネイティブなら Core Haptics）。</span>');
+}
+
+function segment(id, key) {
+  const wrap = document.getElementById(id);
+  wrap.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    cfg[key] = b.dataset.v;
+    wrap.querySelectorAll("button").forEach(x =>
+      x.setAttribute("aria-pressed", String(x === b)));
+  });
+}
+segment("seg-latency", "latency");
+segment("seg-curve", "curve");
+segment("seg-arousal", "arousal");
+
+if (REDUCED) {
+  document.getElementById("note").insertAdjacentHTML("beforeend",
+    ' <span style="opacity:.75">動きを控える設定を検出したので、画面の揺れと閃光は止めています。</span>');
+}
+
+resize();
+requestAnimationFrame(t => { prev = t; frame(t); });
+</script>
