@@ -21,6 +21,20 @@ for d in "${SKILLS[@]}"; do
   # frontmatter の name とディレクトリ名の一致（Agent Skills 標準の必須要件）
   nm="$(sed -n 's/^name:[[:space:]]*//p' "$skill" | head -1)"
   [ "$nm" = "$d" ] || { echo "name不一致: $d/SKILL.md の name='$nm'"; fail=1; }
+
+# frontmatter の description 長（claude.ai の上限 1024 文字）
+  python3 - "$skill" <<'PYEOF' || fail=1
+import re,sys
+s=open(sys.argv[1],encoding='utf-8').read()
+m=re.search(r'^description:[ ]*(.*?)(?=\n[a-z_]+:)', s, re.S|re.M)
+if not m:
+    print(f"description が無い: {sys.argv[1]}"); sys.exit(1)
+n=len(m.group(1).strip())
+if n>1024:
+    print(f"description が長すぎる: {sys.argv[1]} は {n} 文字（上限 1024、{n-1024} 超過）")
+    print("  claude.ai へのアップロードが拒否される。トリガーを削って詰めること。")
+    sys.exit(1)
+PYEOF
 done
 [ "$fail" -eq 0 ] || { echo "事前検証に失敗。配置を中止する。"; exit 1; }
 
