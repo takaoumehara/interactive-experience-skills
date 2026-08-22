@@ -9,9 +9,26 @@ SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS=(embodied-product-director interactive-experience-collective movement-learning-system-designer)
 NAME="interactive-experience-skills"
 
+fail=0
 for d in "${SKILLS[@]}"; do
-  [ -f "$SRC/_extracted/$d/SKILL.md" ] || { echo "欠落: _extracted/$d/SKILL.md"; exit 1; }
+  skill="$SRC/_extracted/$d/SKILL.md"
+  [ -f "$skill" ] || { echo "欠落: _extracted/$d/SKILL.md"; fail=1; continue; }
+
+# frontmatter の description 長（claude.ai の上限 1024 文字）
+  python3 - "$skill" <<'PYEOF' || fail=1
+import re,sys
+s=open(sys.argv[1],encoding='utf-8').read()
+m=re.search(r'^description:[ ]*(.*?)(?=\n[a-z_]+:)', s, re.S|re.M)
+if not m:
+    print(f"description が無い: {sys.argv[1]}"); sys.exit(1)
+n=len(m.group(1).strip())
+if n>1024:
+    print(f"description が長すぎる: {sys.argv[1]} は {n} 文字（上限 1024、{n-1024} 超過）")
+    print("  claude.ai へのアップロードが拒否される。トリガーを削って詰めること。")
+    sys.exit(1)
+PYEOF
 done
+[ "$fail" -eq 0 ] || { echo "事前検証に失敗。パッケージを中止する。"; exit 1; }
 
 rm -rf "$SRC/dist"; mkdir -p "$SRC/dist"
 
