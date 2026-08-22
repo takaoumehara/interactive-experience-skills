@@ -512,6 +512,67 @@
           "weight": 1.0
         }
       ]
+    },
+    {
+      "eval_id": 29,
+      "eval_name": "trigger-instrument-any-motion-jp",
+      "prompt": "MediaPipeで手の動きを取って、どんな動きをしても気持ちいい音が鳴る楽器みたいなWebアプリを作りたい",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "interactive-experience-collective が起動する",
+          "weight": 1.0
+        },
+        {
+          "name": "reads-instrument",
+          "check": "sound.md に加えて instrument.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "names-tradeoff",
+          "check": "音階拘束の代償（全員が同じに聞こえる／上達の余地が消える）を明示し、入口だけ拘束するか軸を限定するかを選ぶ",
+          "weight": 1.0
+        },
+        {
+          "name": "onset-not-position",
+          "check": "発音を位置の境界判定ではなく運動（速度・急減速）で取ると述べる",
+          "weight": 1.0
+        },
+        {
+          "name": "no-pentatonic-only",
+          "check": "「ペンタトニックにします」だけで終わらない",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 30,
+      "eval_name": "trigger-audio-thread-arch-jp",
+      "prompt": "カメラで取った手の座標をAudioWorkletに渡して音を鳴らしたい。SharedArrayBufferを使うべき？",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "skill-activated",
+          "check": "起動し、モードD（技術アーキテクチャ）として扱う",
+          "weight": 1.0
+        },
+        {
+          "name": "audioparam-default",
+          "check": "既定は AudioParam（離散は postMessage、連続は AudioParam）と答える",
+          "weight": 1.0
+        },
+        {
+          "name": "coi-cost",
+          "check": "SharedArrayBuffer が cross-origin isolation を要求し、外部リソースを巻き添えにすることを述べる",
+          "weight": 1.0
+        },
+        {
+          "name": "no-hardcoded-samplerate",
+          "check": "サンプルレートを直書きしない／ブロック境界でパラメータを飛ばさないことに触れる",
+          "weight": 0.5
+        }
+      ]
     }
   ]
 }
