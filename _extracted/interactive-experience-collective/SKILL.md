@@ -1,11 +1,11 @@
 ---
 name: interactive-experience-collective
-description: インタラクティブ体験・没入型空間・メディアアート・リアルタイム表現・身体入力・ジェネラティブ表現・体験型プロダクトの企画、批評、体験設計、形式選択、技術選定、触感とマッピングの設計、音響設計、プロトタイプ設計、運用設計を、プロジェクト固有の最高解として導く。大規模インスタレーションから、個人開発のiOS/Webアプリ、カメラ1〜2台の低予算システム、ダンサーや武術家の動きを作品化するパフォーマンス案件まで扱う。Use when the user says 「イベントを面白くしたい」「このデモをもっと良くしたい」「動きを使った作品を作りたい」「個人で作れる範囲で凄いものを」「プロジェクションマッピング」「センサー連動の演出」「この体験施設は何人回せば黒字か」「常設展示の運用を設計したい」「この体験の技術構成を決めて」「シェーダーで表現したい」「WebGPUで何ができる」「ジェネラティブな絵を作りたい」「動きに音を連動させたい」「動きで楽器を演奏させたい」「どんな動きでも気持ちいい音にしたい」「触っていて気持ちいいものにしたい」「反応が気持ちよくない」「落ち着く空間にしたい」「既視感のない表現にしたい」, or in English "immersive installation", "interactive exhibit", "projection mapping", "TouchDesigner or Unreal stage visuals", "turn movement into visuals", "make this demo more impressive", "throughput and break-even for this attraction", "WebGPU or shader-based visuals", "generative art", "sound reactive", "turn body movement into a musical instrument", "make it feel good to interact with", "why doesn't this feel satisfying to use". 成果が表現ではなく上達・指導・フォーム評価である案件には使わず、movement-learning-system-designer を使うこと。表現か上達かがまだ定まっていない段階の相談、および技術が先にあって用途を探している相談には使わず、embodied-product-director を使うこと。
+description: インタラクティブ体験、没入型空間、メディアアート、リアルタイム表現、身体入力、ジェネラティブ表現、体験型プロダクトを、企画・批評・体験設計・技術選定・音響・試作・運用まで統合して設計する。個人のWeb/iOS作品、低予算のカメラ／センサー体験、舞台、大規模・常設展示を扱う。Use for「イベントやデモを面白くしたい」「プロジェクションマッピング」「センサー連動」「動きを作品・映像・音・楽器にしたい」「触って気持ちよくない」「落ち着く体験」「既視感のない表現」「WebGPU／シェーダー」「Babylon.jsとThree.jsの選定」「WebXR」「BlenderからWeb／Unrealへの3D資産パイプライン」「glTF／GLB最適化」「UnrealのnDisplay・Live Link・Niagara・DMX・Pixel Streaming」「展示の運用・回転率・採算」、or "immersive installation", "interactive exhibit", "Babylon.js or Three.js", "Blender asset pipeline", "Unreal live installation", "WebXR", "generative art", "sound/body reactive". 成果が上達・指導・フォーム評価なら movement-learning-system-designer、表現か上達か未確定／技術先行なら embodied-product-director を使う。
 license: MIT
-compatibility: 表現・体験の設計。単独動作する。movement-learning-system-designer と embodied-product-director が併せて入っていると引き渡しが機能する。
 metadata:
   author: Takao Umehara
-  version: "1.4"
+  version: "1.5"
+  compatibility: 表現・体験の設計。単独動作する。movement-learning-system-designer と embodied-product-director が併せて入っていると引き渡しが機能する。
 ---
 
 # Interactive Experience Collective
@@ -105,13 +105,13 @@ metadata:
 | **A 批評・改良** | 既存の企画/デモ/コード/デザインを見せて「良くして」「評価して」 | 強い点 → 最大の問題 → 改善方針 → 具体的な変更 → 優先順位 | 該当領域1〜2本 + `protocol.md` の Step 2(「気持ちよくない」「安っぽい」が論点なら `feel.md` と `pleasure.md` を必読。動きで音を鳴らすものなら `instrument.md`) |
 | **B コンセプト開発** | 曖昧なアイデアを強い企画にしたい | 体験命題 → 署名的振る舞い → 体験原理 → ユーザーの行為 → 独自性 → 検証方法 | `protocol.md`(**必読**)+ スケール該当 + 必要なら `studios.md` |
 | **C 体験ブループリント** | 体験全体の流れを設計したい | 命題 → 導入 → 学習 → 探索 → ピーク → 余韻 → 共有/再訪 → 運用注意 | `protocol.md`(**必読**)+ `process.md` + スケール該当 |
-| **D 技術アーキテクチャ** | スタック選定、実装方式、性能問題 | 要件 → 推奨構成 → データフロー → スタック → 代替案 → 性能目標 → フォールバック → 実装順 | `software.md`(機材が絡めば `hardware.md`、音が絡めば `sound.md`、身体の動きが発音になるなら `instrument.md`、表現から入るなら `feel.md`、応答性・遅延・手触りが論点なら `pleasure.md`) |
+| **D 技術アーキテクチャ** | スタック選定、実装方式、性能問題 | 要件 → 推奨構成 → データフロー → スタック → 代替案 → 性能目標 → フォールバック → 実装順 | `software.md`(3D engine・DCC・asset pipeline が中心なら `realtime-3d-pipeline.md` も読む。機材が絡めば `hardware.md`、音が絡めば `sound.md`、身体の動きが発音になるなら `instrument.md`、表現から入るなら `feel.md`、応答性・遅延・手触りが論点なら `pleasure.md`) |
 | **E プロトタイプ計画** | MVP/PoC/検証デモ | 検証する仮説 → 作るもの → 作らないもの → 使用技術 → テスト方法 → 成功基準 → 次段階の判断条件 | `protocol.md`(**必読**)+ `process.md` + スケール該当 |
 | **F 事業・戦略** | 収益化、集客、回転率、展開、スポンサー | 数字ベースで成立性を検証(単価 × 回転 × 稼働率 / 初期投資回収) | `process.md` の事業性の計算式(**必読**) |
 | **G 部分設計** | 「入口の演出だけ」「この動きの解析だけ」 | 該当領域のみ深掘り。他領域は接続点の指摘のみ | 該当1本 |
 | **H フル体験ディレクション** | コンセプトから運用まで包括設計を明確に要求された場合のみ | `process.md` のフル構成を使用 | `protocol.md`(**必読**)+ `process.md` + 関連する全リファレンス |
 
-「スケール該当」は Step 0(a) の表で判定したスケールの主リファレンス(S→`solo-scale.md` / M→`hardware.md`+`solo-scale.md` / L→`hardware.md`+`process.md` / P→`movement.md`)。**身体入力を扱う案件はスケールに関わらず `movement.md` を読む。音や音楽が体験の一部を担う案件は `sound.md` を読む。身体の動きがその瞬間の発音になる案件（楽器、演奏、打撃で鳴らすもの、「どんな動きでも気持ちいい音に」）では、`sound.md` に続けて `instrument.md` も読む。手で触る・動かす感覚そのものが評価される案件、および「既視感がある」「気持ちよくない」が論点の案件は `feel.md` を読む。さらに、その手応えをいつ・どれだけの精度で返すか（遅延、3感覚の一致、時間構造、生理への効かせ方）が成否を決める案件は `pleasure.md` を読む** — 楽器的なもの、ゲーム的な操作、「落ち着く」「高揚する」を狙うもの。
+「スケール該当」は Step 0(a) の表で判定したスケールの主リファレンス(S→`solo-scale.md` / M→`hardware.md`+`solo-scale.md` / L→`hardware.md`+`process.md` / P→`movement.md`)。**Babylon.js / Three.js / PlayCanvas / WebXR / Blender / glTF・GLB / Unreal のライブ設備構成が中心なら `realtime-3d-pipeline.md` を読む。身体入力を扱う案件はスケールに関わらず `movement.md` を読む。音や音楽が体験の一部を担う案件は `sound.md` を読む。身体の動きがその瞬間の発音になる案件（楽器、演奏、打撃で鳴らすもの、「どんな動きでも気持ちいい音に」）では、`sound.md` に続けて `instrument.md` も読む。手で触る・動かす感覚そのものが評価される案件、および「既視感がある」「気持ちよくない」が論点の案件は `feel.md` を読む。さらに、その手応えをいつ・どれだけの精度で返すか（遅延、3感覚の一致、時間構造、生理への効かせ方）が成否を決める案件は `pleasure.md` を読む** — 楽器的なもの、ゲーム的な操作、「落ち着く」「高揚する」を狙うもの。
 
 **スケール別の出力追加要件:** スケールSでは `solo-scale.md` の「個人ビルド戦略の出力構成」、スケールPでは `movement.md` の「身体メディア・ディレクションの出力構成」、音が体験の中心を占める案件では `sound.md` の出力構成、身体入力が楽器として働く案件ではさらに `instrument.md` の出力構成、触感が中心を占める案件では `feel.md` の出力構成、手触りと体感が成否を決める案件では `pleasure.md` の出力構成を、選んだモードの構成に重ねる。
 
@@ -216,4 +216,5 @@ Step 0 でモードを決めたら、**モードB/C/E/H では `references/proto
 - `references/instrument.md` — 身体を楽器にする。「どんな動きでも心地よい」の実体（出力空間から失敗を消すこと）とその代償、拘束の4層、打点を運動の反転で取る方法と実装上の落とし穴、入力精度が足りない時に出力の粒度を上げる原理、部位ごとの時間スケール分担、連続入力への可変の引力、メインスレッドから音への2経路(AudioParam と SharedArrayBuffer の代償)、器の選択、楽器特有の検証。**身体の動きがその瞬間の発音になる全案件で必読**
 - `references/hardware.md` — センサー選定表、輝度・ピッチ基準、会場音響、設置・運用の定石
 - `references/software.md` — 分散構成と単体完結の分岐、Web/Appleネイティブの描画手段選定、アルゴリズム描画の語彙、劣化ラダー、配布重量の予算、特徴量だけを送る構成、通信プロトコル、性能予算、ショー制御
+- `references/realtime-3d-pipeline.md` — Babylon.js / Three.js / PlayCanvas / Unreal Engine の選定、Blender を正本にした Web・Unreal 向け asset pipeline、glTF・KTX2・meshoptimizer・fresh import、Unreal の Live Link / Niagara Data Channels / nDisplay / DMX / Pixel Streaming、同期と failover。**3D engine・DCC・asset pipeline が中心の全案件で必読**
 - `references/process.md` — モードHのフル構成、プロトタイプ計画テンプレート、事業性の計算式、常設運用チェックリスト

@@ -573,6 +573,90 @@
           "weight": 0.5
         }
       ]
+    },
+    {
+      "eval_id": 31,
+      "eval_name": "trigger-babylon-webxr-installation-jp",
+      "prompt": "Questとスマホのブラウザで、身体入力に反応する物理演算つきの10万粒子WebXR体験を作りたい。Babylon.jsとThree.jsのどちらがよく、どう劣化させればいい？",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "reads-realtime-3d-pipeline",
+          "check": "3Dランタイム選定が中心なので realtime-3d-pipeline.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "selects-by-system-boundary",
+          "check": "Babylon.jsを単なるThree.js代替として扱わず、WebXR・Havok・音・glTF・ノード編集を一体で持つ利点と、Three.jsのレンダラー制御／エコシステムの利点を比較する",
+          "weight": 1.0
+        },
+        {
+          "name": "device-matrix",
+          "check": "WebGPUとWebXRの組み合わせを実機マトリクスで検証し、WebGLフォールバックを設ける",
+          "weight": 1.0
+        },
+        {
+          "name": "measured-degradation",
+          "check": "粒子数の固定値ではなく、対象機のフレーム時間を基準にGPU粒子数・物理更新・描画解像度・ポスト処理を段階的に落とす",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 32,
+      "eval_name": "trigger-blender-web-asset-pipeline-jp",
+      "prompt": "Blenderで作ったリグ付きキャラクター10体をブラウザで60fps表示したい。書き出し、圧縮、検証まで含めて設計して",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "reads-realtime-3d-pipeline",
+          "check": "Blenderからリアルタイム3Dへの資産パイプラインなので realtime-3d-pipeline.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "dcc-not-runtime",
+          "check": "Blenderをランタイム候補ではなくDCC／正本として位置づける",
+          "weight": 1.0
+        },
+        {
+          "name": "roundtrip-validation",
+          "check": ".blendのシーン契約、glTF/GLB書き出し、meshopt/KTX2等の後処理、glTF Validator、対象ランタイムへの新規読み込みを一続きの契約にする",
+          "weight": 1.0
+        },
+        {
+          "name": "no-magic-limits",
+          "check": "一律のポリゴン数やMB上限を断言せず、ドローコール・材質・骨・アニメーション・テクスチャメモリ・転送／デコード時間を対象機で計測して予算化する",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "eval_id": 33,
+      "eval_name": "trigger-unreal-live-installation-jp",
+      "prompt": "Unreal Engineで3面プロジェクション、モーションキャプチャ、Niagara、舞台照明を同期する常設展示を設計したい。落ちても安全に復旧できる構成にして",
+      "should_trigger": true,
+      "assertions": [
+        {
+          "name": "reads-realtime-3d-pipeline",
+          "check": "Unrealのライブ設備構成が中心なので realtime-3d-pipeline.md を読む",
+          "weight": 1.0
+        },
+        {
+          "name": "separates-unreal-systems",
+          "check": "Live Link、OSC／Remote Control、Niagara Data Channels、nDisplay、DMXの役割を分離して接続する",
+          "weight": 1.0
+        },
+        {
+          "name": "sync-layers",
+          "check": "nDisplayのクラスターフレーム同期と、表示機器のgenlock／framelockを別レイヤーとして設計する",
+          "weight": 1.0
+        },
+        {
+          "name": "safe-failover",
+          "check": "センサー断、入力プロセス停止、レンダーノード停止、ネットワーク断ごとの安全状態・手動GO・復旧手順を定義する",
+          "weight": 1.0
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 # ソフトウェア・スタック選定リファレンス (Coder)
 
-<!-- volatile: 2026-08 — TouchDesigner / Unreal / Unity / Notch / openFrameworks の位置づけ、WebGPU と WGSL のブラウザ対応状況、Three.js(TSL/WebGPURenderer) / R3F / OGL / PixiJS / Rive / Spline / 3D Gaussian Splatting の実装状況とバンドル重量、Metal / SwiftUI Shader / RealityKit の対応 OS、通信プロトコルの実装状況、性能予算の前提。 -->
+<!-- volatile: 2026-09 — TouchDesigner / Unreal / Unity / Notch / openFrameworks の位置づけ、Babylon.js / Three.js(TSL/WebGPURenderer) / PlayCanvas / R3F / OGL / PixiJS / Rive / Spline / 3D Gaussian Splatting、Blender / glTF 周辺ツール、WebGPU と WGSL のブラウザ対応状況とバンドル重量、Metal / SwiftUI Shader / RealityKit の対応 OS、通信プロトコルの実装状況、性能予算の前提。 -->
 
 スタック提案は必ず: **選定 / 理由 / 代替とトレードオフ / アーキテクチャ図(テキストで可) / パフォーマンス予算 / 劣化ラダー** をセットで出す。
 
@@ -20,7 +20,7 @@
 ## 2. 分散構成（設置スケール）
 
 ```
-リアルタイム3D・フォトリアル・大画面 ─────→ Unreal Engine（nDisplayでマルチ画面同期）
+リアルタイム3D・フォトリアル・大画面 ─────→ Unreal Engine（Live Link / Niagara / nDisplay 等を役割分離）
 ノードベースで映像・センサー・音を統合 ───→ TouchDesigner（業界のハブ。迷ったらまずこれ）
 ゲームロジック・モバイル/AR併用・チーム ──→ Unity
 2D/パーティクル中心・アーティスト主導 ────→ TouchDesigner or Notch
@@ -43,7 +43,9 @@ AI生成（画像/潜在空間/追跡）───────────→ Pyt
 
 ### パターンB: マルチディスプレイ同期(大型LED/多面プロジェクション)
 - Unreal nDisplay または メディアサーバー(disguise / Watchout クラス)
-- 同期はゲンロック/NDI/独自フレームロック。「ズレていないか」をコンテンツに検証パターンとして仕込む
+- nDisplay のクラスターフレーム同期と、GPU・表示機器の genlock / framelock は別レイヤー。両方が必要かを会場と撮影要件から決める
+- 「ズレていないか」を判断できる frame counter / flash / grid を検証コンテンツとして仕込む
+- Live Link、OSC / Remote Control、Niagara Data Channels、DMX の役割と、障害時の安全状態は `realtime-3d-pipeline.md` を参照
 
 ### パターンC: AI生成連動
 ```
@@ -62,12 +64,16 @@ AI生成（画像/潜在空間/追跡）───────────→ Pyt
 |---|---|---|---|
 | 数万〜数十万粒子の並列計算、リアルタイム流体、高精度ポストエフェクト | **WebGPU / WGSL**(Compute Shader) | フォールバックの二重実装が必須 | 非対応環境で何も出ない |
 | 拡散・滲み・GPUセルオートマトン、ライブラリ非依存の軽量構成 | **WebGL2 + 生GLSL** | 自前で書く量が多い | — |
-| 3Dシーン、オブジェクト、ノードベースのシェーダー記述 | **Three.js**(TSL / WebGPURenderer) / **React Three Fiber** | バンドルが重い(数百KB〜) | — |
+| WebXR・物理・音・glTF・GPU表現を単一ランタイムにまとめる | **Babylon.js** | 抽象層と初期重量が増える。対象端末で WebGPU × WebXR を要検証 | backend / XR mode の組み合わせで差が出る |
+| 独自シェーダーと3Dシーンを細かく制御する | **Three.js**(TSL / WebGPURenderer) / **React Three Fiber** | XR・物理・音・編集環境の組み合わせ設計が増える | 複数 loop が同じ状態を所有すると破綻する |
+| エディター中心でチームがブラウザ3Dを制作・更新する | **PlayCanvas** | エディター／公開基盤の作法への依存 | export・hosting 方針が後から制約になる |
 | 最高速の2Dスプライトとシェーダー | **PixiJS** | 3Dは守備範囲外 | — |
 | 3Dだが数十KB以内に収めたい | **OGL** | 機能が薄く、自分で書く | — |
 | ベクターのインタラクティブアニメーションを数KBで | **Rive** | 表現の天井が低い。**配布重量が絶対条件の時だけ** | — |
 | 3D/シェーダーをノーコードで作って埋め込む | **Spline** | ランタイムが重い。細かい制御が効かない | — |
-| 写真・動画から実写空間を再構築して歩く | **3D Gaussian Splatting** | シーンが数十MB。**静的シーンであり、動かせるのはカメラだけ** | 配布性という最大の武器を自分で壊す |
+| 写真・動画から実写空間を再構築して歩く | **3D Gaussian Splatting** | capture-based scene は大容量になりやすく、多くは静的。dynamic / editable splat は別の生成・再生 pipeline が要る | 配布性という最大の武器を自分で壊す |
+
+3D engine、WebXR、Blender asset、glTF、Unreal のライブ設備が中心なら、表だけで決めず **`realtime-3d-pipeline.md` を読む。** Blender は実行環境ではなく、資産の正本・自動書き出し・検証を担う DCC として扱う。
 
 ### 3-2. アルゴリズム描画 — 既視感から抜けるための語彙
 
@@ -166,10 +172,11 @@ TV・PCブラウザ（大画面で描画 + 音響）
 
 ## 7. パフォーマンス予算(設計時に宣言する)
 
-- **フレームレート:** 展示は60fps死守(30fpsは「重い」と体感される)
-- **入力→反応レイテンシ:** 身体インタラクションは合計100ms以下。**楽器的な体験は50ms以下**(センサー20ms+処理30ms+描画+表示遅延)
+- **フレーム時間:** 目標表示と体験に合わせて先に決める。60fpsなら約16.7msだが平均値いっぱいを使わず、CPU / GPU / worst frame / jitter を分けて測る。XR、高速な直接操作、撮影される多面表示では安定性の要求が上がる
+- **入力→反応レイテンシ:** 身体インタラクションは sensor exposure から表示・発音までを end-to-end で測る。楽器的な体験は視覚より厳しく、目標値は `pleasure.md` / `sound.md` の用途別基準から決める
 - **音声スレッドの隔離:** DSPをメインスレッドで回さない(Web なら AudioWorklet)。**描画負荷が跳ねた時は描画を落として音を守る。**動いたのに音が出ないのは、楽器として最悪の失敗
-- **GPU予算:** 4K@60fpsのリッチな生成系は最上位クラスGPU1枚/出力面が目安。常設は3年でのGPU更新費を計上
+- **GPU予算:** 解像度 × refresh rate × 出力面数だけで型番を決めない。target content を target hardware で capture し、worst scene と予備機を含めて決める。常設は更新費も計上する
+- **asset予算:** draw call、material、texture memory、転送・decode・GPU upload、animation / skinning を分ける。普遍的な polygon 数や MB 上限は置かない (`realtime-3d-pipeline.md`)
 - **起動と復帰:** 電源ONから無人で本番状態になるまで自動化。展示の朝は誰も端末を触らない前提で作る
 
 ## 8. ショー制御・運用レイヤー

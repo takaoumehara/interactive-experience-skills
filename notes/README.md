@@ -11,6 +11,7 @@
 | `2026-08-embodied-idea-map.md` | 身体 × 描画 × 音響の統合コンセプトノート。触感パレット、身体文法、エンジン戦略、競合分析、33コンセプト、5作ポートフォリオ |
 | `2026-08-martial-arts-motion-capture-landscape.md` | マーシャルアーツ × カメラAI の現状調査。種目の構造的難易度、既存製品のカテゴリ、姿勢推定の層構造、狙える余白 |
 | `2026-08-web-audio-instrument-catalog.md` | Web音響 × 身体入力の楽器化。実装手段の棚卸し、楽器カテゴリ別マッピング、音色カタログ、形式のアイデア、空中タップ検出コードの誤りと修正 |
+| `2026-09-realtime-3d-skill-audit.md` | Babylon.js / Blender / Unreal Engine の知識監査。一次資料、ローカル Skill からの吸収、専用 Skill / MCP 候補、昇格・非昇格の判断 |
 
 ## 昇格の判断
 
