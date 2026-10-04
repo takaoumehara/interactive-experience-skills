@@ -2,11 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
-![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
+![Skill instructions: English](https://img.shields.io/badge/Skill%20instructions-English-2EA44F)
+![Reference library: Japanese](https://img.shields.io/badge/Reference%20library-Japanese%20(translation%20in%20progress)-DE3F24)
 
 [English](README.md) · **日本語** · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [한국어](README.ko.md)
 
 > **カメラやセンサーを使って「人に体験させるもの」か「人が上手くなる道具」を作る。その設計を、何を作るか決めるところから手伝う Claude Code スキルです。**
+
+> **言語について:** スキルの指示（`SKILL.md`）は英語、リファレンス（`references/*.md`）は日本語です（英訳は作業中）。Claude はどちらも言語を問わず読んで適用するので、日本語のまま使えます。各スキルの description には日本語のトリガー語を残しているため、日本語の依頼でも起動します。日本語の `SKILL.md` 原文は [`i18n/ja/skills/`](i18n/ja/skills/) にあります。
 
 ---
 
@@ -55,7 +58,7 @@ flowchart TD
 「ダンスのアプリを作りたい」と言われたとき、それが振付を覚えるための道具なのか、見て楽しむ作品なのかで、作るものは別物になります。このスキルは「どちらとも言えますね」で終わらせません。理由をつけて片方に決めます。決めないまま進むことが、いちばん高くつくからです。
 
 ### 📐 「没入的」「AIで」ではなく、数字で答える
-暗い部屋で3m幅に投影するなら 5,000〜8,000 ルーメン。体を使ったフィードバックは 100ミリ秒以内に返さないと「自分の動き」だと感じられない。踏み込みの深さは正面のカメラでは測れないので側面が要る。有料の体験施設なら、単価 × 回転率 × 稼働日数で採算が合うか計算する。こうした具体を約96,000字ぶん持っていて、必要なときだけ読み込みます。
+暗い部屋で3m幅に投影するなら 5,000〜8,000 ルーメン。体を使ったフィードバックは 100ミリ秒以内に返さないと「自分の動き」だと感じられない。踏み込みの深さは正面のカメラでは測れないので側面が要る。有料の体験施設なら、単価 × 回転率 × 稼働日数で採算が合うか計算する。こうした具体を18本のリファレンスに約107,000字ぶん持っていて（`skills/*/references/*.md` を `wc -m` で計測、2026-10-04）、必要なときだけ読み込みます。
 
 ### 🚫 やってはいけないことを、はっきり断る
 痛みや怪我は判定しません（医療の領域なので）。自信がないときは、それらしいことを言わずに「今回は判定できません」と黙ります（一度でも明らかに間違った指摘をすると、経験者はそのシステムを二度と使わないからです）。子どもを撮影する案件では、技術の話より先に保護者の同意の話をします。そして**「姿勢推定の精度が上がれば人は上達する」という思い込みを、はっきり否定します。**
@@ -76,9 +79,44 @@ flowchart TD
 
 ## 🚀 インストールと使い方
 
-[Claude Code](https://claude.com/claude-code)、`git`、`bash`、`zip` が必要です。インストーラーは bash スクリプトなので、macOS / Linux / WSL で実行してください。
+### 🖥️ Claude Code（推奨: プラグインマーケットプレイス）
 
-### 🖥️ Claude Code（CLI）
+Claude Code で次を実行します。
+
+```
+/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience
+```
+
+3つのスキルが1つのプラグインとして入ります。
+
+```
+embodied-product-director
+interactive-experience-collective
+movement-learning-system-designer
+```
+
+新しいセッションを開き、作るものをそのまま普通に書いてください。該当するスキルが自動で立ち上がります。
+
+```
+ダンサーの動きに反応するプロジェクションマッピングを設計して
+```
+
+```
+空手の突きのフォームを先生のお手本と比べられるアプリのMVPを設計して
+```
+
+方向が決まっていないなら、そう書けば director が引き受けます。
+
+```
+Webカメラが2台余ってる。武術の稽古で何か作りたい
+```
+
+プラグインに入るのはスキルだけです。保守用コマンド（`/motion-idea`、`/refresh-skills`、`/scout-skills`、`/skills-routine`）は、下の `install.sh` でのみ配置されます。
+
+### 🛠️ 別の方法: インストールスクリプト（スキル＋保守用コマンド）
+
+`git`、`bash`、`zip` が必要です（macOS / Linux / WSL）。
 
 ```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
@@ -86,7 +124,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-確認の行が7つ（スキル3本とコマンド4つ）出れば成功です。インストーラーは、各スキルが「読む」と宣言しているファイルが実在するかを先に検証し、1つでも欠けていれば何もコピーせずに中止します。
+確認の行が7つ（スキル3本とコマンド4つ）出れば成功です。インストーラーは、各スキルが「読む」と宣言しているファイルが実在するかを先に検証し、1つでも欠けていれば何もコピーせずに中止します。同名のスキルやコマンドが既にある場合は、削除せずに `~/.claude/backups/interactive-experience-skills-<日時>/` へ退避します。
 
 配置先はこちらです。
 
@@ -100,49 +138,40 @@ cd interactive-experience-skills
 ~/.claude/commands/skills-routine.md
 ```
 
-新しいセッションを開いて、方向が決まっていないならコマンドで、
+プラグインとスクリプトの両方で入れると、同じスキルが二重に読み込まれます。どちらか一方にしてください。
+
+スクリプトで入れた場合、方向が決まっていないときは `/motion-idea` も使えます。
 
 ```
 /motion-idea Webカメラが2台余ってる。武術の稽古で何か作りたい
 ```
 
-作るものが決まっているなら、そのまま普通に書いてください。該当するスキルが自動で立ち上がります。
-
-```
-ダンサーの動きに反応するプロジェクションマッピングを設計して
-```
-
-```
-空手の突きのフォームを先生のお手本と比べられるアプリのMVPを設計して
-```
-
 ### 🌐 claude.ai（ブラウザ）
 
-配布用の `.skill` ファイルを同梱しています。中身はただの zip なので、拡張子を変えればそのままアップロードできます。
+`./package.sh` を実行すると、`dist/` にスキルごとの zip（`dist/<skill>.zip`）ができます。これをスキル設定からアップロードしてください。手順は [Claude Docs](https://docs.claude.com/ja/docs/agents-and-tools/agent-skills/overview) を参照してください。
 
-```bash
-cp movement-learning-system-designer.skill movement-learning-system-designer.zip
-```
-
-この `.zip` をスキル設定からアップロードしてください。手順は [Claude Docs](https://docs.claude.com/ja/docs/agents-and-tools/agent-skills/overview) を参照してください。
+リポジトリ直下の `.skill` ファイルも同じ形式の zip（`install.sh` が再生成）なので、拡張子を `.zip` に変えればアップロードできます。ただし `install.sh` を再実行するまでは `skills/` より古い場合があります。
 
 > GitHub 上で `.skill` ファイルを開くと中身が表示されませんが、壊れているわけではありません。GitHub がこの拡張子を知らないため、プレビューできないだけです。ダウンロードして `unzip -l` すれば中身を確認できます。
 
-### 🛠️ ソースから
+### 📁 ソースから
 
-編集する正本は `.skill` ではなく `_extracted/` です。
+編集する正本は `.skill` ではなく `skills/` です。
 
 ```
-_extracted/<skill>/SKILL.md
-_extracted/<skill>/references/*.md
-_extracted/<skill>/evals/evals.json
+skills/<skill>/SKILL.md            # 英語
+skills/<skill>/references/*.md     # 日本語（英訳は作業中）
+skills/<skill>/evals/evals.json
+i18n/ja/skills/<skill>/SKILL.md    # 日本語の SKILL.md 原文（スキルとしては読み込まれない）
+.claude-plugin/plugin.json         # プラグインのマニフェスト
+.claude-plugin/marketplace.json    # マーケットプレイスのマニフェスト
 ```
 
 `SKILL.md` は起動時に必ず読まれる本体、`references/*.md` は必要になったときだけ読まれる詳細、`evals/evals.json` はスキルが正しく起動するかのテストです。
 
-編集後に `./install.sh` を実行すると、`~/.claude/` への配置と `.skill` の再パッケージを冪等に行います。
+編集後は `claude plugin validate --strict .` と `./install.sh` を実行してください。スクリプトは `~/.claude/` への配置と `.skill` の再パッケージを冪等に行います。CI でも push と pull request のたびに同じ検証が走ります。
 
-手動で入れる場合は `_extracted/` 配下の3ディレクトリを `~/.claude/skills/` にコピーしてください。
+手動で入れる場合は `skills/` 配下の3ディレクトリを `~/.claude/skills/` にコピーしてください。
 
 ---
 
@@ -248,9 +277,9 @@ _extracted/<skill>/evals/evals.json
 
 SKILL.md には判断基準を置き、references へ出すのは**特定のモードでしか使わない手順**だけです。判断基準をリファレンスへ追い出すと「読まずに一般論を書く」失敗が起きます。
 
-サブスキルへの分割はしていません。常時ロードされる説明文が増えるほど、このスキル群で最も難しい「体験させるものか、上手くさせる道具か」の判定精度が落ちるためです。3スキル構成での振り分け精度は実測で97%、判定に迷う率は11%です。
+サブスキルへの分割はしていません。常時ロードされる説明文が増えるほど、このスキル群で最も難しい「体験させるものか、上手くさせる道具か」の判定精度が落ちるためです。3スキル構成の振り分け精度を以前「97%、判定に迷う率11%」と記載していましたが、手順・モデル・日付・生の結果がリポジトリに残っていないため、この数字は**再計測待ち**として扱ってください。
 
-`_extracted/<skill>/evals/evals.json` に、起動すべきクエリと起動すべきでないクエリを置いています。「起動すべきでない」側の大半は無関係なクエリではなく、**もう一方のスキルへ行くべき紛らわしい例**です。説明文を編集したらこのセットで確認してください。
+`skills/<skill>/evals/evals.json` に、起動すべきクエリと起動すべきでないクエリを置いています。「起動すべきでない」側の大半は無関係なクエリではなく、**もう一方のスキルへ行くべき紛らわしい例**です。説明文を編集したらこのセットで確認してください。
 
 ---
 

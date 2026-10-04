@@ -2,7 +2,7 @@
 
 原資料: Gemini との対話（Web上の音響技術の棚卸し → MediaPipe で身体・顔・指を音にする設計 → 楽器別のマッピング → 空中タップ検出の実装 → 音源・音色カタログ → ブラウザでの実現可能性）。
 
-**このノートはスキルではない。**判断基準として一般化できたものだけを `_extracted/interactive-experience-collective/references/instrument.md` へ昇格させ、ここには昇格しなかった素材（音色カタログ、形式のアイデア、個別のコード）を残す。対応表は末尾。
+**このノートはスキルではない。**判断基準として一般化できたものだけを `skills/interactive-experience-collective/references/instrument.md` へ昇格させ、ここには昇格しなかった素材（音色カタログ、形式のアイデア、個別のコード）を残す。対応表は末尾。
 
 ---
 

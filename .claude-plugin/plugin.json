@@ -1,0 +1,24 @@
+{
+  "name": "interactive-experience-skills",
+  "version": "1.0.0",
+  "description": "Three design skills for products and experiences built on human movement, cameras, and sensors: a director that decides whether you are making an experience or a training tool, plus specialist skills for interactive experiences and movement-learning systems.",
+  "author": {
+    "name": "Takao Umehara",
+    "url": "https://github.com/takaoumehara"
+  },
+  "homepage": "https://github.com/takaoumehara/interactive-experience-skills",
+  "repository": "https://github.com/takaoumehara/interactive-experience-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "interactive-experience",
+    "media-art",
+    "installation",
+    "motion-capture",
+    "pose-estimation",
+    "computer-vision",
+    "movement-learning",
+    "coaching",
+    "webgpu"
+  ]
+}

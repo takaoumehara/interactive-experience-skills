@@ -72,10 +72,13 @@
 
 ### ④ 反映と記録
 
-採用したものを `_extracted/` へ書き、次を実行する。
+採用したものを `skills/` へ書き、次を実行する。
+
+`skills/<name>/SKILL.md` は英語が正本で、日本語の対訳は `i18n/ja/skills/<name>/SKILL.md` にある（スキルとして読み込まれない位置）。SKILL.md を変えたら、対訳も同じ回で揃える。`references/` は今のところ日本語のまま。
 
 ```bash
-./install.sh    # 参照切れと name 不一致を検証し、配置して .skill を再パッケージ
+claude plugin validate --strict .   # marketplace.json の検証（plugin.json は .claude-plugin/plugin.json を指定）
+./install.sh    # 参照切れと name 不一致を検証し、配置して .skill を再パッケージ（既存は ~/.claude/backups/ へ退避）
 ./package.sh    # 配布用 ZIP（配布する時だけ）
 ```
 
@@ -118,7 +121,7 @@
 **2,000行を超えたら、追加をやめて統合の回にする。**リファレンスが太るとモデルは読む量を絞り始め、厚くしたことで質が下がる。増やす回と削る回を交互にする方が、結果として密度が上がる。
 
 ```bash
-wc -l _extracted/*/references/*.md _extracted/*/SKILL.md | tail -1
+wc -l skills/*/references/*.md skills/*/SKILL.md | tail -1
 ```
 
 ---

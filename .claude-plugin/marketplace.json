@@ -1,0 +1,30 @@
+{
+  "name": "interactive-experience",
+  "owner": {
+    "name": "Takao Umehara",
+    "url": "https://github.com/takaoumehara"
+  },
+  "metadata": {
+    "description": "Claude Code skills for designing embodied, camera- and sensor-driven experiences and movement-learning tools."
+  },
+  "plugins": [
+    {
+      "name": "interactive-experience-skills",
+      "source": "./",
+      "description": "Three design skills for products and experiences built on human movement, cameras, and sensors: a director that decides whether you are making an experience or a training tool, plus specialist skills for interactive experiences and movement-learning systems.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Takao Umehara"
+      },
+      "homepage": "https://github.com/takaoumehara/interactive-experience-skills",
+      "repository": "https://github.com/takaoumehara/interactive-experience-skills",
+      "license": "MIT",
+      "category": "design",
+      "keywords": [
+        "interactive-experience",
+        "movement-learning",
+        "computer-vision"
+      ]
+    }
+  ]
+}

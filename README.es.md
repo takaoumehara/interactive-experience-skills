@@ -2,13 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
-![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
+![Skill instructions: English](https://img.shields.io/badge/Skill%20instructions-English-2EA44F)
+![Reference library: Japanese](https://img.shields.io/badge/Reference%20library-Japanese%20(translation%20in%20progress)-DE3F24)
 
 [English](README.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · **Español** · [한국어](README.ko.md)
 
 > **Construye algo que la gente experimenta, o una herramienta que ayuda a la gente a mejorar un movimiento, usando cámaras y sensores. Estos skills de Claude Code te ayudan a diseñarlo, empezando por decidir cuál de las dos cosas estás haciendo.**
 
-> **Aviso:** el contenido de los tres skills está escrito en japonés. Claude los lee y los aplica en cualquier idioma, así que puedes trabajar enteramente en español. Si abres los archivos, vas a encontrarte con japonés.
+> **Sobre el idioma:** las instrucciones de los skills (`SKILL.md`) están en inglés; la biblioteca de referencia (`references/*.md`) sigue en japonés (traducción en curso). Claude lee y aplica ambas en cualquier idioma, así que puedes trabajar enteramente en español. La descripción de cada skill conserva sus frases de activación en japonés, así que también se activa con peticiones en japonés. Los `SKILL.md` originales en japonés están en [`i18n/ja/skills/`](i18n/ja/skills/).
 
 ---
 
@@ -57,7 +58,7 @@ Los dos skills de abajo hacen el diseño de verdad. El director de arriba solo d
 «Quiero hacer una app de danza» puede significar una herramienta para memorizar coreografía o una pieza que la gente mira por placer, y son productos distintos. Este skill no termina con «bueno, podría ser cualquiera de las dos». Elige una y te dice por qué. No elegir es lo que sale más caro.
 
 ### 📐 Responde con números, no con «inmersivo» y «con IA»
-5.000–8.000 lúmenes para proyectar 3 m de ancho en una sala oscura. La retroalimentación sobre un movimiento corporal tiene que volver en menos de 100 ms o deja de sentirse como *tu* movimiento. Una cámara frontal no puede medir qué tan profundo es un paso, así que hace falta una vista lateral. Para un espacio de pago, precio × rotación × días de operación decide si el negocio existe. Unos 96.000 caracteres de esto, que se cargan solo cuando la pregunta actual los necesita.
+5.000–8.000 lúmenes para proyectar 3 m de ancho en una sala oscura. La retroalimentación sobre un movimiento corporal tiene que volver en menos de 100 ms o deja de sentirse como *tu* movimiento. Una cámara frontal no puede medir qué tan profundo es un paso, así que hace falta una vista lateral. Para un espacio de pago, precio × rotación × días de operación decide si el negocio existe. Unos 107.000 caracteres de esto en 18 archivos de referencia (medido con `wc -m` sobre `skills/*/references/*.md`, 2026-10-04), que se cargan solo cuando la pregunta actual los necesita.
 
 ### 🚫 Dice que no con claridad
 No evalúa dolor ni lesiones: eso es medicina. Cuando no tiene confianza, dice «esta no la puedo evaluar» en lugar de producir algo verosímil, porque una sola corrección claramente equivocada hace que una persona con experiencia abandone el sistema para siempre. En proyectos con menores, plantea el consentimiento de los tutores antes de hablar de tecnología. Y rechaza de plano la idea de que **más precisión en la estimación de pose hace que la gente aprenda mejor.**
@@ -78,9 +79,44 @@ No evalúa dolor ni lesiones: eso es medicina. Cuando no tiene confianza, dice �
 
 ## 🚀 Instalación y uso
 
-Necesitas [Claude Code](https://claude.com/claude-code), `git`, `bash` y `zip`. El instalador es un script de bash, así que ejecútalo en macOS, Linux o WSL.
+### 🖥️ Claude Code (recomendado: marketplace de plugins)
 
-### 🖥️ Claude Code (CLI)
+En Claude Code, ejecuta:
+
+```
+/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience
+```
+
+Así se instalan los tres skills como un solo plugin:
+
+```
+embodied-product-director
+interactive-experience-collective
+movement-learning-system-designer
+```
+
+Abre una sesión nueva. Escribe con normalidad lo que vas a construir: el skill adecuado arranca solo.
+
+```
+Diseña una pieza de projection mapping que reaccione a una bailarina
+```
+
+```
+Diseña el MVP de una app que compare un puñetazo de karate con el del instructor
+```
+
+Si todavía no tienes dirección, dilo; el director se encarga:
+
+```
+Tengo dos cámaras web sin usar y quiero hacer algo con la práctica de artes marciales
+```
+
+El plugin solo contiene los skills. Los comandos de mantenimiento (`/motion-idea`, `/refresh-skills`, `/scout-skills`, `/skills-routine`) solo los instala `install.sh`, más abajo.
+
+### 🛠️ Alternativa: script de instalación (skills + comandos de mantenimiento)
+
+Requiere `git`, `bash` y `zip` (macOS, Linux o WSL).
 
 ```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
@@ -88,7 +124,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-Deberías ver siete líneas de confirmación (el instalador imprime en japonés): tres skills y cuatro comandos. Antes de copiar nada, el instalador verifica que exista de verdad cada archivo que un skill declara que va a leer, y aborta si falta alguno.
+Deberías ver siete líneas de confirmación (el instalador escribe en japonés): tres skills y cuatro comandos. Antes de copiar nada, el instalador comprueba que existe cada archivo que un skill declara que va a leer, y aborta si falta alguno. Si ya existe un skill o comando con el mismo nombre, no se borra: se mueve a `~/.claude/backups/interactive-experience-skills-<fecha-hora>/`.
 
 Se instala en:
 
@@ -102,49 +138,40 @@ Se instala en:
 ~/.claude/commands/skills-routine.md
 ```
 
-Abre una sesión nueva. Si todavía no tienes dirección, usa el comando:
+No instales a la vez el plugin y la copia del script, o cada skill se cargará dos veces.
+
+Con la instalación por script, `/motion-idea` está disponible cuando aún no tienes dirección:
 
 ```
 /motion-idea Tengo dos cámaras web sin usar y quiero hacer algo con la práctica de artes marciales
 ```
 
-Si ya sabes qué vas a construir, escríbelo normalmente: el skill correcto arranca solo.
-
-```
-Diseña una proyección que reaccione al movimiento de un bailarín
-```
-
-```
-Diseña el MVP de una app que compare un golpe de karate con el del instructor
-```
-
 ### 🌐 claude.ai (navegador)
 
-Cada skill viene empaquetado como archivo `.skill`. Es un zip común, así que basta con renombrarlo para poder subirlo.
+Ejecuta `./package.sh` para generar un zip por skill en `dist/` (`dist/<skill>.zip`) y súbelo en la configuración de skills de tu asistente; consulta la [documentación de Claude](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) para el flujo actual.
 
-```bash
-cp movement-learning-system-designer.skill movement-learning-system-designer.zip
-```
+Los archivos `.skill` de la raíz del repositorio son el mismo tipo de zip (los regenera `install.sh`); cambiarles la extensión a `.zip` también funciona, pero pueden ir por detrás de `skills/` hasta que vuelvas a ejecutar `install.sh`.
 
-Sube el `.zip` desde la configuración de skills de tu asistente — consulta la [documentación de Claude](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) para el procedimiento actual.
+> Si abres un archivo `.skill` en GitHub no se ve nada. No está roto: GitHub simplemente no reconoce la extensión y no puede previsualizarlo. Descárgalo y ejecuta `unzip -l` para ver el contenido.
 
-> Abrir un archivo `.skill` en GitHub no muestra nada. No está roto: GitHub simplemente no reconoce la extensión y no puede previsualizarlo. Descárgalo y ejecuta `unzip -l` para ver el contenido.
+### 📁 Desde el código fuente
 
-### 🛠️ Desde el código fuente
-
-La fuente que se edita es `_extracted/`, no los archivos `.skill`.
+La fuente editable es `skills/`, no los archivos `.skill`.
 
 ```
-_extracted/<skill>/SKILL.md
-_extracted/<skill>/references/*.md
-_extracted/<skill>/evals/evals.json
+skills/<skill>/SKILL.md            # inglés
+skills/<skill>/references/*.md     # japonés (traducción en curso)
+skills/<skill>/evals/evals.json
+i18n/ja/skills/<skill>/SKILL.md    # SKILL.md original en japonés (no se carga como skill)
+.claude-plugin/plugin.json         # manifiesto del plugin
+.claude-plugin/marketplace.json    # manifiesto del marketplace
 ```
 
-`SKILL.md` se carga en cada activación; `references/*.md` solo cuando el modo actual lo necesita; `evals/evals.json` prueba que el skill arranque cuando debe.
+`SKILL.md` se carga en cada activación; `references/*.md` solo cuando el modo actual lo necesita; `evals/evals.json` comprueba que el skill arranca cuando debe.
 
-Después de editar, ejecuta `./install.sh` otra vez: reinstala en `~/.claude/` y reconstruye los `.skill` de forma idempotente.
+Después de editar, ejecuta `claude plugin validate --strict .` y `./install.sh`: el script vuelve a desplegar en `~/.claude/` y reconstruye los `.skill` de forma idempotente. La CI ejecuta la misma validación en cada push y pull request.
 
-Para instalarlo a mano, copia los tres directorios que están dentro de `_extracted/` a `~/.claude/skills/`.
+Para instalarlo a mano, copia los tres directorios que están dentro de `skills/` a `~/.claude/skills/`.
 
 ---
 
@@ -248,9 +275,9 @@ Deliberadamente no está en un scheduler. Un cron muere cuando cambia la máquin
 
 `SKILL.md` guarda los criterios de decisión; a `references/` solo se mueven los *procedimientos* que se usan en un modo específico. Empujar los criterios a las referencias produce exactamente el fallo que estos skills existen para evitar: responder con generalidades sin haber leído nada.
 
-Deliberadamente no están divididos en más sub-skills. Cuantas más descripciones viven de forma permanente en el system prompt, peor sale la decisión más difícil de este dominio: experiencia o mejora. La precisión de enrutamiento medida para el esquema de tres skills es del 97%, con un 11% de casos ambiguos.
+Deliberadamente no están divididos en más sub-skills. Cuantas más descripciones viven de forma permanente en el system prompt, peor sale la decisión más difícil de este dominio: experiencia o mejora. Antes se indicaba una precisión de enrutamiento del 97% para el esquema de tres skills, con un 11% de casos ambiguos, pero el método, el modelo, la fecha y los resultados en bruto nunca se subieron al repositorio, así que esa cifra queda **pendiente de volver a medir**.
 
-`_extracted/<skill>/evals/evals.json` contiene consultas que deberían arrancar cada skill y consultas que no deberían. La mayoría de las de «no deberían» no son consultas irrelevantes: son **casos límite que pertenecen al skill hermano.** Vuelve a verificar con este conjunto después de editar cualquier descripción.
+`skills/<skill>/evals/evals.json` contiene consultas que deberían arrancar cada skill y consultas que no deberían. La mayoría de las de «no deberían» no son consultas irrelevantes: son **casos límite que pertenecen al skill hermano.** Vuelve a verificar con este conjunto después de editar cualquier descripción.
 
 ---
 
