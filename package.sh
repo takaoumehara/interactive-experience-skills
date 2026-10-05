@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 配布用の ZIP を dist/ に作る。_extracted/ が正本。
+# 配布用の ZIP を dist/ に作る。skills/ が正本。
 #   dist/<skill>.zip                          claude.ai などへ1本ずつアップロードする用
 #   dist/interactive-experience-skills-all.zip 3スキル + コマンド + README 一式
 # install.sh とは独立。~/.claude/ には何も書き込まない。
@@ -10,21 +10,23 @@ SKILLS=(embodied-product-director interactive-experience-collective movement-lea
 NAME="interactive-experience-skills"
 
 for d in "${SKILLS[@]}"; do
-  [ -f "$SRC/_extracted/$d/SKILL.md" ] || { echo "欠落: _extracted/$d/SKILL.md"; exit 1; }
+  [ -f "$SRC/skills/$d/SKILL.md" ] || { echo "欠落: skills/$d/SKILL.md"; exit 1; }
 done
 
 rm -rf "$SRC/dist"; mkdir -p "$SRC/dist"
 
 # ① スキル1本ずつ（SKILL.md はスキル名フォルダ直下に入る）
 for d in "${SKILLS[@]}"; do
-  ( cd "$SRC/_extracted" && zip -q -r -X "$SRC/dist/$d.zip" "$d" -x '.*' -x '__MACOSX/*' -x '*/.DS_Store' )
+  ( cd "$SRC/skills" && zip -q -r -X "$SRC/dist/$d.zip" "$d" -x '.*' -x '__MACOSX/*' -x '*/.DS_Store' )
   echo "作成: dist/$d.zip"
 done
 
 # ② 一式
 STAGE="$(mktemp -d)/$NAME"
 mkdir -p "$STAGE"
-cp -R "$SRC/_extracted" "$STAGE/_extracted"
+cp -R "$SRC/skills" "$STAGE/skills"
+cp -R "$SRC/i18n" "$STAGE/i18n"
+cp -R "$SRC/.claude-plugin" "$STAGE/.claude-plugin"
 cp -R "$SRC/prompts" "$STAGE/prompts"
 cp "$SRC"/motion-idea.md "$SRC"/refresh-skills.md "$SRC"/scout-skills.md "$SRC"/skills-routine.md "$SRC"/CANDIDATES.md "$SRC"/ROUTINE.md "$SRC"/install.sh "$SRC"/LICENSE "$SRC"/README*.md "$STAGE/"
 find "$STAGE" -name '.DS_Store' -delete

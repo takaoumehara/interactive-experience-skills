@@ -1,0 +1,50 @@
+name: Validate plugin
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # `claude plugin validate` only reads local files. No API key or login is
+      # needed (verified 2026-10-04 with Claude Code 2.1.283 and an empty config dir).
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace manifest
+        run: claude plugin validate --strict .
+
+      - name: Validate plugin manifest
+        run: claude plugin validate --strict .claude-plugin/plugin.json
+
+      - name: Shell syntax check
+        run: |
+          bash -n install.sh
+          bash -n package.sh
+
+      # Same pre-flight check install.sh runs before deploying: every
+      # references/ or assets/ file named in a SKILL.md exists, and the
+      # frontmatter name matches the directory.
+      - name: Check skill references
+        run: |
+          fail=0
+          for skill in skills/*/SKILL.md; do
+            d="$(dirname "$skill")"
+            while IFS= read -r ref; do
+              [ -f "$d/$ref" ] || { echo "Missing: $skill -> $ref"; fail=1; }
+            done < <(grep -oE '(references|assets)/[A-Za-z0-9._-]+\.md' "$skill" | sort -u)
+            nm="$(sed -n 's/^name:[[:space:]]*//p' "$skill" | head -1)"
+            [ "$nm" = "$(basename "$d")" ] || { echo "Name mismatch: $skill has name '$nm'"; fail=1; }
+          done
+          exit "$fail"

@@ -2,13 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
-![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
+![Skill instructions: English](https://img.shields.io/badge/Skill%20instructions-English-2EA44F)
+![Reference library: Japanese](https://img.shields.io/badge/Reference%20library-Japanese%20(translation%20in%20progress)-DE3F24)
 
 **English** · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [한국어](README.ko.md)
 
 > **Build something people experience, or a tool that makes people better at a movement — using cameras and sensors. These Claude Code skills help you design it, starting from deciding which one you are making.**
 
-> **Note:** The three skills are written in Japanese. Claude reads and applies them in any language, so you can work entirely in English. If you open the files yourself, you will be reading Japanese.
+> **Note on language:** Skill instructions (`SKILL.md`) are in English; the reference library (`references/*.md`) is still in Japanese (translation in progress). Claude reads and applies both in any language, so you can work entirely in English. Each skill's description keeps its Japanese trigger phrases, so Japanese prompts trigger it too. The original Japanese `SKILL.md` files are kept in [`i18n/ja/skills/`](i18n/ja/skills/).
 
 ---
 
@@ -57,7 +58,7 @@ The two skills at the bottom do the actual design work. The director on top only
 "I want to make a dance app" can mean a tool for memorising choreography or a piece people watch for pleasure — and those are different products. This skill will not end on "well, it could be either." It picks one and tells you why. Not picking is what costs the most.
 
 ### 📐 It answers with numbers, not with "immersive" and "AI-powered"
-5,000–8,000 lumens to project 3 m wide in a dark room. Feedback on a body movement has to come back within 100 ms or it stops feeling like *your* movement. A front-facing camera cannot measure how deep a step is, so you need a side view. For a paid venue, price × turnover × operating days decides whether it works at all. About 96,000 characters of this, loaded only when the current question needs it.
+5,000–8,000 lumens to project 3 m wide in a dark room. Feedback on a body movement has to come back within 100 ms or it stops feeling like *your* movement. A front-facing camera cannot measure how deep a step is, so you need a side view. For a paid venue, price × turnover × operating days decides whether it works at all. About 107,000 characters of this across 18 reference files (measured with `wc -m` on `skills/*/references/*.md`, 2026-10-04), loaded only when the current question needs it.
 
 ### 🚫 It says no clearly
 It does not judge pain or injury — that is medicine. When it is not confident, it says "I can't judge this one" instead of producing something plausible, because a single obviously wrong correction makes an experienced person abandon the system forever. On projects involving children, it raises guardian consent before it discusses technology. And it flatly rejects the belief that **better pose-estimation accuracy makes people learn better.**
@@ -78,9 +79,44 @@ It does not judge pain or injury — that is medicine. When it is not confident,
 
 ## 🚀 Install & Usage
 
-Requires [Claude Code](https://claude.com/claude-code), `git`, `bash`, and `zip`. The installer is a bash script, so run it on macOS, Linux, or WSL.
+### 🖥️ Claude Code (recommended: plugin marketplace)
 
-### 🖥️ Claude Code (CLI)
+In Claude Code, run:
+
+```
+/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience
+```
+
+This installs the three skills as one plugin:
+
+```
+embodied-product-director
+interactive-experience-collective
+movement-learning-system-designer
+```
+
+Open a new session. Write what you are building normally — the right skill starts on its own.
+
+```
+Design a projection mapping piece that reacts to a dancer
+```
+
+```
+Design the MVP for an app that compares a karate punch against the instructor's
+```
+
+If you have no direction yet, say so — the director picks it up:
+
+```
+I have two spare webcams and want to build something around martial arts practice
+```
+
+The plugin contains only the skills. The maintainer commands (`/motion-idea`, `/refresh-skills`, `/scout-skills`, `/skills-routine`) are installed only by `install.sh` below.
+
+### 🛠️ Alternative: install script (skills + maintainer commands)
+
+Requires `git`, `bash`, and `zip` (macOS, Linux, or WSL).
 
 ```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
@@ -88,7 +124,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-You should see seven confirmation lines (the installer prints in Japanese) — three skills and four commands. Before copying anything, the installer checks that every file a skill declares it will read actually exists, and aborts if one is missing.
+You should see seven confirmation lines (the installer prints in Japanese) — three skills and four commands. Before copying anything, the installer checks that every file a skill declares it will read actually exists, and aborts if one is missing. If a skill or command with the same name already exists, it is moved to `~/.claude/backups/interactive-experience-skills-<timestamp>/` instead of being deleted.
 
 It installs to:
 
@@ -102,49 +138,40 @@ It installs to:
 ~/.claude/commands/skills-routine.md
 ```
 
-Open a new session. If you have no direction yet, use the command:
+Don't install both the plugin and the script copies at the same time, or each skill will be loaded twice.
+
+With the script install, `/motion-idea` is available when you have no direction yet:
 
 ```
 /motion-idea I have two spare webcams and want to build something around martial arts practice
 ```
 
-If you already know what you are building, just write it normally — the right skill starts on its own.
-
-```
-Design a projection mapping piece that reacts to a dancer
-```
-
-```
-Design the MVP for an app that compares a karate punch against the instructor's
-```
-
 ### 🌐 claude.ai (browser)
 
-Each skill is bundled as a `.skill` file. It is an ordinary zip, so renaming it is enough to upload it.
+Run `./package.sh` to build one zip per skill in `dist/` (`dist/<skill>.zip`), then upload it in your assistant's skill settings — see the [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for the current flow.
 
-```bash
-cp movement-learning-system-designer.skill movement-learning-system-designer.zip
-```
-
-Upload the `.zip` in your assistant's skill settings — see the [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for the current flow.
+The `.skill` files at the repository root are the same kind of zip (rebuilt by `install.sh`); renaming one to `.zip` also works, but they may lag behind `skills/` until `install.sh` is run again.
 
 > Opening a `.skill` file on GitHub shows nothing. It is not broken — GitHub simply does not recognise the extension and cannot preview it. Download it and run `unzip -l` to see the contents.
 
-### 🛠️ From source
+### 📁 From source
 
-The editable source of truth is `_extracted/`, not the `.skill` archives.
+The editable source of truth is `skills/`, not the `.skill` archives.
 
 ```
-_extracted/<skill>/SKILL.md
-_extracted/<skill>/references/*.md
-_extracted/<skill>/evals/evals.json
+skills/<skill>/SKILL.md            # English
+skills/<skill>/references/*.md     # Japanese (translation in progress)
+skills/<skill>/evals/evals.json
+i18n/ja/skills/<skill>/SKILL.md    # original Japanese SKILL.md (not loaded as a skill)
+.claude-plugin/plugin.json         # plugin manifest
+.claude-plugin/marketplace.json    # marketplace manifest
 ```
 
 `SKILL.md` is loaded on every activation; `references/*.md` only when the current mode needs it; `evals/evals.json` tests that the skill starts when it should.
 
-After editing, run `./install.sh` again — it re-deploys to `~/.claude/` and rebuilds the `.skill` archives idempotently.
+After editing, run `claude plugin validate --strict .` and `./install.sh` — the script re-deploys to `~/.claude/` and rebuilds the `.skill` archives idempotently. CI runs the same validation on every push and pull request.
 
-To install by hand, copy the three directories under `_extracted/` into `~/.claude/skills/`.
+To install by hand, copy the three directories under `skills/` into `~/.claude/skills/`.
 
 ---
 
@@ -248,9 +275,9 @@ It is deliberately not on a scheduler. A cron dies when the machine changes, and
 
 `SKILL.md` holds the judgement criteria; only mode-specific *procedures* move into `references/`. Pushing judgement criteria into references produces the failure these skills exist to prevent — answering with generalities without reading anything.
 
-They are deliberately not split into more sub-skills. The more descriptions sit permanently in the system prompt, the worse the hardest call in this domain gets — experience or improvement. Measured routing accuracy for the three-skill layout is 97%, with 11% of cases ambiguous.
+They are deliberately not split into more sub-skills. The more descriptions sit permanently in the system prompt, the worse the hardest call in this domain gets — experience or improvement. An earlier routing check of the three-skill layout was reported as 97% accurate with 11% of cases ambiguous, but the method, model, date, and raw results were never committed, so treat that figure as **to be re-measured**.
 
-`_extracted/<skill>/evals/evals.json` holds queries that should start each skill and queries that should not. Most of the "should not" cases are not irrelevant queries — they are **near-misses that belong to the sibling skill.** Re-check with this set after editing any description.
+`skills/<skill>/evals/evals.json` holds queries that should start each skill and queries that should not. Most of the "should not" cases are not irrelevant queries — they are **near-misses that belong to the sibling skill.** Re-check with this set after editing any description.
 
 ---
 

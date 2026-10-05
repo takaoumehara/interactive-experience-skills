@@ -2,13 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
-![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
+![Skill instructions: English](https://img.shields.io/badge/Skill%20instructions-English-2EA44F)
+![Reference library: Japanese](https://img.shields.io/badge/Reference%20library-Japanese%20(translation%20in%20progress)-DE3F24)
 
 [English](README.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · **한국어**
 
 > **카메라와 센서로, 사람이 체험하는 무언가를 만들거나, 사람이 동작을 더 잘하게 되는 도구를 만듭니다. 이 세 개의 Claude Code skill은 「둘 중 무엇을 만들 것인가」를 정하는 데서부터 설계를 도와줍니다.**
 
-> **참고:** 세 skill의 본문은 일본어로 작성되어 있습니다. Claude가 어떤 언어로든 읽고 적용하므로 한국어로만 작업해도 됩니다. 다만 파일을 직접 열면 일본어를 보게 됩니다.
+> **언어에 관하여:** skill 지시문(`SKILL.md`)은 영어, 참고 자료(`references/*.md`)는 아직 일본어입니다(번역 진행 중). Claude가 어떤 언어로든 읽고 적용하므로 한국어로만 작업해도 됩니다. 각 skill의 description에는 일본어 트리거 문구를 남겨 두어 일본어 요청으로도 실행됩니다. 일본어 `SKILL.md` 원문은 [`i18n/ja/skills/`](i18n/ja/skills/)에 있습니다.
 
 ---
 
@@ -57,7 +58,7 @@ flowchart TD
 「댄스 앱을 만들고 싶다」는 안무를 외우기 위한 도구일 수도 있고, 보면서 즐기는 작품일 수도 있습니다. 그리고 이 둘은 완전히 다른 제품입니다. 이 skill은 「둘 다 될 수 있겠네요」로 끝내지 않습니다. 하나를 고르고 이유를 말합니다. 고르지 않는 것이 가장 비싼 대가를 치릅니다.
 
 ### 📐 「몰입형」「AI 기반」이 아니라 숫자로 답합니다
-어두운 방에서 3 m 폭으로 투사하려면 5,000–8,000 루멘. 신체 동작에 대한 피드백은 100 ms 안에 돌아오지 않으면 「내 움직임」이라고 느껴지지 않습니다. 정면 카메라로는 발을 얼마나 깊이 내딛었는지 측정할 수 없으므로 측면이 필요합니다. 유료 시설이라면 객단가 × 회전율 × 운영일수로 사업이 성립하는지가 결정됩니다. 이런 내용이 약 96,000자 있고, 지금의 질문이 필요로 할 때만 읽어 들입니다.
+어두운 방에서 3 m 폭으로 투사하려면 5,000–8,000 루멘. 신체 동작에 대한 피드백은 100 ms 안에 돌아오지 않으면 「내 움직임」이라고 느껴지지 않습니다. 정면 카메라로는 발을 얼마나 깊이 내딛었는지 측정할 수 없으므로 측면이 필요합니다. 유료 시설이라면 객단가 × 회전율 × 운영일수로 사업이 성립하는지가 결정됩니다. 이런 내용이 18개 참고 파일에 약 107,000자 있고(`skills/*/references/*.md`를 `wc -m`으로 측정, 2026-10-04), 지금의 질문이 필요로 할 때만 읽어 들입니다.
 
 ### 🚫 안 되는 것은 분명히 거절합니다
 통증이나 부상은 판정하지 않습니다. 그것은 의학의 영역입니다. 확신이 없을 때는 그럴듯한 답을 만들어내지 않고 「이번에는 판정할 수 없습니다」라고 말합니다. 명백하게 틀린 지적을 한 번만 해도 경험자는 그 시스템을 영영 쓰지 않기 때문입니다. 어린이가 관련된 프로젝트에서는 기술 이야기보다 보호자 동의를 먼저 꺼냅니다. 그리고 **자세 추정 정확도가 올라가면 사람이 더 잘 배운다**는 믿음을 명확하게 부정합니다.
@@ -78,9 +79,44 @@ flowchart TD
 
 ## 🚀 설치 및 사용법
 
-[Claude Code](https://claude.com/claude-code), `git`, `bash`, `zip`이 필요합니다. 설치 스크립트는 bash로 작성되어 있으므로 macOS, Linux 또는 WSL에서 실행하십시오.
+### 🖥️ Claude Code (권장: 플러그인 마켓플레이스)
 
-### 🖥️ Claude Code (CLI)
+Claude Code에서 다음을 실행합니다.
+
+```
+/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience
+```
+
+세 skill이 하나의 플러그인으로 설치됩니다.
+
+```
+embodied-product-director
+interactive-experience-collective
+movement-learning-system-designer
+```
+
+새 세션을 열고, 만들려는 것을 평소처럼 적으면 해당 skill이 자동으로 실행됩니다.
+
+```
+댄서의 움직임에 반응하는 프로젝션 매핑 작품을 설계해 줘
+```
+
+```
+가라테 정권 지르기를 사범의 시범과 비교하는 앱의 MVP를 설계해 줘
+```
+
+아직 방향이 없다면 그렇게 적으면 director가 맡습니다.
+
+```
+웹캠이 두 대 남는데, 무술 수련으로 뭔가 만들고 싶습니다
+```
+
+플러그인에는 skill만 들어 있습니다. 유지보수용 명령(`/motion-idea`, `/refresh-skills`, `/scout-skills`, `/skills-routine`)은 아래 `install.sh`로만 설치됩니다.
+
+### 🛠️ 다른 방법: 설치 스크립트 (skill + 유지보수 명령)
+
+`git`, `bash`, `zip`이 필요합니다(macOS, Linux, WSL).
 
 ```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
@@ -88,7 +124,7 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-확인 메시지가 일곱 줄 출력되면 성공입니다(스크립트는 일본어로 출력합니다). skill 세 개와 명령어 네 개입니다. 무엇을 복사하기 전에, 설치 스크립트는 각 skill이 읽겠다고 선언한 파일이 실제로 존재하는지 먼저 확인하고, 하나라도 없으면 중단합니다.
+확인 줄이 일곱 개(설치 프로그램은 일본어로 출력합니다) — skill 세 개와 명령 네 개 — 나오면 성공입니다. 설치 프로그램은 복사하기 전에 각 skill이 읽겠다고 선언한 파일이 실제로 있는지 확인하고, 하나라도 없으면 중단합니다. 같은 이름의 skill이나 명령이 이미 있으면 삭제하지 않고 `~/.claude/backups/interactive-experience-skills-<타임스탬프>/`로 옮겨 둡니다.
 
 설치 위치는 다음과 같습니다.
 
@@ -102,49 +138,40 @@ cd interactive-experience-skills
 ~/.claude/commands/skills-routine.md
 ```
 
-새 세션을 엽니다. 아직 방향이 없다면 명령어를 쓰십시오.
+플러그인과 스크립트로 동시에 설치하지 마십시오. 각 skill이 두 번 로드됩니다.
+
+스크립트로 설치한 경우, 방향이 정해지지 않았을 때 `/motion-idea`도 쓸 수 있습니다.
 
 ```
-/motion-idea 웹캠이 두 대 남는데 무술 수련으로 뭔가 만들고 싶습니다
-```
-
-만들 것이 이미 정해져 있다면 그냥 평범하게 쓰면 됩니다. 해당하는 skill이 알아서 시작합니다.
-
-```
-무용수의 움직임에 반응하는 프로젝션 매핑을 설계해 주세요
-```
-
-```
-가라테 지르기를 사범의 시범과 비교하는 앱의 MVP를 설계해 주세요
+/motion-idea 웹캠이 두 대 남는데, 무술 수련으로 뭔가 만들고 싶습니다
 ```
 
 ### 🌐 claude.ai (브라우저)
 
-각 skill은 `.skill` 파일로 패키징되어 있습니다. 평범한 zip이므로 확장자만 바꾸면 그대로 업로드할 수 있습니다.
+`./package.sh`를 실행하면 `dist/`에 skill별 zip(`dist/<skill>.zip`)이 만들어집니다. 이것을 skill 설정에서 업로드하십시오. 현재 절차는 [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)를 참고하십시오.
 
-```bash
-cp movement-learning-system-designer.skill movement-learning-system-designer.zip
-```
+저장소 루트의 `.skill` 파일도 같은 형식의 zip(`install.sh`가 다시 생성)이므로 확장자를 `.zip`으로 바꿔 업로드할 수 있습니다. 다만 `install.sh`를 다시 실행하기 전까지는 `skills/`보다 오래된 내용일 수 있습니다.
 
-이 `.zip`을 어시스턴트의 skill 설정에서 업로드하십시오. 현재 절차는 [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)를 참고하십시오.
+> GitHub에서 `.skill` 파일을 열면 아무것도 보이지 않습니다. 망가진 것이 아니라, GitHub가 이 확장자를 몰라서 미리보기를 못 할 뿐입니다. 내려받아 `unzip -l`로 내용을 확인할 수 있습니다.
 
-> GitHub에서 `.skill` 파일을 열면 아무것도 표시되지 않습니다. 파일이 깨진 것이 아니라, GitHub이 이 확장자를 몰라서 미리보기를 못 할 뿐입니다. 내려받아 `unzip -l`을 실행하면 내용을 확인할 수 있습니다.
+### 📁 소스에서 직접
 
-### 🛠️ 소스에서 직접
-
-편집 대상은 `.skill` 아카이브가 아니라 `_extracted/`입니다.
+편집하는 원본은 `.skill`이 아니라 `skills/`입니다.
 
 ```
-_extracted/<skill>/SKILL.md
-_extracted/<skill>/references/*.md
-_extracted/<skill>/evals/evals.json
+skills/<skill>/SKILL.md            # 영어
+skills/<skill>/references/*.md     # 일본어(번역 진행 중)
+skills/<skill>/evals/evals.json
+i18n/ja/skills/<skill>/SKILL.md    # 일본어 SKILL.md 원문(skill로 로드되지 않음)
+.claude-plugin/plugin.json         # 플러그인 매니페스트
+.claude-plugin/marketplace.json    # 마켓플레이스 매니페스트
 ```
 
-`SKILL.md`은 실행될 때마다 로드되는 본문이고, `references/*.md`는 지금의 모드가 필요로 할 때만 로드되며, `evals/evals.json`은 skill이 실행되어야 할 때 제대로 실행되는지를 확인하는 테스트입니다.
+`SKILL.md`는 실행될 때마다 로드되고, `references/*.md`는 현재 모드가 필요로 할 때만, `evals/evals.json`은 skill이 실행되어야 할 때 실행되는지를 테스트합니다.
 
-수정한 뒤 `./install.sh`를 다시 실행하면 `~/.claude/`로의 배치와 `.skill` 재패키징을 멱등하게 수행합니다.
+편집한 뒤에는 `claude plugin validate --strict .`와 `./install.sh`를 실행하십시오. 스크립트는 `~/.claude/`로의 배치와 `.skill` 재패키징을 멱등적으로 수행합니다. CI도 push와 pull request마다 같은 검증을 실행합니다.
 
-수동으로 설치하려면 `_extracted/` 아래의 세 디렉터리를 `~/.claude/skills/`로 복사하면 됩니다.
+수동으로 설치하려면 `skills/` 아래의 세 디렉터리를 `~/.claude/skills/`로 복사하면 됩니다.
 
 ---
 
@@ -248,9 +275,9 @@ skill이 표시가 붙은 부분을 읽으면, **그 자리에서 웹을 검색�
 
 `SKILL.md`에는 판단 기준을 두고, `references/`로 옮기는 것은 **특정 모드에서만 쓰는 절차**뿐입니다. 판단 기준을 참고 파일로 밀어내면, 이 skill들이 막으려는 바로 그 실패 — 아무것도 읽지 않고 일반론을 쓰는 것 — 가 일어납니다.
 
-의도적으로 더 잘게 쪼개지 않았습니다. system prompt에 상주하는 설명이 늘어날수록, 이 영역에서 가장 어려운 판단인 「체험인가 향상인가」의 정확도가 떨어지기 때문입니다. skill 세 개 구성의 실측 분기 정확도는 97%이고, 판단이 애매한 비율은 11%입니다.
+의도적으로 더 잘게 쪼개지 않았습니다. system prompt에 상주하는 설명이 늘어날수록, 이 영역에서 가장 어려운 판단인 「체험인가 향상인가」의 정확도가 떨어지기 때문입니다. 이전에는 skill 세 개 구성의 분기 정확도를 97%, 판단이 애매한 비율을 11%로 적었지만, 측정 방법·모델·날짜·원시 결과가 저장소에 커밋되어 있지 않으므로 이 수치는 **재측정 예정**으로 봐 주십시오.
 
-`_extracted/<skill>/evals/evals.json`에는 각 skill이 실행되어야 할 질의와 실행되면 안 되는 질의가 들어 있습니다. 「실행되면 안 되는」 쪽 대부분은 무관한 질의가 아니라, **다른 쪽 skill로 가야 하는 헷갈리는 사례**입니다. 설명 문구를 수정한 뒤에는 이 세트로 다시 확인하십시오.
+`skills/<skill>/evals/evals.json`에는 각 skill이 실행되어야 할 질의와 실행되면 안 되는 질의가 들어 있습니다. 「실행되면 안 되는」 쪽 대부분은 무관한 질의가 아니라, **다른 쪽 skill로 가야 하는 헷갈리는 사례**입니다. 설명 문구를 수정한 뒤에는 이 세트로 다시 확인하십시오.
 
 ---
 

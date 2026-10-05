@@ -32,7 +32,7 @@ argument-hint: [領域名を指定するとその領域だけ。省略時は4領
 各領域について、スキルが**今どう書いているか**を先に読みます。読まずに探すと、既にあるものを「新しい」と報告します。
 
 ```bash
-grep -l "" _extracted/*/references/*.md
+grep -l "" skills/*/references/*.md
 ```
 
 主に見るのは `software.md` / `sound.md` / `feel.md` / `movement.md` / `solo-scale.md` / `motion-tech.md`。

@@ -2,13 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-D97757)](https://claude.com/claude-code)
-![Skill content: Japanese](https://img.shields.io/badge/Skill%20content-Japanese-DE3F24)
+![Skill instructions: English](https://img.shields.io/badge/Skill%20instructions-English-2EA44F)
+![Reference library: Japanese](https://img.shields.io/badge/Reference%20library-Japanese%20(translation%20in%20progress)-DE3F24)
 
 [English](README.md) · [日本語](README.ja.md) · **简体中文** · [Español](README.es.md) · [한국어](README.ko.md)
 
 > **用摄像头和传感器，做一件让人体验的作品，或者做一个帮人练好动作的工具。这三个 Claude Code skill 从「你到底要做哪一种」开始，陪你把它设计出来。**
 
-> **说明:** 三个 skill 的正文用日语写成。Claude 能用任何语言读取并执行，所以你可以全程用中文工作。但如果你自己打开文件，看到的会是日语。
+> **关于语言:** skill 的指令（`SKILL.md`）是英文，参考资料（`references/*.md`）仍是日文（翻译进行中）。Claude 能用任何语言读取并执行它们，所以你可以全程用中文工作。每个 skill 的 description 保留了日语触发词，所以用日语提问也能启动。日文版 `SKILL.md` 原文保存在 [`i18n/ja/skills/`](i18n/ja/skills/)。
 
 ---
 
@@ -57,7 +58,7 @@ flowchart TD
 「我想做个跳舞的 app」——这可能是帮人记住编舞的工具，也可能是给人看着开心的作品，两者是完全不同的产品。这个 skill 不会以「两个都说得通」收场。它会选一个，并告诉你为什么。不选，才是代价最大的。
 
 ### 📐 用数字回答，而不是「沉浸式」「AI 加持」
-暗房里投 3 m 宽需要 5,000–8,000 流明。身体动作的反馈必须在 100 ms 内返回，否则就不再像「自己的动作」了。正面机位测不出步子迈得多深，所以需要侧面。做收费场馆的话，客单价 × 翻台率 × 营业天数才决定这门生意成不成立。这类内容约 96,000 字，只在当前问题需要时才加载。
+暗房里投 3 m 宽需要 5,000–8,000 流明。身体动作的反馈必须在 100 ms 内返回，否则就不再像「自己的动作」了。正面机位测不出步子迈得多深，所以需要侧面。做收费场馆的话，客单价 × 翻台率 × 营业天数才决定这门生意成不成立。这类内容分布在 18 个参考文件里，约 107,000 字（对 `skills/*/references/*.md` 用 `wc -m` 统计，2026-10-04），只在当前问题需要时才加载。
 
 ### 🚫 该拒绝的地方直接拒绝
 不判断疼痛和损伤——那是医学的事。没有把握的时候，它会说「这次判断不了」，而不是编一个听起来合理的答案，因为一次明显的误判就足以让内行永远弃用这套系统。涉及儿童的项目，它会先谈监护人同意，再谈技术。而且它明确否定一个想法:**姿态估计精度提上去，人就学得更好。**
@@ -78,9 +79,44 @@ flowchart TD
 
 ## 🚀 安装与使用
 
-需要 [Claude Code](https://claude.com/claude-code)、`git`、`bash` 和 `zip`。安装脚本是 bash 写的，请在 macOS、Linux 或 WSL 上运行。
+### 🖥️ Claude Code（推荐: 插件市场）
 
-### 🖥️ Claude Code（CLI）
+在 Claude Code 里运行:
+
+```
+/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience
+```
+
+三个 skill 会作为一个插件安装:
+
+```
+embodied-product-director
+interactive-experience-collective
+movement-learning-system-designer
+```
+
+打开新会话，直接正常描述你要做的东西，对应的 skill 会自动启动。
+
+```
+设计一个会对舞者动作做出反应的投影映射作品
+```
+
+```
+设计一个 App 的 MVP: 把空手道冲拳的动作和教练的示范做对比
+```
+
+如果方向还没定，直接这样说，director 会接手:
+
+```
+我手上多出两个摄像头，想围绕武术练习做点什么
+```
+
+插件里只有 skill。维护用的命令（`/motion-idea`、`/refresh-skills`、`/scout-skills`、`/skills-routine`）只能通过下面的 `install.sh` 安装。
+
+### 🛠️ 另一种方式: 安装脚本（skill + 维护命令）
+
+需要 `git`、`bash` 和 `zip`（macOS、Linux 或 WSL）。
 
 ```bash
 git clone https://github.com/takaoumehara/interactive-experience-skills.git
@@ -88,9 +124,9 @@ cd interactive-experience-skills
 ./install.sh
 ```
 
-看到七行确认输出（脚本用日语打印）就说明成功了——三个 skill 加四个命令。在复制任何东西之前，安装脚本会先确认每个 skill 声明要读取的文件是否真实存在，缺一个就中止。
+看到 7 行确认信息（安装脚本输出的是日语）——三个 skill 加四个命令——就说明成功了。复制之前，安装脚本会先检查每个 skill 声明要读的文件是否真的存在，只要缺一个就中止。如果已经有同名的 skill 或命令，不会删除，而是移到 `~/.claude/backups/interactive-experience-skills-<时间戳>/`。
 
-安装位置如下:
+安装位置:
 
 ```
 ~/.claude/skills/embodied-product-director/
@@ -102,49 +138,40 @@ cd interactive-experience-skills
 ~/.claude/commands/skills-routine.md
 ```
 
-开一个新会话。如果方向还没定，用命令:
+不要同时用插件和脚本安装，否则每个 skill 会被加载两次。
+
+用脚本安装时，方向未定还可以用 `/motion-idea`:
 
 ```
 /motion-idea 我手上多出两个摄像头，想围绕武术练习做点什么
 ```
 
-如果已经知道要做什么，直接正常写就行，对应的 skill 会自己启动。
-
-```
-设计一个会跟着舞者动作变化的投影 mapping 作品
-```
-
-```
-设计一个把空手道出拳和教练示范做对比的 app 的 MVP
-```
-
 ### 🌐 claude.ai（浏览器）
 
-每个 skill 都打包成了 `.skill` 文件，本质就是 zip，改个后缀就能上传。
+运行 `./package.sh`，会在 `dist/` 里为每个 skill 生成一个 zip（`dist/<skill>.zip`），然后在 skill 设置里上传。当前流程请参考 [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)。
 
-```bash
-cp movement-learning-system-designer.skill movement-learning-system-designer.zip
-```
+仓库根目录的 `.skill` 文件也是同样的 zip（由 `install.sh` 重新生成），改名为 `.zip` 也能上传，但在重新运行 `install.sh` 之前可能比 `skills/` 旧。
 
-在 skill 设置里上传这个 `.zip`。具体流程请参考 [Claude Docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)。
+> 在 GitHub 上打开 `.skill` 文件什么也看不到。文件没有坏——只是 GitHub 不认识这个扩展名，无法预览。下载后用 `unzip -l` 就能看到内容。
 
-> 在 GitHub 上点开 `.skill` 文件会看到一片空白。这不是文件坏了——GitHub 不认识这个后缀，没法预览而已。下载下来跑 `unzip -l` 就能看到内容。
+### 📁 从源码
 
-### 🛠️ 从源码
-
-要改的是 `_extracted/`，不是 `.skill` 归档。
+可编辑的正本是 `skills/`，不是 `.skill` 压缩包。
 
 ```
-_extracted/<skill>/SKILL.md
-_extracted/<skill>/references/*.md
-_extracted/<skill>/evals/evals.json
+skills/<skill>/SKILL.md            # 英文
+skills/<skill>/references/*.md     # 日文（翻译进行中）
+skills/<skill>/evals/evals.json
+i18n/ja/skills/<skill>/SKILL.md    # 日文版 SKILL.md 原文（不会作为 skill 加载）
+.claude-plugin/plugin.json         # 插件清单
+.claude-plugin/marketplace.json    # 插件市场清单
 ```
 
-`SKILL.md` 每次激活都会加载，`references/*.md` 只在当前模式需要时才加载，`evals/evals.json` 用来测试 skill 该启动的时候会不会启动。
+`SKILL.md` 每次启动都会加载；`references/*.md` 只在当前模式需要时加载；`evals/evals.json` 用来测试 skill 是否在该启动时启动。
 
-改完后再跑一次 `./install.sh`，它会幂等地重新部署到 `~/.claude/` 并重新打包 `.skill`。
+修改后运行 `claude plugin validate --strict .` 和 `./install.sh`——脚本会幂等地部署到 `~/.claude/` 并重新打包 `.skill`。CI 在每次 push 和 pull request 时也会跑同样的校验。
 
-想手动安装的话，把 `_extracted/` 下的三个目录复制到 `~/.claude/skills/` 即可。
+想手动安装的话，把 `skills/` 下的三个目录复制到 `~/.claude/skills/` 即可。
 
 ---
 
@@ -248,9 +275,9 @@ skill 读到带标记的段落时，会**先上网确认当前情况再回答**�
 
 `SKILL.md` 里放判断标准，只有**特定模式才用得到的操作步骤**才移进 `references/`。把判断标准推到参考文件里，恰恰会造成这几个 skill 要防止的失败——什么都不读就给一堆泛泛之谈。
 
-它们刻意没有被拆成更多子 skill。常驻在 system prompt 里的说明越多，这个领域里最难的那个判断——体验还是进步——就越容易出错。三个 skill 这套结构的实测分流准确率是 97%，其中 11% 属于难以判定。
+它们刻意没有被拆成更多子 skill。常驻在 system prompt 里的说明越多，这个领域里最难的那个判断——体验还是进步——就越容易出错。之前写过三个 skill 这套结构的分流准确率为 97%、难以判定的占 11%，但方法、模型、日期和原始结果都没有提交到仓库，所以这个数字请视为**待重新测量**。
 
-`_extracted/<skill>/evals/evals.json` 里放着「应该启动」和「不应该启动」的查询。「不应该启动」的大部分并不是无关的查询，而是**本该归另一个 skill 的相近案例**。改过任何说明文字之后，用这套重新验证一遍。
+`skills/<skill>/evals/evals.json` 里放着「应该启动」和「不应该启动」的查询。「不应该启动」的大部分并不是无关的查询，而是**本该归另一个 skill 的相近案例**。改过任何说明文字之后，用这套重新验证一遍。
 
 ---
 
