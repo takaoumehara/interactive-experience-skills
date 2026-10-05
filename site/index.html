@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>interactive-experience: decide what you are building first</title>
+  <meta name="description" data-i18n-key="meta.description" content="Three Claude Code skills for products built on cameras, sensors and human movement. A director decides whether you are making an experience or a training tool, then a specialist designs it.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://takaoumehara.github.io/interactive-experience-skills/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="interactive-experience">
+  <meta property="og:title" content="interactive-experience: decide what you are building first">
+  <meta property="og:description" content="Camera, sensors, human movement — decide what you are building first. Three Claude Code skills: one director, two specialists.">
+  <meta property="og:url" content="https://takaoumehara.github.io/interactive-experience-skills/">
+  <meta property="og:image" content="https://takaoumehara.github.io/interactive-experience-skills/assets/img/hero.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&amp;family=Noto+Sans+JP:wght@400;500;700&amp;display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* Page-level tweaks: long install commands and brand names must not widen the hero grid or push the nav tools off-screen. */
+    .hero-grid > div, .grid > *, .demo-teaser > * { min-width: 0; }
+    p code, li code, td code, summary code, details code { white-space: normal; overflow-wrap: anywhere; }
+    .install-line { max-width: 100% !important; }
+    .install-line span { min-width: 0; }
+    .install-line .prompt, .install-line [data-copy] { flex: none !important; }
+    @media (max-width: 519px) {
+      .brand { flex-shrink: 1; min-width: 0; }
+      .brand span { overflow: hidden; text-overflow: ellipsis; }
+    }
+  </style>
+  <script src="assets/boot.js" data-loader></script>
+</head>
+<body data-title-key="meta.title">
+  <div class="loader" aria-hidden="true">
+    <div class="loader-mark"><span class="loader-word">interactive-experience</span><span class="loader-rule"></span></div>
+  </div>
+  <a class="skip-link" href="#main" data-i18n="ui.skip">Skip to content</a>
+
+  <header class="nav">
+    <div class="container">
+      <a class="brand" href="./" aria-label="interactive-experience home">
+        <img src="assets/favicon.svg" alt="" width="22" height="22">
+        <span>interactive-experience</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#two-kinds" data-i18n="nav.kinds">Two kinds</a></li>
+        <li><a href="#architecture" data-i18n="nav.arch">Architecture</a></li>
+        <li><a href="#install" data-i18n="nav.install">Install</a></li>
+        <li><a href="#what-you-get" data-i18n="nav.get">What you get</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-tools">
+        <a class="icon-btn nav-demo" href="#install" data-i18n="nav.cta">Install</a>
+        <button class="icon-btn" type="button" data-lang-toggle aria-label="日本語に切り替え" lang="ja"><span class="lang-long">日本語</span><span class="lang-short" aria-hidden="true">JA</span></button>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle theme"></button>
+        <a class="icon-btn" href="https://github.com/takaoumehara/interactive-experience-skills" aria-label="GitHub repository" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+        <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Sections">
+    <a href="#two-kinds" data-i18n="nav.kinds">Two kinds</a>
+    <a href="#architecture" data-i18n="nav.arch">Architecture</a>
+    <a href="#install" data-i18n="nav.install">Install</a>
+    <a href="#what-you-get" data-i18n="nav.get">What you get</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-meta">
+          <span class="eyebrow" data-i18n="hero.eyebrow">Claude Code plugin · MIT</span>
+          <span>v1.0.0 · 3 skills</span>
+        </div>
+        <h1 style="font-size:clamp(2.6rem, 1.2rem + 6vw, 6.4rem)">interactive&#8209;<br>experience</h1>
+        <div class="hero-grid">
+          <p class="tagline" data-i18n="hero.tagline">Camera, sensors, human movement — decide what you are building first.</p>
+          <div>
+            <p class="lead" data-i18n="hero.lead">Something people experience, or a tool that makes people better at a movement? They need different technology, different users, different buyers and different definitions of success. These skills settle that first — then design the right one.</p>
+            <ul class="meta-list" aria-label="Domains">
+              <li>Installations</li><li>Projection</li><li>Stage</li><li>Form &amp; practice</li>
+            </ul>
+            <div class="cta">
+              <a class="btn btn-primary" href="#install"><span data-i18n="hero.ctaStart">Install the plugin</span><span class="arr" aria-hidden="true">→</span></a>
+              <a class="btn btn-ghost" href="#two-kinds" data-i18n="hero.ctaKinds">Which one are you making?</a>
+              <a class="btn btn-link" href="https://github.com/takaoumehara/interactive-experience-skills">GitHub</a>
+            </div>
+            <div class="install-line" style="max-width:560px">
+              <span class="prompt">&gt;</span><span id="hero-cmd">/plugin marketplace add takaoumehara/interactive-experience-skills</span>
+              <span data-copy="hero-cmd" style="flex:0"></span>
+            </div>
+          </div>
+        </div>
+        <figure class="hero-art">
+          <img class="diagram" src="assets/img/hero.svg" width="1200" height="420" alt="A camera reads a moving person. A director decides the fork: an experience that makes people feel something, or a training tool that makes people better." data-i18n-attr="alt:hero.alt">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= TWO KINDS ================= -->
+    <section id="two-kinds">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="sec-label"><span class="sec-num">01</span><span class="eyebrow" data-i18n="kinds.eyebrow">Two kinds</span></p>
+          <div>
+            <h2 data-i18n="kinds.title">Two products that look alike and are not</h2>
+            <p class="lead" data-i18n="kinds.lead">The most common failure in this field is arguing about TouchDesigner versus Unreal, or about pose-estimation accuracy, before deciding which of the two you are making.</p>
+          </div>
+        </div>
+        <div class="grid grid-2" data-reveal>
+          <article class="col">
+            <span class="col-k" data-i18n="kinds.aK">① Experience</span>
+            <h3 style="font-size:clamp(1.4rem, 1.1rem + 1vw, 1.9rem);letter-spacing:-0.02em" data-i18n="kinds.aTitle">Something people experience</h3>
+            <p data-i18n="kinds.aBody">The exhibit you see in a museum or at an event, where video and sound react to how people move. Projection mapping, installations, stage visuals, experience-driven apps.</p>
+            <p data-i18n="kinds.aGoal"><b>The goal is to make a visitor feel something.</b></p>
+          </article>
+          <article class="col">
+            <span class="col-k" data-i18n="kinds.bK">② Training tool</span>
+            <h3 style="font-size:clamp(1.4rem, 1.1rem + 1vw, 1.9rem);letter-spacing:-0.02em" data-i18n="kinds.bTitle">A tool that makes people better</h3>
+            <p data-i18n="kinds.bBody">For things where form matters — dance, martial arts, sports, yoga. It films you, evaluates what you did, tells you what to fix and designs your practice.</p>
+            <p data-i18n="kinds.bGoal"><b>The goal is that the person actually improves.</b></p>
+          </article>
+        </div>
+        <div class="demo-teaser" data-reveal>
+          <div>
+            <span class="eyebrow" data-i18n="kinds.exEyebrow">Example</span>
+            <h3 data-i18n="kinds.exTitle">“Make a dance app” is two different products</h3>
+            <p class="muted" data-i18n="kinds.exBody">A tool for memorising choreography, or a piece people watch for pleasure? The skill will not end on “it could be either”. It picks one and tells you why — not picking is what costs the most.</p>
+          </div>
+          <p class="note muted" data-i18n="kinds.exNote">If you already know what you are building, the director never appears. “Design an MVP for a form-comparison app for a dojo” starts the training-tool skill directly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ARCHITECTURE ================= -->
+    <section id="architecture">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="sec-label"><span class="sec-num">02</span><span class="eyebrow" data-i18n="arch.eyebrow">Architecture</span></p>
+          <div>
+            <h2 data-i18n="arch.title">One director, two specialists</h2>
+            <p class="lead" data-i18n="arch.lead">The two specialists do the design work. The director on top only decides which way you go. They are deliberately not split further: every extra description in the system prompt makes the hardest call — experience or improvement — worse.</p>
+          </div>
+        </div>
+        <ul class="paths" data-reveal>
+          <li><span class="num">00</span><div><h3><code>embodied-product-director</code></h3><p data-i18n="arch.dBody">Decides which of the two you are making, with the reason. Appears only when you have not decided yet.</p></div></li>
+          <li><span class="num">①</span><div><h3><code>interactive-experience-collective</code></h3><p data-i18n="arch.eBody">Exhibits, installations, stage visuals and experience apps: projection, latency, audio, venue economics.</p></div></li>
+          <li><span class="num">②</span><div><h3><code>movement-learning-system-designer</code></h3><p data-i18n="arch.lBody">Form evaluation, practice design and tools that help instructors — who uses it, who pays, what is actually going wrong today.</p></div></li>
+        </ul>
+        <p class="muted small" style="margin-top:16px" data-i18n="arch.note">Skill instructions are in English; the reference library is still in Japanese (translation in progress). Claude reads both and answers in your language. Japanese trigger phrases are kept, so Japanese prompts start the skills too.</p>
+      </div>
+    </section>
+
+    <!-- ================= INSTALL ================= -->
+    <section id="install">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="sec-label"><span class="sec-num">03</span><span class="eyebrow" data-i18n="in.eyebrow">Install</span></p>
+          <div>
+            <h2 data-i18n="in.title">Two lines, then just describe it</h2>
+            <p class="lead" data-i18n="in.lead">The plugin installs all three skills. Open a new session and write what you are building normally — the right skill starts on its own.</p>
+          </div>
+        </div>
+        <div class="grid grid-2" data-reveal>
+          <div>
+            <div class="tabs">
+              <div class="tablist" role="tablist" aria-label="Install method">
+                <button role="tab" id="in-plugin" data-key="plugin" aria-controls="in-plugin-p" aria-selected="true" data-i18n="in.tabPlugin">Claude Code plugin</button>
+                <button role="tab" id="in-script" data-key="script" aria-controls="in-script-p" aria-selected="false" data-i18n="in.tabScript">Install script</button>
+                <button role="tab" id="in-web" data-key="web" aria-controls="in-web-p" aria-selected="false">claude.ai</button>
+              </div>
+              <div class="tabpanel" role="tabpanel" id="in-plugin-p" aria-labelledby="in-plugin">
+                <div class="code"><span class="lang">claude code</span><pre><code>/plugin marketplace add takaoumehara/interactive-experience-skills
+/plugin install interactive-experience-skills@interactive-experience</code></pre></div>
+                <p class="muted small" data-i18n="in.pluginNote">Recommended. Installs the three skills as one plugin.</p>
+              </div>
+              <div class="tabpanel" role="tabpanel" id="in-script-p" aria-labelledby="in-script" hidden>
+                <div class="code"><span class="lang">bash</span><pre><code>git clone https://github.com/takaoumehara/interactive-experience-skills.git
+cd interactive-experience-skills
+./install.sh</code></pre></div>
+                <p class="muted small" data-i18n="in.scriptNote">Also installs the maintainer commands <code>/motion-idea</code>, <code>/refresh-skills</code>, <code>/scout-skills</code> and <code>/skills-routine</code>. Don't install both the plugin and the script copies.</p>
+              </div>
+              <div class="tabpanel" role="tabpanel" id="in-web-p" aria-labelledby="in-web" hidden>
+                <div class="code"><span class="lang">bash</span><pre><code>./package.sh   # writes dist/&lt;skill&gt;.zip</code></pre></div>
+                <p class="muted small" data-i18n="in.webNote">Upload each zip in your assistant's skill settings.</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 data-i18n="in.tryTitle">Then try</h3>
+            <div class="code"><span class="lang">prompt</span><pre><code>Design a projection mapping piece that reacts to a dancer</code></pre></div>
+            <div class="code"><span class="lang">prompt</span><pre><code>Design the MVP for an app that compares a karate
+punch against the instructor's</code></pre></div>
+            <div class="code"><span class="lang">prompt · no direction yet</span><pre><code>I have two spare webcams and want to build
+something around martial arts practice</code></pre></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHAT YOU GET ================= -->
+    <section id="what-you-get">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="sec-label"><span class="sec-num">04</span><span class="eyebrow" data-i18n="get.eyebrow">What you get</span></p>
+          <div>
+            <h2 data-i18n="get.title">A design decision, not code</h2>
+            <p class="lead" data-i18n="get.lead">What comes back is what to build, roughly what equipment and how much of it, what to validate first, and what not to build yet. Implementation is a normal Claude Code job afterwards.</p>
+          </div>
+        </div>
+        <div class="cols cols-3" data-reveal>
+          <article class="col">
+            <span class="col-k">Commit</span>
+            <h3 data-i18n="get.c1Title">It always commits to one</h3>
+            <p data-i18n="get.c1Body">Never “well, it could be either.” It picks experience or training tool, and gives the reason.</p>
+          </article>
+          <article class="col">
+            <span class="col-k">Numbers</span>
+            <h3 data-i18n="get.c2Title">Numbers, not “immersive”</h3>
+            <p data-i18n="get.c2Body">5,000–8,000 lm for 3 m in a dark room. Feedback within 100 ms. A side camera for step depth. About 107,000 characters across 18 references, loaded only when needed.</p>
+          </article>
+          <article class="col">
+            <span class="col-k">Refuse</span>
+            <h3 data-i18n="get.c3Title">It says no clearly</h3>
+            <p data-i18n="get.c3Body">No judging pain or injury. Silence when unsure. Guardian consent before technology for children. And no belief that better pose accuracy means better learning.</p>
+          </article>
+        </div>
+
+        <h3 class="sub-head tbl-title" data-i18n="get.baTitle">Before / After</h3>
+        <div class="table-wrap" data-reveal><table>
+          <thead><tr><th></th><th data-i18n="get.thBefore">Before</th><th data-i18n="get.thAfter">After</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="get.r1">How it starts</td><td data-i18n="get.r1b">“We have two cameras — what can we build?”</td><td data-i18n="get.r1a">“Which problem makes a second camera worth its price?”</td></tr>
+            <tr><td data-i18n="get.r2">Artwork or tool</td><td data-i18n="get.r2b">Never settled; implementation starts anyway</td><td data-i18n="get.r2a">Settled first, with the reason</td></tr>
+            <tr><td data-i18n="get.r3">Technical answer</td><td data-i18n="get.r3b">“An immersive AI-powered experience”</td><td data-i18n="get.r3a">5,000–8,000 lm · 100 ms · one camera is enough</td></tr>
+            <tr><td data-i18n="get.r4">Building alone</td><td data-i18n="get.r4b">A degraded version of the real thing</td><td data-i18n="get.r4a">Possibly the final and best form</td></tr>
+            <tr><td data-i18n="get.r5">Pose estimation</td><td data-i18n="get.r5b">“More accuracy means people learn more”</td><td data-i18n="get.r5a">Accuracy and learning are unrelated; redesign for learning</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="sec-label"><span class="sec-num">05</span><span class="eyebrow">FAQ</span></p>
+          <div>
+            <h2 data-i18n="faq.title">Frequently asked questions</h2>
+          </div>
+        </div>
+        <div class="faq-list" data-reveal>
+        <details class="faq"><summary data-i18n="faq.q1">Does it write code?</summary><div data-i18n="faq.a1">No. It returns design decisions: what to build, what equipment, what to validate first and what not to build yet. Ask Claude Code to implement afterwards.</div></details>
+        <details class="faq"><summary data-i18n="faq.q2">Do I have to call the director myself?</summary><div data-i18n="faq.a2">No. Describe what you are building and the right skill starts. The director only appears when you have not decided between an experience and a training tool.</div></details>
+        <details class="faq"><summary data-i18n="faq.q3">Can I use it in Japanese?</summary><div data-i18n="faq.a3">Yes. Each skill keeps its Japanese trigger phrases, and the reference library is written in Japanese. Claude answers in the language you use.</div></details>
+        <details class="faq"><summary data-i18n="faq.q4">Won't the prices and hardware numbers go stale?</summary><div data-i18n="faq.a4">Yes, so volatile passages are marked. When the skill reads one, it checks the web before answering. <code>/refresh-skills</code> batch-verifies them and <code>/scout-skills</code> proposes new candidates without editing references.</div></details>
+        <details class="faq"><summary data-i18n="faq.q5">Will it assess injuries or rehabilitation?</summary><div data-i18n="faq.a5">No. Pain, injury and range of motion are medicine. It will not step into rehabilitation without a clinician involved.</div></details>
+        <details class="faq"><summary data-i18n="faq.q6">How accurate is the routing between the three skills?</summary><div data-i18n="faq.a6">An earlier check was reported as 97% with 11% ambiguous cases, but its method, model, date and raw results were never committed, so treat it as to be re-measured. Each skill ships <code>evals/evals.json</code> with near-miss cases for re-checking.</div></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot-word" aria-hidden="true" style="overflow-wrap:anywhere">interactive-experience</div>
+      <div class="foot-row">
+        <span>© <span id="year">2026</span> interactive-experience-skills · <span data-i18n="footer.license">MIT License</span></span>
+        <span class="foot-links">
+          <a href="https://github.com/takaoumehara/interactive-experience-skills">GitHub</a>
+          <a href="https://github.com/takaoumehara/interactive-experience-skills/blob/main/ROUTINE.md" data-i18n="footer.routine">Maintenance routine</a>
+          <a href="https://github.com/takaoumehara/interactive-experience-skills/issues" data-i18n="footer.contact">Consulting / contact</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/i18n.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

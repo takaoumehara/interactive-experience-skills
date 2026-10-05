@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>interactive-experience</title>
+  <rect width="64" height="64" rx="14" fill="#0a0a0a"/>
+  <circle cx="16" cy="32" r="5" fill="#ffffff"/>
+  <path d="M21 32 H30 M30 32 C 38 32, 40 18, 50 18 M30 32 C 38 32, 40 46, 50 46" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="30" cy="32" r="3.5" fill="#3b9cff"/>
+  <circle cx="50" cy="18" r="3.5" fill="#ffffff"/>
+  <rect x="46.5" y="42.5" width="7" height="7" rx="1.5" fill="#ffffff"/>
+</svg>
